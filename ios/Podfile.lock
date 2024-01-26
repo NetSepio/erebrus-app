@@ -1,0 +1,23 @@
+PODS:
+  - Flutter (1.0.0)
+  - wireguard_flutter (0.0.1):
+    - Flutter
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - wireguard_flutter (from `.symlinks/plugins/wireguard_flutter/darwin`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  wireguard_flutter:
+    :path: ".symlinks/plugins/wireguard_flutter/darwin"
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  wireguard_flutter: 1e75469eaf86ae553566b6847bce070e3b3c315b
+
+PODFILE CHECKSUM: f86b3df2bcceca5822c595d22b13cbf5c4216e5f
+
+COCOAPODS: 1.14.3
