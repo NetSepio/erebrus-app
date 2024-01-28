@@ -1,6 +1,10 @@
-// const String baseUrl = 'https://gateway.netsepio.com/api/v1.0';
-const String baseUrl = 'https://gateway.dev.netsepio.com/api/v1.0';
-const String baseUrl2 = 'https://indexer-testnet.staging.gcp.aptosdev.com/v1';
+const String baseUrl = 'https://gateway.netsepio.com/api/v1.0';
+const String baseUrl2 =
+    "https://indexer.mainnet.aptoslabs.com/v1/graphql";
+
+// const String baseUrl = 'https://gateway.dev.netsepio.com/api/v1.0';
+// const String baseUrl2 =
+//     "https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql";
 
 class ApiUrl {
   String googleAuth = "/account/auth-google";

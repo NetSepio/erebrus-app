@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:get_ip_address/get_ip_address.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:wire/api/api.dart';
+import 'package:wire/config/api_const.dart';
 import 'package:wire/model/erebrus/client_model.dart';
 import 'package:wire/view/home/home_controller.dart';
 import 'package:wire/view/profile/profile_page.dart';
@@ -381,9 +382,7 @@ class _VpnScreenUIState extends State<VpnScreenUI> {
       () => GraphQLProvider(
         client: ValueNotifier<GraphQLClient>(
           GraphQLClient(
-            link: HttpLink(
-              "https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql",
-            ),
+            link: HttpLink(baseUrl),
             cache: GraphQLCache(),
           ),
         ),
