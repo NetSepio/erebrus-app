@@ -62,18 +62,22 @@ class ApiController {
     log(header.headers.toString());
     final key = generateRandomKey(32);
     print(key);
-
-    Response res = await dio.post(
-        'https://gateway.dev.netsepio.com/api/v1.0/erebrus/client/$selectedString',
-        options: header,
-        data: {
-          "name": "test3434",
-          "collectionId":
-              collectionId, //  "0x9745c19d98eC04849a515b122ad5bb1024954e5cch3ee298bf£1a548f2422¢9ac",
-          "publickey":
-              privateKey, //"DKaXOigN4qR/rfeDP4+BOE8uSIhXdYQUTekR/SVq7Eo="
-        }).catchError((e) {
-      Get.snackbar('Error', 'Delete Your Cliient',
+    Map data = {
+      "name": "test3434",
+      "collectionId":
+           collectionId,
+          // "0x9745c19d98eC04849a515b122ad5bb1024954e5cch3ee298bf£1a548f2422¢9ac",
+      "publickey": privateKey, //"DKaXOigN4qR/rfeDP4+BOE8uSIhXdYQUTekR/SVq7Eo="
+    };
+    log("APi Param -- $data");
+    Response res = await dio
+        .post(
+            // "${baseUrl + ApiUrl().vpnData}$selectedString",
+            'https://gateway.dev.netsepio.com/api/v1.0/erebrus/client/$selectedString',
+            options: header,
+            data: data)
+        .catchError((e) {
+      Get.snackbar('Error', 'Delete Your Client',
           colorText: Colors.white, backgroundColor: Colors.red);
       log(e.toString());
     });

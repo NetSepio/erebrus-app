@@ -6,9 +6,16 @@ class HomeController extends GetxController {
   RxString? collectionId;
   RxInt selectedNFT = 0.obs;
   Rx<ProfileModel>? profileModel;
+  RxBool isLoading = true.obs;
 
   getProfileData() async {
-    ProfileModel? result = await ApiController().getProfile();
-    profileModel = Rx<ProfileModel>(result);
+    try {
+      ProfileModel? result = await ApiController().getProfile();
+      isLoading.value = false;
+      profileModel = Rx<ProfileModel>(result);
+      update();
+    } catch (e) {
+      isLoading.value = false;
+    }
   }
 }
