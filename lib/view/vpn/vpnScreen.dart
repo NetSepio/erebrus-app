@@ -15,14 +15,14 @@ class _VpnScreenState extends State<VpnScreen> {
   bool vpnActivate = false;
   Stats stats = Stats(totalDownload: 0, totalUpload: 0);
   final String initName = 'MyWireguardVPN';
-  final String initAddress = "10.0.0.5/32";
-  final String initPort = "43913";
-  final String initDnsServer = "172.30.0.2";
-  final String initPrivateKey = "+KxkabF/Zz46PnHWwtDpzTnhMRS6B5crXrIpcEQwyFo=";
+  final String initAddress = "10.0.0.2/32";
+  final String initPort = "51820";
+  final String initDnsServer = "1.1.1.1";
+  final String initPrivateKey = "MOyClJNU4kYlE3WN/YrFjMKroDslcsq8VtmYPG/q/Hg=";
   final String initAllowedIp = "0.0.0.0/0, ::/0";
-  final String initPublicKey = "xNtJC/MiZeasw8pMgxkrmZ8HyAdJqa/wrV3/nTPYfkY=";
-  final String initEndpoint = "endereum-sotreus.us01.sotreus.com:43913";
-  final String presharedKey = '9auFuIxN4+hlAjQ/oLSNgpZsGD3XfktmWwGngTXIlsA=';
+  final String initPublicKey = "ZG4Sw9hOsyzx6aNwp40zawfAQPMviGvRONMoQIb8sTo=";
+  final String initEndpoint = "hk02.erebrus.io:51820";
+  final String presharedKey = 'SXFImP4JPUeoAVpwhOoGCUunVVKuFRMrCrAGFC5n7C4=';
 
   @override
   void initState() {
