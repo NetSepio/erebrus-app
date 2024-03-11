@@ -3,6 +3,8 @@ import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart' as ge;
 import 'package:get/route_manager.dart';
 import 'package:wire/config/api_const.dart';
 import 'package:wire/config/common.dart';
@@ -27,6 +29,29 @@ class ApiController {
       Get.offAll(() => const HomeScreen());
     }).catchError((e) {
       log("Google login error");
+    });
+  }
+
+  emailAuth({required String email}) async {
+    await dio.post(baseUrl + ApiUrl().emailAuth, data: {'email': email}).then(
+        (value) {
+      Fluttertoast.showToast(msg: "You will receive OTP in your inbox");
+    }).catchError((e) {
+      log("Email login error");
+    });
+  }
+
+  emailOTPVerify({required String email, required String code}) async {
+    await dio.post(baseUrl + ApiUrl().emailOTPVerify, data: {
+      'emailId': email,
+      "code": code,
+    }).then((value) {
+      box!.put("token", value.data["payload"]["token"]);
+      box!.put("uid", value.data["payload"]["userId"]);
+      Get.offAll(() => const HomeScreen());
+    }).catchError((e) {
+      Fluttertoast.showToast(msg: "OTP Not Verify");
+      log("Email OTP Verify error");
     });
   }
 
@@ -64,9 +89,8 @@ class ApiController {
     print(key);
     Map data = {
       "name": "test3434",
-      "collectionId":
-           collectionId,
-          // "0x9745c19d98eC04849a515b122ad5bb1024954e5cch3ee298bf£1a548f2422¢9ac",
+      "collectionId": collectionId,
+      // "0x9745c19d98eC04849a515b122ad5bb1024954e5cch3ee298bf£1a548f2422¢9ac",
       "publickey": privateKey, //"DKaXOigN4qR/rfeDP4+BOE8uSIhXdYQUTekR/SVq7Eo="
     };
     log("APi Param -- $data");

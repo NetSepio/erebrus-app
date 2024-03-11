@@ -43,11 +43,13 @@ class MyTextField extends StatelessWidget {
   final IconData? icon;
   final void Function()? onPressed;
   final bool obscureText;
+  final TextEditingController? controller;
 
   const MyTextField({
     super.key,
     required this.hintText,
     this.icon,
+    this.controller,
     this.onPressed,
     this.obscureText = false,
   });
@@ -66,6 +68,7 @@ class MyTextField extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+              controller: controller,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hintText,

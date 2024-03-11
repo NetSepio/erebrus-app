@@ -8,6 +8,8 @@ const String baseUrl2 =
 
 class ApiUrl {
   String googleAuth = "/account/auth-google";
+  String emailAuth = "/account/generate-auth-id";
+  String emailOTPVerify = "/account/paseto-from-magic-link";
   String profile = "/profile";
   String vpnData = "/erebrus/client";
   String nftCount = "/graphql";
