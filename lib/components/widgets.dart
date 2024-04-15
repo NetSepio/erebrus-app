@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wire/config/colors.dart';
 
 class MyButton extends StatelessWidget {
   final Color customColor;
@@ -81,6 +82,34 @@ class MyTextField extends StatelessWidget {
           ),
           IconButton(onPressed: onPressed, icon: Icon(icon))
         ],
+      ),
+    );
+  }
+}
+
+height(double height) => SizedBox(height: height);
+width(double width) => SizedBox(width: width);
+
+
+
+class CustomButton extends StatelessWidget {
+  final Function() onTap;
+  final String title;
+  const CustomButton({super.key, required this.onTap, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: appColor, borderRadius: BorderRadius.circular(10)),
+        child: Text(
+          title,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

@@ -18,4 +18,15 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future getPerseto({required String walletAddress}) async {
+    try {
+      var res = await ApiController().getFlowId(walletAddress: walletAddress);
+      isLoading.value = false;
+      update();
+      return await res;
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
 }

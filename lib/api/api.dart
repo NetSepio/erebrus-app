@@ -60,7 +60,8 @@ class ApiController {
     Response res = await dio
         .get(baseUrl + ApiUrl().profile, options: header)
         .catchError((e) {
-      log("Google login error");
+      log("getProfile error");
+      return ProfileModel();
     });
 
     log("profile -  ${res.data}");
@@ -69,6 +70,40 @@ class ApiController {
       return profileModel;
     }
     return ProfileModel();
+  }
+
+  Future getFlowId({required String walletAddress}) async {
+    Response res = await dio
+        .get(baseUrl + ApiUrl().flowid + walletAddress)
+        .catchError((e) {
+      log("getFlowId error");
+    });
+    if (res.statusCode == 200) {
+      log("Flow Data  ${res.data}");
+      return await res.data;
+    }
+  }
+
+  Future getAuthenticate(
+      {required String flowid,
+      required String walletAddress,
+      required String signature}) async {
+    Map data = {
+      "flowId": flowid,
+      "signature": signature,
+      "pubKey": walletAddress
+    };
+    log("Auth data ----- $data");
+    Response res = await dio
+        .post(baseUrl + ApiUrl().authenticate, data: data)
+        .catchError((e) {
+      log("getAuthenticate error");
+    });
+
+    log("profile -  ${res.data}");
+    if (res.statusCode == 200) {
+      log("Flow Data  ${res.data}");
+    }
   }
 
   String generateRandomKey(int length) {

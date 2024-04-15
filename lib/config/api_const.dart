@@ -11,6 +11,9 @@ class ApiUrl {
   String emailAuth = "/account/generate-auth-id";
   String emailOTPVerify = "/account/paseto-from-magic-link";
   String profile = "/profile";
+  String flowid = "/flowid?walletAddress=";
+  String authenticate = "/authenticate";
+  
   String vpnData = "/erebrus/client";
   String nftCount = "/graphql";
 }
