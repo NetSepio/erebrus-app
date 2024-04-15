@@ -393,13 +393,14 @@ Endpoint = $initEndpoint''';
       }
       }
       '''),
-          variables: {
-            "address": homeController.profileModel!.value.payload!.walletAddress
-                .toString(),
-            // "0xc143aba11d86c6a0d5959eaec1ad18652693768d92daab18f323fd7de1dc9829",
+          variables: const {
+            "address":
+                // homeController.profileModel!.value.payload!.walletAddress
+                // .toString(),
+                "0xc143aba11d86c6a0d5959eaec1ad18652693768d92daab18f323fd7de1dc9829",
             "limit": 12,
             "offset": 0,
-            "where": const [],
+            "where": [],
           },
           operationName: "getAccountCurrentTokens",
         ),

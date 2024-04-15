@@ -83,4 +83,6 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+     implementation 'com.vkpapps.wifimanager:APManager:1.0.0'
+}

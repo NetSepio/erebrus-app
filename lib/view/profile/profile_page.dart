@@ -1,7 +1,13 @@
+import 'package:android_flutter_wifi/android_flutter_wifi.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:wifi_iot/wifi_iot.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/view/profile/edit_profile.dart';
 import 'package:wire/view/profile/profile_model.dart';
+import 'package:wire/view/profile/wifiShare.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,9 +18,15 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   ProfileModel? profileModel;
+  init() async {
+    await AndroidFlutterWifi.init();
+    apiCall();
+  }
+
   @override
   void initState() {
-    apiCall();
+    init();
+    // apiCall();
     super.initState();
   }
 
@@ -77,6 +89,72 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                         ),
+                      ),
+                      ListTile(
+                        title: const Text("Wifi Connect"),
+                        subtitle: const Text("Enable/disable Status"),
+                        onTap: () async {
+                          var check = await AndroidFlutterWifi.isWifiEnabled();
+                          var location =
+                              await Permission.location.request().isGranted;
+                          var location2 = await Permission.locationAlways
+                              .request()
+                              .isGranted;
+                          await Permission.locationWhenInUse
+                              .request()
+                              .isGranted;
+                          if (check && location) {
+                            Get.to(() => const WifiScanP());
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoAlertDialog(
+                                  title: const Text("Trun on wifi & location"),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      child: const Text("Ok"),
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                      ListTile(
+                        title: const Text("Hotspot"),
+                        //   subtitle: StreamBuilder(
+                        //       stream: AndroidFlutterWifi.isWifiEnabled().asStream(),
+                        //       builder: (context, snapshot) {
+                        //         if (snapshot.data == null) {
+                        //           return const Text("data");
+                        //         }
+                        //         log("isWifiEnabled -- ${snapshot.data}");
+                        //         return CupertinoSwitch(
+                        //             value: snapshot.data!,
+                        //             onChanged: (value) async {
+                        //               if (!value) {
+                        //                 await AndroidFlutterWifi.disableWifi();
+                        //               } else {
+                        //                 log("message");
+                        //                 await AndroidFlutterWifi.enableWifi();
+                        //               }
+                        //             });
+                        //       }),
+                        onTap: () async {
+                          await Permission.location.request();
+                          await Permission.locationAlways.request();
+                          await Permission.locationWhenInUse.request();
+                          // await AndroidFlutterWifi.enableWifi();
+                          // var a = await WiFiForIoTPlugin.isWiFiAPEnabled();
+                          // var b = await WiFiForIoTPlugin.setEnabled(true);
+                          var c = await WiFiForIoTPlugin.setWiFiAPEnabled(true);
+                          // log("$c ---   $c");
+                        },
                       ),
                     ],
                   ),

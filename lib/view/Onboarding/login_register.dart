@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:get/get.dart';
 import 'package:wire/components/widgets.dart';
+import 'package:wire/config/common.dart';
+import 'package:wire/view/Onboarding/generate_phrase_screen.dart';
+import 'package:wire/view/Onboarding/import_account_screen.dart';
 import 'package:wire/view/Onboarding/signIn.dart';
+import 'package:wire/view/home/home.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
   const LoginOrRegisterPage({super.key});
@@ -48,11 +52,56 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
                   const SizedBox(height: 20),
 
-                  // create an account button
+                  // // create an account button
+                  // MyButton(
+                  //   customColor: const Color.fromARGB(255, 10, 185, 121),
+                  //   text: "Create an account",
+                  //   onTap: () {},
+                  // ),
                   MyButton(
                     customColor: const Color.fromARGB(255, 10, 185, 121),
-                    text: "Create an account",
-                    onTap: () {},
+                    text: "Import account",
+                    onTap: () {
+                      Get.to(() => const ImportAccountScreen());
+                    },
+                  ),
+                  const SizedBox(height: 20),
+
+                  MyButton(
+                    customColor: const Color.fromARGB(255, 10, 185, 121),
+                    text: "Generate Seed Phrase",
+                    onTap: () {
+                      Get.to(() => const GenerateSeedPhrase());
+                    },
+                  ),
+                  MyButton(
+                    customColor: const Color.fromARGB(255, 10, 185, 121),
+                    text: "Login Using Paseto",
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          TextEditingController textEditingController =
+                              TextEditingController();
+                          return AlertDialog(
+                            content: TextField(
+                              controller: textEditingController,
+                              decoration:
+                                  const InputDecoration(hintText: "Paseto"),
+                            ),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    box!.put(
+                                        "token", textEditingController.text);
+                                    Get.offAll(() => const HomeScreen());
+                                  },
+                                  child: const Text("Login"))
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
