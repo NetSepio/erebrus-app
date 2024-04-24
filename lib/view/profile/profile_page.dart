@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:android_flutter_wifi/android_flutter_wifi.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +7,12 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wifi_iot/wifi_iot.dart';
 import 'package:wire/api/api.dart';
+import 'package:wire/config/common.dart';
+import 'package:wire/view/Onboarding/login_register.dart';
 import 'package:wire/view/profile/edit_profile.dart';
 import 'package:wire/view/profile/profile_model.dart';
 import 'package:wire/view/profile/wifiShare.dart';
+import 'package:wire/view/setting/setting.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -97,12 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           var check = await AndroidFlutterWifi.isWifiEnabled();
                           var location =
                               await Permission.location.request().isGranted;
-                          var location2 = await Permission.locationAlways
-                              .request()
-                              .isGranted;
-                          await Permission.locationWhenInUse
-                              .request()
-                              .isGranted;
+                          log(check.toString());
                           if (check && location) {
                             Get.to(() => const WifiScanP());
                           } else {
@@ -154,6 +154,74 @@ class _ProfilePageState extends State<ProfilePage> {
                           // var b = await WiFiForIoTPlugin.setEnabled(true);
                           var c = await WiFiForIoTPlugin.setWiFiAPEnabled(true);
                           // log("$c ---   $c");
+                        },
+                      ),
+                      ListTile(
+                        title: const Text('Terms and Conditions'),
+                        onTap: () {
+                          // Navigate to the Terms and Conditions page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const TermsAndConditionsPage(),
+                            ),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        title: const Text('Privacy Policy'),
+                        onTap: () {
+                          // Navigate to the Privacy Policy page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PrivacyPolicyPage(),
+                            ),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        title: const Text('Logout'),
+                        onTap: () async {
+                          await box!.clear();
+                          Get.offAll(() => const LoginOrRegisterPage());
+                        },
+                      ),
+                      ListTile(
+                        title: const Text(
+                          'Delete Account',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        onTap: () {
+                          // Display a confirmation dialog before deleting the account
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Delete Account'),
+                              content: const Text(
+                                  'Are you sure you want to delete your account?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context); // Close the dialog
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    // Implement your delete account logic here
+                                    Navigator.pop(context); // Close the dialog
+                                    // After deleting the account, you can navigate to the login page or perform any other action
+                                  },
+                                  child: const Text(
+                                    'Delete',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                       ),
                     ],

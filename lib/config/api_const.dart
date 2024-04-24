@@ -13,6 +13,7 @@ class ApiUrl {
   String profile = "/profile";
   String flowid = "/flowid?walletAddress=";
   String authenticate = "/authenticate";
+  String allNode = "/nodes/all";
   
   String vpnData = "/erebrus/client";
   String nftCount = "/graphql";
