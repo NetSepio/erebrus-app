@@ -163,33 +163,44 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: const Text("Erebrus"),
                 centerTitle: true,
               ),
-              body: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(width: Get.width),
-                    Image.asset(
-                      "assets/images/sad.png",
-                      height: 100,
-                    ),
-                    const Text(
-                      "No Wallet found. Please link an Aptos Wallet to your profile.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    ElevatedButton(
-                        onPressed: () async {
-                          await launchUrl(
-                              Uri.parse("https://app.netsepio.com/"));
-                        },
-                        child: const Text("link Wallet"))
-                  ],
-                ),
-              ),
+              body: NoWalletFound(),
             );
           }
         },
+      ),
+    );
+  }
+}
+
+class NoWalletFound extends StatelessWidget {
+  const NoWalletFound({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(width: Get.width),
+          Image.asset(
+            "assets/images/sad.png",
+            height: 100,
+          ),
+          const Text(
+            "No Wallet found. Please link an Aptos Wallet to your profile.",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16),
+          ),
+          ElevatedButton(
+              onPressed: () async {
+                await launchUrl(
+                    Uri.parse("https://app.netsepio.com/"));
+              },
+              child: const Text("link Wallet"))
+        ],
       ),
     );
   }

@@ -8,6 +8,8 @@ import 'package:get/get.dart' as ge;
 import 'package:get/route_manager.dart';
 import 'package:wire/config/api_const.dart';
 import 'package:wire/config/common.dart';
+import 'package:wire/model/AllNodeModel.dart';
+import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
 import 'package:wire/view/home/home.dart';
 import 'package:wire/view/profile/profile_model.dart';
@@ -119,44 +121,102 @@ class ApiController {
     required String privateKey,
     required String collectionId,
   }) async {
-    log(header.headers.toString());
-    final key = generateRandomKey(32);
-    print(key);
-    Map data = {
-      "name": "test3434",
-      "collectionId": collectionId,
-      // "0x9745c19d98eC04849a515b122ad5bb1024954e5cch3ee298bf£1a548f2422¢9ac",
-      "publickey": privateKey, //"DKaXOigN4qR/rfeDP4+BOE8uSIhXdYQUTekR/SVq7Eo="
-    };
-    log("APi Param -- $data");
-    Response res = await dio
-        .post(
-            // "${baseUrl + ApiUrl().vpnData}$selectedString",
-            'https://gateway.dev.netsepio.com/api/v1.0/erebrus/client/$selectedString',
-            options: header,
-            data: data)
-        .catchError((e) {
-      Get.snackbar('Error', 'Delete Your Client',
-          colorText: Colors.white, backgroundColor: Colors.red);
-      log(e.toString());
-    });
+    try {
+      log(header.headers.toString());
+      final key = generateRandomKey(32);
+      print(key);
+      Map data = {
+        "name": "test3434",
+        "collectionId": collectionId,
+        // "0x9745c19d98eC04849a515b122ad5bb1024954e5cch3ee298bf£1a548f2422¢9ac",
+        "publickey":
+            privateKey, //"DKaXOigN4qR/rfeDP4+BOE8uSIhXdYQUTekR/SVq7Eo="
+      };
+      log("API Param -- $data");
+      Response res = await dio.post(
+        // "${baseUrl + ApiUrl().vpnData}$selectedString",
+        "https://gateway.netsepio.com/api/v1.0/erebrus/client/$selectedString",
+        // 'https://gateway.dev.netsepio.com/api/v1.0/erebrus/client/$selectedString',
+        options: header,
+        data: data,
+      );
 
-    if (res.statusCode == 200) {
-      log('VPN Data get---------------- ${res.data}');
-      ErebrusClientModel profileModel = ErebrusClientModel.fromJson(res.data);
-      return profileModel.payload!;
+      if (res.statusCode == 200) {
+        log('VPN Data get---------------- ${res.data}');
+        ErebrusClientModel profileModel = ErebrusClientModel.fromJson(res.data);
+        return profileModel.payload!;
+      } else {
+        var errorMessage = res.data['message'];
+        throw Exception(errorMessage);
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An error occurred',
+          colorText: Colors.white, backgroundColor: Colors.red);
+      log('Error: $e');
+      return ClientPayload(); // Return a default payload or handle as needed
     }
-    return ClientPayload();
   }
 
-  deleteVpn({required String uuid, required String selectedString}) async {
+  Future<AllNodeModel> getAllNode() async {
+    try {
+      log(header.headers.toString());
+      Response res = await dio.get(
+          "https://dev.gateway.erebrus.io/api/v1.0/nodes/all",
+          options: header);
+
+      if (res.statusCode == 200) {
+        log('All Node  ---------------- ${res.data}');
+        AllNodeModel allNodeModel = AllNodeModel.fromJson(res.data);
+        return allNodeModel;
+      } else {
+        var errorMessage = res.data['message'];
+        throw Exception(errorMessage);
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An error occurred',
+          colorText: Colors.white, backgroundColor: Colors.red);
+      log('Error: $e');
+      return AllNodeModel();
+    }
+  }
+
+  Future<RegisterClientModel> registerClient(
+      nodeId, publickey, presharedKey) async {
+    try {
+      log(header.headers.toString());
+      Response res = await dio.post(
+        "https://dev.gateway.erebrus.io/api/v1.0/erebrus/client/$nodeId",
+        data: {
+          "name": "App",
+          "publickey": publickey,
+          "presharedKey": presharedKey,
+        },
+        options: header,
+      );
+
+      if (res.statusCode == 200) {
+        log('RegisterClient  ---------------- ${res.data}');
+        RegisterClientModel registerClientModel =
+            RegisterClientModel.fromJson(res.data);
+        return registerClientModel;
+      } else {
+        var errorMessage = res.data['message'];
+        throw Exception(errorMessage);
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An error occurred',
+          colorText: Colors.white, backgroundColor: Colors.red);
+      log('Error: $e');
+      return RegisterClientModel();
+    }
+  }
+
+  deleteVpn({required String uuid}) async {
     log(header.headers.toString());
-    final key = generateRandomKey(32);
-    print(key);
 
     Response res = await dio
         .delete(
-      'https://gateway.dev.netsepio.com/api/v1.0/erebrus/client/$selectedString/$uuid',
+      "https://gateway.netsepio.com/api/v1.0/erebrus/client/$uuid",
       options: header,
     )
         .catchError((e) {
@@ -165,7 +225,6 @@ class ApiController {
 
     if (res.statusCode == 200) {
       log('VPN Data delete----------------');
-      ErebrusClientModel profileModel = ErebrusClientModel.fromJson(res.data);
     }
   }
   // Future<NftListModel> nfts() async {

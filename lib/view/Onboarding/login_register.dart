@@ -74,6 +74,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       Get.to(() => const GenerateSeedPhrase());
                     },
                   ),
+                  const SizedBox(height: 20),
                   MyButton(
                     customColor: const Color.fromARGB(255, 10, 185, 121),
                     text: "Login Using Paseto",
