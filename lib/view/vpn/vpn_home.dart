@@ -14,6 +14,8 @@ import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
 import 'package:wire/view/home/home_controller.dart';
+import 'package:wire/view/profile/profile_page.dart';
+import 'package:wire/view/setting/setting.dart';
 import 'package:wireguard_flutter/wireguard_flutter.dart';
 
 RxBool vpnActivate = false.obs;
@@ -180,6 +182,18 @@ Endpoint = $initEndpoint''';
               .titleLarge!
               .copyWith(fontWeight: FontWeight.w600),
         ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Get.to(() => const ProfilePage());
+              // Get.to(() => const SettingScreen());
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.settings),
+            ),
+          )
+        ],
       ),
       body: Stack(
         children: [
