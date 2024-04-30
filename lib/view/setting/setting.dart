@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wire/view/speedCheck/speedCheck.dart';
+
+
 class TermsAndConditionsPage extends StatelessWidget {
   const TermsAndConditionsPage({super.key});
 

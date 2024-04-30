@@ -9,10 +9,10 @@ import 'package:wifi_iot/wifi_iot.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/config/common.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
-import 'package:wire/view/profile/edit_profile.dart';
 import 'package:wire/view/profile/profile_model.dart';
 import 'package:wire/view/profile/wifiShare.dart';
 import 'package:wire/view/setting/setting.dart';
+import 'package:wire/view/speedCheck/speedCheck.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -44,19 +44,20 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const EditProfilePage(),
-                ),
-              );
-            },
-          ),
+        title: const Text('Setting'),
+        centerTitle: true,
+        actions: const [
+          // IconButton(
+          //   icon: const Icon(Icons.edit),
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => const EditProfilePage(),
+          //       ),
+          //     );
+          //   },
+          // ),
         ],
       ),
       body: Padding(
@@ -76,6 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             hintText:
                                 profileModel!.payload!.walletAddress.toString(),
                             hintMaxLines: 3,
+                            labelText: "Wallet Address",
                             border: const OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 1,
@@ -84,80 +86,106 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       const SizedBox(height: 20),
-                      TextField(
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          labelText: profileModel!.payload!.email.toString(),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1,
-                            ),
-                          ),
+                      // TextField(
+                      //   readOnly: true,
+                      //   decoration: InputDecoration(
+                      //     labelText: profileModel!.payload!.email.toString(),
+                      //     border: const OutlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         width: 1,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      Card(
+                        child: ListTile(
+                          title: const Text("Speed test"),
+                          trailing: const Icon(Icons.speed,
+                              size: 20, color: Colors.green),
+                          onTap: () => Get.to(() => const SpeedCheck()),
                         ),
                       ),
-                      ListTile(
-                        title: const Text("Wifi Connect"),
-                        subtitle: const Text("Enable/disable Status"),
-                        onTap: () async {
-                          var check = await AndroidFlutterWifi.isWifiEnabled();
-                          var location =
-                              await Permission.location.request().isGranted;
-                          log(check.toString());
-                          if (check && location) {
-                            Get.to(() => const WifiScanP());
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return CupertinoAlertDialog(
-                                  title: const Text("Trun on wifi & location"),
-                                  actions: [
-                                    CupertinoDialogAction(
-                                      child: const Text("Ok"),
-                                      onPressed: () {
-                                        Get.back();
-                                      },
-                                    )
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        },
+                      Card(
+                        child: ListTile(
+                          title: const Text("Discover WiFi Network"),
+                          subtitle: const Text("Enable/disable Status"),
+                          trailing: const Icon(Icons.wifi,
+                              color: Colors.blue, size: 20),
+                          onTap: () async {
+                            var check =
+                                await AndroidFlutterWifi.isWifiEnabled();
+                            var location =
+                                await Permission.location.request().isGranted;
+                            log(check.toString());
+                            if (check && location) {
+                              Get.to(() => const WifiScanP());
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return CupertinoAlertDialog(
+                                    title:
+                                        const Text("Trun on wifi & location"),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        child: const Text("Ok"),
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        ),
                       ),
-                      ListTile(
-                        title: const Text("Hotspot"),
-                        //   subtitle: StreamBuilder(
-                        //       stream: AndroidFlutterWifi.isWifiEnabled().asStream(),
-                        //       builder: (context, snapshot) {
-                        //         if (snapshot.data == null) {
-                        //           return const Text("data");
-                        //         }
-                        //         log("isWifiEnabled -- ${snapshot.data}");
-                        //         return CupertinoSwitch(
-                        //             value: snapshot.data!,
-                        //             onChanged: (value) async {
-                        //               if (!value) {
-                        //                 await AndroidFlutterWifi.disableWifi();
-                        //               } else {
-                        //                 log("message");
-                        //                 await AndroidFlutterWifi.enableWifi();
-                        //               }
-                        //             });
-                        //       }),
-                        onTap: () async {
-                          await Permission.location.request();
-                          await Permission.locationAlways.request();
-                          await Permission.locationWhenInUse.request();
-                          // await AndroidFlutterWifi.enableWifi();
-                          // var a = await WiFiForIoTPlugin.isWiFiAPEnabled();
-                          // var b = await WiFiForIoTPlugin.setEnabled(true);
-                          var c = await WiFiForIoTPlugin.setWiFiAPEnabled(true);
-                          // log("$c ---   $c");
-                        },
+                      Card(
+                        child: ListTile(
+                          title: const Text("Share Hotspot"),
+
+                          //   subtitle: StreamBuilder(
+                          //       stream: AndroidFlutterWifi.isWifiEnabled().asStream(),
+                          //       builder: (context, snapshot) {
+                          //         if (snapshot.data == null) {
+                          //           return const Text("data");
+                          //         }
+                          //         log("isWifiEnabled -- ${snapshot.data}");
+                          //         return CupertinoSwitch(
+                          //             value: snapshot.data!,
+                          //             onChanged: (value) async {
+                          //               if (!value) {
+                          //                 await AndroidFlutterWifi.disableWifi();
+                          //               } else {
+                          //                 log("message");
+                          //                 await AndroidFlutterWifi.enableWifi();
+                          //               }
+                          //             });
+                          //       }),
+                          onTap: () async {
+                            // await Permission.location.request();
+                            // await Permission.locationAlways.request();
+                            // await Permission.locationWhenInUse.request();
+                            // await AndroidFlutterWifi.enableWifi();
+                            // var a = await WiFiForIoTPlugin.isWiFiAPEnabled();
+                            // var b = await WiFiForIoTPlugin.setEnabled(true);
+                            var c =
+                                await WiFiForIoTPlugin.setWiFiAPEnabled(true);
+                            // log("$c ---   $c");
+                          },
+                        ),
+                      ),
+                      Divider(
+                        height: 50,
+                        color: Colors.grey.shade300,
+                        endIndent: 10,
+                        indent: 10,
                       ),
                       ListTile(
                         title: const Text('Terms and Conditions'),
+                        trailing: const Icon(Icons.policy,
+                            color: Colors.blue, size: 20),
                         onTap: () {
                           // Navigate to the Terms and Conditions page
                           Navigator.push(
@@ -171,6 +199,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       ListTile(
                         title: const Text('Privacy Policy'),
+                        trailing: const Icon(Icons.policy,
+                            color: Colors.blue, size: 20),
                         onTap: () {
                           // Navigate to the Privacy Policy page
                           Navigator.push(
@@ -183,6 +213,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       ListTile(
                         title: const Text('Logout'),
+                        trailing: const Icon(
+                          Icons.logout,
+                          color: Colors.red,
+                          size: 20,
+                        ),
                         onTap: () async {
                           await box!.clear();
                           Get.offAll(() => const LoginOrRegisterPage());
@@ -193,6 +228,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           'Delete Account',
                           style: TextStyle(color: Colors.red),
                         ),
+                        trailing: const Icon(Icons.delete,
+                            size: 20, color: Colors.red),
                         onTap: () {
                           // Display a confirmation dialog before deleting the account
                           showDialog(
@@ -204,14 +241,16 @@ class _ProfilePageState extends State<ProfilePage> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pop(context); // Close the dialog
+                                    Navigator.pop(
+                                        context); // Close the dialog
                                   },
                                   child: const Text('Cancel'),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     // Implement your delete account logic here
-                                    Navigator.pop(context); // Close the dialog
+                                    Navigator.pop(
+                                        context); // Close the dialog
                                     // After deleting the account, you can navigate to the login page or perform any other action
                                   },
                                   child: const Text(

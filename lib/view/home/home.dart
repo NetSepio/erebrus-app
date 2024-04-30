@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (controller.profileModel != null &&
               controller.profileModel!.value.payload != null) {
             // return const VpnHomeScreen();
-            return const BottomBar();
+            return const VpnHomeScreen();
           } else {
             // return const BottomBar();
             return Scaffold(
