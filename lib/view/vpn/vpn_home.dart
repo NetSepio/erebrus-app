@@ -15,7 +15,6 @@ import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
 import 'package:wire/view/home/home_controller.dart';
 import 'package:wire/view/profile/profile_page.dart';
-import 'package:wire/view/setting/setting.dart';
 import 'package:wireguard_flutter/wireguard_flutter.dart';
 
 RxBool vpnActivate = false.obs;
@@ -63,10 +62,21 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     wireguard.vpnStageSnapshot.listen((event) {
       debugPrint("status changed $event");
       if (mounted) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('status changed: $event'),
-        ));
+        switch (event) {
+          case VpnStage.connected:
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Successfully Connected to VPN'),
+            ));
+            break;
+          case VpnStage.disconnected:
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Disconnected from VPN'),
+            ));
+            break;
+          default:
+        }
       }
     });
     generateKeyPair();
@@ -176,7 +186,7 @@ Endpoint = $initEndpoint''';
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Erebrus',
+          'EREBRUS',
           style: Theme.of(context)
               .textTheme
               .titleLarge!
@@ -247,7 +257,7 @@ Endpoint = $initEndpoint''';
                 if (ipData != null)
                   Center(
                       child: Text(
-                    ipData["ip"].toString(),
+                    "Current IP: ${ipData["ip"]}",
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: Colors.blue, fontWeight: FontWeight.w600),
                   )),

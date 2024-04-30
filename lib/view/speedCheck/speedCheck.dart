@@ -212,10 +212,16 @@ class _SpeedCheckState extends State<SpeedCheck> {
                   ),
                 ],
               ),
-              const SizedBox(height: 15.0),
+              const SizedBox(height: 25.0),
               if (!_testInProgress) ...{
                 ElevatedButton(
-                  child: const Text('Start Testing'),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Start Speed Test',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                   onPressed: () async {
                     reset();
                     await internetSpeedTest.startTesting(onStarted: () {
