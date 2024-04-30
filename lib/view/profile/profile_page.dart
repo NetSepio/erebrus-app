@@ -44,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Setting'),
+        title: const Text('Settings'),
         centerTitle: true,
         actions: const [
           // IconButton(
@@ -97,9 +97,19 @@ class _ProfilePageState extends State<ProfilePage> {
                       //     ),
                       //   ),
                       // ),
+                      const Card(
+                        child: ListTile(
+                          title: Text("Profile"),
+                          subtitle: Text("Your Account Information"),
+                          trailing:
+                              Icon(Icons.person, size: 20, color: Colors.green),
+                          // onTap: () => Get.to(() => const SpeedCheck()),
+                        ),
+                      ),
                       Card(
                         child: ListTile(
-                          title: const Text("Speed test"),
+                          title: const Text("SpeedTest"),
+                          subtitle: const Text("Check Your Internet Speed"),
                           trailing: const Icon(Icons.speed,
                               size: 20, color: Colors.green),
                           onTap: () => Get.to(() => const SpeedCheck()),
@@ -107,8 +117,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Card(
                         child: ListTile(
-                          title: const Text("Discover WiFi Network"),
-                          subtitle: const Text("Enable/disable Status"),
+                          title: const Text("Discover WiFi Networks"),
+                          subtitle: const Text("Search Public WiFi Around You"),
                           trailing: const Icon(Icons.wifi,
                               color: Colors.blue, size: 20),
                           onTap: () async {
@@ -125,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 builder: (context) {
                                   return CupertinoAlertDialog(
                                     title:
-                                        const Text("Trun on wifi & location"),
+                                        const Text("Turn on WiFi & Location"),
                                     actions: [
                                       CupertinoDialogAction(
                                         child: const Text("Ok"),
@@ -144,7 +154,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       Card(
                         child: ListTile(
                           title: const Text("Share Hotspot"),
-
+                          subtitle: const Text(
+                              "Share your Mobile Internet with others"),
+                          // leading: Icon(Icons.hts),
                           //   subtitle: StreamBuilder(
                           //       stream: AndroidFlutterWifi.isWifiEnabled().asStream(),
                           //       builder: (context, snapshot) {
@@ -176,6 +188,16 @@ class _ProfilePageState extends State<ProfilePage> {
                           },
                         ),
                       ),
+
+                      Card(
+                        child: ListTile(
+                          title: const Text("Request Internet"),
+                          subtitle: const Text(
+                              "Share your Mobile Internet with others"),
+                          onTap: () async {},
+                        ),
+                      ),
+
                       Divider(
                         height: 50,
                         color: Colors.grey.shade300,
@@ -241,16 +263,14 @@ class _ProfilePageState extends State<ProfilePage> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pop(
-                                        context); // Close the dialog
+                                    Navigator.pop(context); // Close the dialog
                                   },
                                   child: const Text('Cancel'),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     // Implement your delete account logic here
-                                    Navigator.pop(
-                                        context); // Close the dialog
+                                    Navigator.pop(context); // Close the dialog
                                     // After deleting the account, you can navigate to the login page or perform any other action
                                   },
                                   child: const Text(

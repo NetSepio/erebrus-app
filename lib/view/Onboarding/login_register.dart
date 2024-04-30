@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wire/components/widgets.dart';
 import 'package:wire/config/common.dart';
-import 'package:wire/view/Onboarding/generate_phrase_screen.dart';
-import 'package:wire/view/Onboarding/import_account_screen.dart';
-import 'package:wire/view/Onboarding/signIn.dart';
 import 'package:wire/view/home/home.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
@@ -37,18 +34,18 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                   ),
 
                   // sign in button
-                  MyButton(
-                    customColor: Colors.white.withOpacity(0.7),
-                    text: "Sign in",
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInPage(),
-                        ),
-                      );
-                    },
-                  ),
+                  // MyButton(
+                  //   customColor: Colors.white.withOpacity(0.7),
+                  //   text: "Sign in",
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const SignInPage(),
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
 
                   const SizedBox(height: 20),
 
@@ -58,26 +55,26 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                   //   text: "Create an account",
                   //   onTap: () {},
                   // ),
-                  MyButton(
-                    customColor: const Color.fromARGB(255, 10, 185, 121),
-                    text: "Import account",
-                    onTap: () {
-                      Get.to(() => const ImportAccountScreen());
-                    },
-                  ),
-                  const SizedBox(height: 20),
+                  // MyButton(
+                  //   customColor: const Color.fromARGB(255, 10, 185, 121),
+                  //   text: "Import account",
+                  //   onTap: () {
+                  //     Get.to(() => const ImportAccountScreen());
+                  //   },
+                  // ),
+                  // const SizedBox(height: 20),
 
-                  MyButton(
-                    customColor: const Color.fromARGB(255, 10, 185, 121),
-                    text: "Generate Seed Phrase",
-                    onTap: () {
-                      Get.to(() => const GenerateSeedPhrase());
-                    },
-                  ),
+                  // MyButton(
+                  //   customColor: const Color.fromARGB(255, 10, 185, 121),
+                  //   text: "Generate Seed Phrase",
+                  //   onTap: () {
+                  //     Get.to(() => const GenerateSeedPhrase());
+                  //   },
+                  // ),
                   const SizedBox(height: 20),
                   MyButton(
                     customColor: const Color.fromARGB(255, 10, 185, 121),
-                    text: "Login Using Paseto",
+                    text: "Login Using PASETO",
                     onTap: () {
                       showDialog(
                         context: context,
@@ -85,19 +82,24 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                           TextEditingController textEditingController =
                               TextEditingController();
                           return AlertDialog(
+                            title: const Text("Enter Auth Token"),
                             content: TextField(
                               controller: textEditingController,
-                              decoration:
-                                  const InputDecoration(hintText: "Paseto"),
+                              decoration: const InputDecoration(
+                                hintText: "Paste your PASETO here",
+                                border: OutlineInputBorder(),
+                              ),
                             ),
                             actions: [
-                              ElevatedButton(
-                                  onPressed: () {
-                                    box!.put(
-                                        "token", textEditingController.text);
-                                    Get.offAll(() => const HomeScreen());
-                                  },
-                                  child: const Text("Login"))
+                              Center(
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      box!.put(
+                                          "token", textEditingController.text);
+                                      Get.offAll(() => const HomeScreen());
+                                    },
+                                    child: const Text("Login")),
+                              )
                             ],
                           );
                         },
@@ -115,7 +117,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Terms of use",
+                      "Terms of Use",
                       style: TextStyle(
                         color: Colors.white,
                       ),
