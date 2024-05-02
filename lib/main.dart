@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -33,9 +34,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     Get.put(HomeController());
     return GetMaterialApp(
-      builder: FToastBuilder(),
+      builder: EasyLoading.init(
+        builder: FToastBuilder(),
+      ),
       // home: const OnboardingScreen(),
       debugShowCheckedModeBanner: false,
+
       home: box!.containsKey("token")
           ? box!.get("token") != ""
               ? const HomeScreen()
