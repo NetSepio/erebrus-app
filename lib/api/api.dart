@@ -60,10 +60,11 @@ class ApiController {
   Future<ProfileModel> getProfile() async {
     log(header.headers.toString());
     Response res = await dio
-        .get(baseUrl + ApiUrl().profile, options: header)
+        .get("https://gateway.dev.netsepio.com/api/v1.0/profile",
+            options: header)
         .catchError((e) {
-      log("getProfile error");
-      return ProfileModel();
+      log("getProfile error-- $e");
+      return Future.error("error");
     });
 
     log("profile -  ${res.data}");

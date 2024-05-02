@@ -214,6 +214,7 @@ Endpoint = $initEndpoint''';
                   child: Image.asset(
                     'assets/background.png',
                     fit: BoxFit.fill,
+                    color: Colors.white,
                     height: MediaQuery.of(context).size.height / 1.5,
                   ))),
           Padding(

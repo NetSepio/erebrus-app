@@ -108,53 +108,51 @@ class _WifiScanPState extends State<WifiScanP> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Nearby Wifi'),
-          centerTitle: true,
-          leading: InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.arrow_back_ios),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Discover WiFi'),
+        centerTitle: true,
+        leading: InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.arrow_back_ios),
           ),
         ),
-        body: Builder(
-          builder: (context) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     _buildToggle(
-                //       label: "STREAM",
-                //       value: isStreaming,
-                //       onChanged: (shouldStream) async => shouldStream
-                //           ? await _startListeningToScanResults(context)
-                //           : _stopListeningToScanResults(),
-                //     ),
-                //   ],
-                // ),
-                // const Divider(),
-                Flexible(
-                  child: Center(
-                    child: accessPoints.isEmpty
-                        ? const Text("NO SCANNED RESULTS")
-                        : ListView.builder(
-                            itemCount: accessPoints.length,
-                            itemBuilder: (context, i) =>
-                                _AccessPointTile(accessPoint: accessPoints[i])),
-                  ),
+      ),
+      body: Builder(
+        builder: (context) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     _buildToggle(
+              //       label: "STREAM",
+              //       value: isStreaming,
+              //       onChanged: (shouldStream) async => shouldStream
+              //           ? await _startListeningToScanResults(context)
+              //           : _stopListeningToScanResults(),
+              //     ),
+              //   ],
+              // ),
+              // const Divider(),
+              Flexible(
+                child: Center(
+                  child: accessPoints.isEmpty
+                      ? const Text("NO SCANNED RESULTS")
+                      : ListView.builder(
+                          itemCount: accessPoints.length,
+                          itemBuilder: (context, i) =>
+                              _AccessPointTile(accessPoint: accessPoints[i])),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

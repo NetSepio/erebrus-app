@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:wire/api/api.dart';
 import 'package:wire/components/widgets.dart';
 import 'package:wire/config/common.dart';
 import 'package:wire/view/home/home.dart';
+import 'package:wire/view/profile/profile_model.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
   const LoginOrRegisterPage({super.key});
@@ -26,10 +29,12 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: const EdgeInsets.only(bottom: 50),
+                    padding: const EdgeInsets.only(
+                        top: 50, bottom: 50, left: 20, right: 20),
                     child: Image.asset(
-                      "assets/images/logo.png",
-                      color: const Color.fromARGB(255, 10, 185, 121),
+                      "assets/Erebrus_logo_wordmark.png",
+                      height: 100,
+                      // color: const Color.fromARGB(255, 10, 185, 121),
                     ),
                   ),
 
@@ -93,10 +98,21 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                             actions: [
                               Center(
                                 child: ElevatedButton(
-                                    onPressed: () {
-                                      box!.put(
-                                          "token", textEditingController.text);
-                                      Get.offAll(() => const HomeScreen());
+                                    onPressed: () async {
+                                      try {
+                                        box!.put("token",
+                                            textEditingController.text);
+                                        ProfileModel ress =
+                                            await ApiController().getProfile();
+                                        if (ress.status != null &&
+                                            ress.status == 200) {
+                                          Get.offAll(() => const HomeScreen());
+                                        }
+                                      } catch (e) {
+                                        Get.back();
+                                        Fluttertoast.showToast(
+                                            msg: "Invalid Auth Token");
+                                      }
                                     },
                                     child: const Text("Login")),
                               )
