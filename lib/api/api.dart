@@ -9,6 +9,7 @@ import 'package:get/route_manager.dart';
 import 'package:wire/config/api_const.dart';
 import 'package:wire/config/common.dart';
 import 'package:wire/model/AllNodeModel.dart';
+import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
 import 'package:wire/view/home/home.dart';
@@ -75,6 +76,41 @@ class ApiController {
     return ProfileModel();
   }
 
+  Future trialSubscription() async {
+    Response res = await dio
+        .post("https://dev.gateway.erebrus.io/api/v1.0/subscription/trial",
+            options: header)
+        .catchError((e) {
+      log("getProfile error-- $e");
+      return Future.error("error");
+    });
+
+    log("trialSubscription -  ${res.data}");
+    if (res.statusCode == 200) {
+      try {
+        Fluttertoast.showToast(msg: res.data["status"].toString());
+      } catch (e) {}
+    }
+  }
+
+  Future<CheckSubModel> checkSubscription() async {
+    Response res = await dio
+        .get("https://dev.gateway.erebrus.io/api/v1.0/subscription",
+            options: header)
+        .catchError((e) {
+      log("checkSubscription error-- $e");
+      return Future.error("error");
+    });
+
+    log("checkSubscription -  ${res.data}");
+    if (res.statusCode == 200) {
+      try {
+        return CheckSubModel.fromJson(res.data);
+      } catch (e) {}
+    }
+    return CheckSubModel();
+  }
+
   Future getFlowId({required String walletAddress}) async {
     Response res = await dio
         .get(baseUrl + ApiUrl().flowid + walletAddress)
@@ -127,17 +163,16 @@ class ApiController {
       final key = generateRandomKey(32);
       print(key);
       Map data = {
-        "name": "test3434",
+        "name": "Erebrus",
         "collectionId": collectionId,
         // "0x9745c19d98eC04849a515b122ad5bb1024954e5cch3ee298bf£1a548f2422¢9ac",
         "publickey":
             privateKey, //"DKaXOigN4qR/rfeDP4+BOE8uSIhXdYQUTekR/SVq7Eo="
       };
-      log("API Param -- $data");
+      log("API Param  $selectedString -- $data");
       Response res = await dio.post(
-        // "${baseUrl + ApiUrl().vpnData}$selectedString",
-        "https://gateway.netsepio.com/api/v1.0/erebrus/client/$selectedString",
-        // 'https://gateway.dev.netsepio.com/api/v1.0/erebrus/client/$selectedString',
+        // "https://gateway.netsepio.com/api/v1.0/erebrus/client/$selectedString",
+        'https://gateway.dev.netsepio.com/api/v1.0/erebrus/client/${selectedString.toLowerCase()}',
         options: header,
         data: data,
       );
@@ -218,6 +253,23 @@ class ApiController {
     Response res = await dio
         .delete(
       "https://gateway.netsepio.com/api/v1.0/erebrus/client/$uuid",
+      options: header,
+    )
+        .catchError((e) {
+      log(e.toString());
+    });
+
+    if (res.statusCode == 200) {
+      log('VPN Data delete----------------');
+    }
+  }
+
+  deleteVpn2({required String uuid, required String region}) async {
+    log(header.headers.toString());
+
+    Response res = await dio
+        .delete(
+      "https://gateway.netsepio.com/api/v1.0/erebrus/client/$region/$uuid",
       options: header,
     )
         .catchError((e) {

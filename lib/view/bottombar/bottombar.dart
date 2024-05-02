@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wire/view/profile/profile_page.dart';
-import 'package:wire/view/speedCheck/speedCheck.dart';
+import 'package:wire/view/subscription/subscriptionScreen.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
+import 'package:wire/view/vpn/vpn_old.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -13,9 +13,9 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int currentIndex = 0;
   List<Widget> pages = [
-    const SpeedCheck(),
     const VpnHomeScreen(),
-    const ProfilePage(),
+    // const VpnHomeOld(),
+    const SubscriptionScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,10 @@ class _BottomBarState extends State<BottomBar> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.speed), label: "Speed"),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+          // BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.subscriptions_outlined), label: "Subscription"),
         ],
         onTap: (value) {
           currentIndex = value;
