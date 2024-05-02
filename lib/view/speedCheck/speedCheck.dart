@@ -39,7 +39,10 @@ class _SpeedCheckState extends State<SpeedCheck> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

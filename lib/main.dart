@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     Get.put(HomeController());
     return GetMaterialApp(
-       builder: FToastBuilder(),
+      builder: FToastBuilder(),
       // home: const OnboardingScreen(),
       debugShowCheckedModeBanner: false,
       home: box!.containsKey("token")
@@ -41,10 +41,10 @@ class _MyAppState extends State<MyApp> {
               ? const HomeScreen()
               : const LoginOrRegisterPage()
           : const LoginOrRegisterPage(),
-      theme: ThemeData(primaryColor: Colors.green.shade900),
-      // darkTheme: ThemeData.dark().copyWith(
-      // scaffoldBackgroundColor: Colors.black,
-      // ),
+      // theme: ThemeData(primaryColor: Colors.green.shade900),
+      theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.black,
+          primaryColor: Colors.green.shade900),
     );
   }
 }
