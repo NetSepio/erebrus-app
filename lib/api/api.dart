@@ -78,7 +78,7 @@ class ApiController {
 
   Future trialSubscription() async {
     Response res = await dio
-        .post("https://dev.gateway.erebrus.io/api/v1.0/subscription/trial",
+        .post("https://gateway.erebrus.io/api/v1.0/subscription/trial",
             options: header)
         .catchError((e) {
       log("getProfile error-- $e");
@@ -95,7 +95,7 @@ class ApiController {
 
   Future<CheckSubModel> checkSubscription() async {
     Response res = await dio
-        .get("https://dev.gateway.erebrus.io/api/v1.0/subscription",
+        .get("https://gateway.erebrus.io/api/v1.0/subscription",
             options: header)
         .catchError((e) {
       log("checkSubscription error-- $e");
@@ -197,7 +197,7 @@ class ApiController {
     try {
       log(header.headers.toString());
       Response res = await dio.get(
-          "https://dev.gateway.erebrus.io/api/v1.0/nodes/all",
+          "https://gateway.erebrus.io/api/v1.0/nodes/all",
           options: header);
 
       if (res.statusCode == 200) {
@@ -221,7 +221,7 @@ class ApiController {
     try {
       log(header.headers.toString());
       Response res = await dio.post(
-        "https://dev.gateway.erebrus.io/api/v1.0/erebrus/client/$nodeId",
+        "https://gateway.erebrus.io/api/v1.0/erebrus/client/$nodeId",
         data: {
           "name": "App",
           "publickey": publickey,

@@ -67,6 +67,18 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                         ),
+                      if (profileModel!.payload!.email != null)
+                        TextField(
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            labelText: profileModel!.payload!.email.toString(),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
       ),
