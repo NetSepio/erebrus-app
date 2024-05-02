@@ -14,6 +14,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/config/api_const.dart';
 import 'package:wire/model/AllNodeModel.dart';
+import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
 import 'package:wire/view/home/home_controller.dart';
@@ -33,6 +34,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   HomeController homeController = Get.find();
   Rx<AllNodeModel> allNodeModel = AllNodeModel().obs;
   Rx<RegisterClientModel> registerClientModel = RegisterClientModel().obs;
+  CheckSubModel? checkSub;
   dynamic ipData;
   final wireguard = WireGuardFlutter.instance;
 
@@ -94,6 +96,12 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     allNodeModel.value = await ApiController().getAllNode();
     allNodeModel.value.payload!
         .removeWhere((element) => element.status == "inactive");
+    checkSubscription();
+  }
+
+  checkSubscription() async {
+    checkSub = await ApiController().checkSubscription();
+    setState(() {});
   }
 
   void generateKeyPair() {
@@ -341,23 +349,68 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // Center(
-                //   child: Obx(() => Text(
-                //       'Active VPN: ${stats.value.totalDownload} D -- ${stats.value.totalUpload} U')),
-                // ),
-                // Center(
-                //     child: Text(
-                //   '00.00.00',
-                //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                //       fontWeight: FontWeight.w700,
-                //       color: const Color.fromRGBO(37, 112, 252, 1)),
-                // )),
-                // const SizedBox(height: 100),
-
                 if (homeController.profileModel != null &&
                     homeController.profileModel!.value.payload != null)
-                  Expanded(child: nftsShow()),
+                  nftsShow(),
+                const SizedBox(height: 15),
+                if (checkSub != null && checkSub!.subscription != null)
+                  InkWell(
+                    onTap: () {
+                      collectionId = null;
+                      selectedNFT = 0;
+                      setState(() {});
+                    },
+                    child: Card(
+                      color: collectionId == null
+                          ? Colors.blueGrey.shade900
+                          : const Color(0xff1B1A1F),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 15, top: 20),
+                            child: Text(
+                              "Trial Subscription",
+                              style: TextStyle(
+                                fontSize: 22,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  checkSub!.status.toString().toUpperCase(),
+                                  style: TextStyle(
+                                      color: checkSub!.status!.toLowerCase() ==
+                                              "active"
+                                          ? Colors.green
+                                          : Colors.red,
+                                      fontSize: 18),
+                                ),
+                                Text(
+                                  checkSub!.status!.toLowerCase() == "active"
+                                      ? " Till "
+                                      : " ON ",
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  checkSub!.subscription!.endTime
+                                      .toString()
+                                      .split(" ")[0],
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            dense: true,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -418,7 +471,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
         }
       }
       }
-
+    
       fragment TokenDataFields on current_token_datas_v2 {
       description
       token_uri
@@ -433,7 +486,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
         cdn_image_uri
       }
       }
-
+    
       fragment CollectionDataFields on current_collections_v2 {
       uri
       max_supply
@@ -473,11 +526,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
           //result.data!['current_token_ownerships_v2'][index]['current_collection]['collection_id]
           return ListView.builder(
             shrinkWrap: true,
-            // padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.zero,
             itemCount: result.data!['current_token_ownerships_v2'].length,
             itemBuilder: (context, index) {
               var data = result.data!['current_token_ownerships_v2'][index];
-              // log(data.toString());
+
               collectionId ??= data['current_token_data']['current_collection']
                   ["collection_id"];
               var collectionName = data['current_token_data']
@@ -486,73 +539,89 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
               return collectionName == "EREBRUS"
                   ? Column(
                       children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
-                                if (data['current_token_data']["token_uri"] !=
-                                    null)
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: CachedNetworkImage(
-                                      imageUrl: data['current_token_data']
-                                                  ["cdn_asset_uris"]
-                                              ["cdn_image_uri"]
-                                          .toString(),
-                                      height: 50,
-                                      width: 50,
-                                      placeholder: (context, url) =>
-                                          const CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
-                                    ),
-                                  ),
-                                const SizedBox(width: 15),
-                                Column(
-                                  children: [
-                                    Text(
-                                      data["current_token_data"]["token_name"]
-                                          .toString(),
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
-                                    ),
-                                    Text(
-                                      data["current_token_data"]["description"]
-                                          .toString(),
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            InkWell(
-                              onTap: () {
-                                selectedNFT = index;
+                        const SizedBox(height: 20),
+                        InkWell(
+                          onTap: () {
+                            selectedNFT = index + 1;
 
-                                collectionId = data['current_token_data']
-                                    ['current_collection']["collection_id"];
-                                setState(() {});
-                              },
-                              child: selectedNFT == index
-                                  ? const Icon(
-                                      Icons.check_circle,
-                                      size: 30,
-                                      color: Color.fromRGBO(37, 112, 252, 1),
-                                    )
-                                  : const Icon(
-                                      Icons.circle_outlined,
-                                      size: 30,
-                                      color: Color.fromRGBO(37, 112, 252, 1),
-                                    ),
-                            )
-                          ],
+                            collectionId = data['current_token_data']
+                                ['current_collection']["collection_id"];
+                            setState(() {});
+                          },
+                          child: Card(
+                            color: collectionId != null && selectedNFT != 0
+                                ? Colors.blueGrey.shade900
+                                : const Color(0xff1B1A1F),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Wrap(
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
+                                    children: [
+                                      if (data['current_token_data']
+                                              ["token_uri"] !=
+                                          null)
+                                        CachedNetworkImage(
+                                          imageUrl: data['current_token_data']
+                                                      ["cdn_asset_uris"]
+                                                  ["cdn_image_uri"]
+                                              .toString(),
+                                          height: 120,
+                                          placeholder: (context, url) =>
+                                              const CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        ),
+                                      const SizedBox(width: 15),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "${data["current_token_data"]["token_name"]}",
+                                            style: const TextStyle(
+                                                fontSize: 26,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          // Text(
+                                          //   data["current_token_data"]["description"]
+                                          //       .toString(),
+                                          //   style:
+                                          //       Theme.of(context).textTheme.bodyLarge,
+                                          // ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  // InkWell(
+                                  //   onTap: () {
+                                  //     selectedNFT = index;
+
+                                  //     collectionId = data['current_token_data']
+                                  //         ['current_collection']["collection_id"];
+                                  //     setState(() {});
+                                  //   },
+                                  //   child: selectedNFT == index
+                                  //       ? const Icon(
+                                  //           Icons.check_circle,
+                                  //           size: 30,
+                                  //           color:
+                                  //               Color.fromRGBO(37, 112, 252, 1),
+                                  //         )
+                                  //       : const Icon(
+                                  //           Icons.circle_outlined,
+                                  //           size: 30,
+                                  //           color:
+                                  //               Color.fromRGBO(37, 112, 252, 1),
+                                  //         ),
+                                  // )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     )
