@@ -285,7 +285,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                       onTap: () {
                         // _activateVpn(!vpnActivate);
                         if (vpnActivate.value == false) {
-                          if (collectionId != null) {
+                          if (collectionId != null && selectedNFT != 0) {
                             apiCall();
                           } else {
                             registerClient();
