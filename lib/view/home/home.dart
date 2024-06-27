@@ -13,7 +13,6 @@ import 'package:wire/config/secure_storage.dart';
 import 'package:wire/view/bottombar/bottombar.dart';
 import 'package:wire/view/home/home_controller.dart';
 import 'package:wire/view/home/verify.dart';
-import 'package:wire/view/vpn/vpn_home.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -29,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // aptosLogin();
+
     homeController.getProfileData();
     // log("token -- " + box!.get("token"));
     super.initState();
@@ -112,7 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
     String publicKeyHex =
         "0xf16eee3e297c9208227f77dadb5bcfa4cdcf092b2f76e9c1dc1f3a3c59f9ed2c"; // Remove '0x' prefix if present and any non-hex characters
 
-    
     var d = verifySignature(message, signatureHex, publicKeyHex);
     print("Signature verification result: $d");
 
@@ -163,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: const Text("Erebrus"),
                 centerTitle: true,
               ),
-              body: NoWalletFound(),
+              body: const NoWalletFound(),
             );
           }
         },
@@ -196,8 +195,7 @@ class NoWalletFound extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () async {
-                await launchUrl(
-                    Uri.parse("https://app.netsepio.com/"));
+                await launchUrl(Uri.parse("https://app.netsepio.com/"));
               },
               child: const Text("link Wallet"))
         ],

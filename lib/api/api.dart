@@ -35,6 +35,17 @@ class ApiController {
     });
   }
 
+  googleEmailLogin({String? email}) async {
+    await dio.post(baseUrl + ApiUrl().googleEmailLogin,
+        data: {'email': email}).then((value) {
+      box!.put("token", value.data["payload"]["token"]);
+      box!.put("uid", value.data["payload"]["userId"]);
+      Get.offAll(() => const HomeScreen());
+    }).catchError((e) {
+      log("Google login error");
+    });
+  }
+
   emailAuth({required String email}) async {
     await dio.post(baseUrl + ApiUrl().emailAuth, data: {'email': email}).then(
         (value) {
@@ -60,25 +71,26 @@ class ApiController {
 
   Future<ProfileModel> getProfile() async {
     log(header.headers.toString());
-    Response res = await dio
-        .get("https://gateway.dev.netsepio.com/api/v1.0/profile",
-            options: header)
-        .catchError((e) {
-      log("getProfile error-- $e");
-      return Future.error("error");
-    });
+    try {
+      Response res = await dio.get(
+          "https://gateway.netsepio.com/api/v1.0/profile",
+          options: header);
 
-    log("profile -  ${res.data}");
-    if (res.statusCode == 200) {
-      ProfileModel profileModel = ProfileModel.fromJson(res.data);
-      return profileModel;
+      log("profile -  ${res.data}");
+      if (res.statusCode == 200) {
+        ProfileModel profileModel = ProfileModel.fromJson(res.data);
+        return profileModel;
+      }
+    } on DioException catch (e) {
+      log("profile -- ${e.response!.toString()}");
+      Fluttertoast.showToast(msg: e.response!.data.toString());
     }
     return ProfileModel();
   }
 
   Future trialSubscription() async {
     Response res = await dio
-        .post("https://dev.gateway.erebrus.io/api/v1.0/subscription/trial",
+        .post("https://gateway.erebrus.io/api/v1.0/subscription/trial",
             options: header)
         .catchError((e) {
       log("getProfile error-- $e");
@@ -95,8 +107,10 @@ class ApiController {
 
   Future<CheckSubModel> checkSubscription() async {
     Response res = await dio
-        .get("https://dev.gateway.erebrus.io/api/v1.0/subscription",
-            options: header)
+        .get(
+          "https://gateway.erebrus.io/api/v1.0/subscription",
+            options: header
+            )
         .catchError((e) {
       log("checkSubscription error-- $e");
       return Future.error("error");
@@ -172,7 +186,7 @@ class ApiController {
       log("API Param  $selectedString -- $data");
       Response res = await dio.post(
         // "https://gateway.netsepio.com/api/v1.0/erebrus/client/$selectedString",
-        'https://gateway.dev.netsepio.com/api/v1.0/erebrus/client/${selectedString.toLowerCase()}',
+        'https://gateway.netsepio.com/api/v1.0/erebrus/client/${selectedString.toLowerCase()}',
         options: header,
         data: data,
       );
@@ -197,7 +211,7 @@ class ApiController {
     try {
       log(header.headers.toString());
       Response res = await dio.get(
-          "https://dev.gateway.erebrus.io/api/v1.0/nodes/all",
+          "https://gateway.erebrus.io/api/v1.0/nodes/active",
           options: header);
 
       if (res.statusCode == 200) {
@@ -209,8 +223,8 @@ class ApiController {
         throw Exception(errorMessage);
       }
     } catch (e) {
-      Get.snackbar('Error', 'An error occurred',
-          colorText: Colors.white, backgroundColor: Colors.red);
+      // Get.snackbar('Error', 'An error occurred',
+      //     colorText: Colors.white, backgroundColor: Colors.red);
       log('Error: $e');
       return AllNodeModel();
     }
@@ -221,7 +235,7 @@ class ApiController {
     try {
       log(header.headers.toString());
       Response res = await dio.post(
-        "https://dev.gateway.erebrus.io/api/v1.0/erebrus/client/$nodeId",
+        "https://gateway.erebrus.io/api/v1.0/erebrus/client/$nodeId",
         data: {
           "name": "App",
           "publickey": publickey,

@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wire/config/common.dart';
-import 'package:wire/view/Onboarding/login_register.dart';
+import 'package:wire/view/Onboarding/OnboardingScreen.dart';
 import 'package:wire/view/home/home.dart';
 import 'package:wire/view/home/home_controller.dart';
 
@@ -37,14 +37,14 @@ class _MyAppState extends State<MyApp> {
       builder: EasyLoading.init(
         builder: FToastBuilder(),
       ),
-      // home: const OnboardingScreen(),
       debugShowCheckedModeBanner: false,
 
       home: box!.containsKey("token")
           ? box!.get("token") != ""
               ? const HomeScreen()
-              : const LoginOrRegisterPage()
-          : const LoginOrRegisterPage(),
+              : const OnboardingScreen()
+          : const OnboardingScreen(),
+
       // theme: ThemeData(primaryColor: Colors.green.shade900),
       theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,

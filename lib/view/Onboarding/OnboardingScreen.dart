@@ -50,7 +50,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     double height = SizeConfig.screenH!;
 
     return Scaffold(
-      backgroundColor: colors[_currentPage],
+      // backgroundColor: colors[_currentPage],
       body: SafeArea(
         child: Column(
           children: [
@@ -117,6 +117,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           padding: const EdgeInsets.all(30),
                           child: ElevatedButton(
                             onPressed: () {
+                              
                               Get.to(() => const LoginOrRegisterPage());
                             },
                             style: ElevatedButton.styleFrom(
@@ -153,7 +154,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 ),
                                 child: const Text(
                                   "SKIP",
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                               ElevatedButton(
@@ -222,20 +223,20 @@ class OnboardingContents {
 
 List<OnboardingContents> contents = [
   OnboardingContents(
-    title: "Track Your work and get the result",
+    title: "Building a Resilient Decentralized Network",
     image: "assets/images/image1.png",
-    desc: "Remember to keep track of your professional accomplishments.",
+    desc: "Try the dVPN and secure your internet activities now",
   ),
   OnboardingContents(
-    title: "Stay organized with team",
-    image: "assets/images/image2.png",
+    title: "Fast Speed & Unlimited Bandwidth.",
+    image: "assets/on1.png",
     desc:
-        "But understanding the contributions our colleagues make to our teams and companies.",
+        "We offer speeds that match popular providers out there, allowing for a fast browsing experience.",
   ),
   OnboardingContents(
-    title: "Get notified when work happens",
-    image: "assets/images/image3.png",
+    title: "We Use Location & Wifi Permission",
+    image: "assets/on2.png",
     desc:
-        "Take control of notifications, collaborate live or on your own time.",
+        "To Connect near by wifi we need WiFi & Location Permissions",
   ),
 ];

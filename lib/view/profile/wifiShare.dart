@@ -32,8 +32,15 @@ class _WifiScanPState extends State<WifiScanP> {
       // check if can-startScan
       final can = await WiFiScan.instance.canStartScan();
       // if can-not, then show error
+      if (can == CanStartScan.noLocationPermissionDenied ||
+          can == CanStartScan.noLocationPermissionRequired ||
+          can == CanStartScan.noLocationPermissionUpgradeAccuracy ||
+          can == CanStartScan.noLocationServiceDisabled) {
+        if (mounted) kShowSnackBar(context, "Turn On Location Permission");
+        return;
+      }
       if (can != CanStartScan.yes) {
-        if (mounted) kShowSnackBar(context, "Cannot start scan: $can");
+        if (mounted) kShowSnackBar(context, "$can");
         return;
       }
     }
@@ -145,7 +152,7 @@ class _WifiScanPState extends State<WifiScanP> {
               Flexible(
                 child: Center(
                   child: accessPoints.isEmpty
-                      ? const Text("NO SCANNED RESULTS")
+                      ? const Text("NO RESULTS")
                       : ListView.builder(
                           itemCount: accessPoints.length,
                           itemBuilder: (context, i) =>

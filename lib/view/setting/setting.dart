@@ -4,6 +4,8 @@ import 'package:android_flutter_wifi/android_flutter_wifi.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wifi_iot/wifi_iot.dart';
@@ -11,6 +13,7 @@ import 'package:wire/config/common.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
 import 'package:wire/view/profile/profile.dart';
 import 'package:wire/view/profile/wifiShare.dart';
+import 'package:wire/view/setting/PrivacyPolicy.dart';
 import 'package:wire/view/speedCheck/speedCheck.dart';
 
 class SettingPage extends StatefulWidget {
@@ -21,8 +24,16 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  Location location = Location();
+  PackageInfo? packageInfo;
+
+  bool? _serviceEnabled;
+  LocationData? _locationData;
   init() async {
     await AndroidFlutterWifi.init();
+
+    packageInfo = await PackageInfo.fromPlatform();
+    setState(() {});
   }
 
   @override
@@ -82,6 +93,9 @@ class _SettingPageState extends State<SettingPage> {
                 trailing: const Icon(Icons.wifi, color: Colors.blue, size: 20),
                 onTap: () async {
                   var check = await AndroidFlutterWifi.isWifiEnabled();
+                  AndroidFlutterWifi.enableWifi();
+
+                  // await WiFiForIoTPlugin.forceWifiUsage(true);
                   var location = await Permission.location.request().isGranted;
                   log(check.toString());
                   if (check && location) {
@@ -96,6 +110,8 @@ class _SettingPageState extends State<SettingPage> {
                             CupertinoDialogAction(
                               child: const Text("Ok"),
                               onPressed: () {
+                                WiFiForIoTPlugin.setEnabled(true,
+                                    shouldOpenSettings: true);
                                 Get.back();
                               },
                             )
@@ -141,7 +157,41 @@ class _SettingPageState extends State<SettingPage> {
                   // await AndroidFlutterWifi.enableWifi();
                   // var a = await WiFiForIoTPlugin.isWiFiAPEnabled();
                   // var b = await WiFiForIoTPlugin.setEnabled(true);
-                  var c = await WiFiForIoTPlugin.setWiFiAPEnabled(true);
+                  await location.requestPermission();
+                  _serviceEnabled = await location.serviceEnabled();
+                  _serviceEnabled = await location.requestService();
+                  showCupertinoDialog(
+                    context: context,
+                    builder: (context) {
+                      return CupertinoAlertDialog(
+                        title: const Text("You will disconnect from your wifi"),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Text("Cancel")),
+                              TextButton(
+                                  onPressed: () async {
+                                    try {
+                                      var c = await WiFiForIoTPlugin
+                                          .setWiFiAPEnabled(true);
+                                    } catch (e) {
+                                      log("HOTSPORT E_-$e");
+                                    }
+                                    Get.back();
+                                  },
+                                  child: const Text("Connect")),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
                   // log("$c ---   $c");
                 },
               ),
@@ -162,14 +212,15 @@ class _SettingPageState extends State<SettingPage> {
               title: const Text('Terms and Conditions'),
               trailing: const Icon(Icons.policy, color: Colors.blue, size: 20),
               onTap: () {
-                launchUrl(Uri.parse("https://netsepio.com/terms.html"));
+                launchUrl(Uri.parse("https://erebrus.io/terms"));
               },
             ),
             ListTile(
               title: const Text('Privacy Policy'),
               trailing: const Icon(Icons.policy, color: Colors.blue, size: 20),
               onTap: () {
-                launchUrl(Uri.parse("https://netsepio.com/privacy.html"));
+                Get.to(() => const PrivacyPolicy());
+                // launchUrl(Uri.parse("https://netsepio.com/privacy.html"));
               },
             ),
             ListTile(
@@ -221,6 +272,11 @@ class _SettingPageState extends State<SettingPage> {
                 );
               },
             ),
+            const SizedBox(height: 30),
+            if (packageInfo != null)
+              Center(
+                  child: Text(
+                      "V. ${packageInfo!.version.toString()}+${packageInfo!.buildNumber}"))
           ],
         ),
       ),

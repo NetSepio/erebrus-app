@@ -64,5 +64,15 @@
             <!-- Add other VPN configuration keys as required -->
         </dict>
     </dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>com.apple.developer.networking.networkextension</key>
+	<array>
+		<string>packet-tunnel-provider</string>
+	</array>
+
 </dict>
 </plist>
