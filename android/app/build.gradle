@@ -40,6 +40,10 @@ android {
         jvmTarget = '1.8'
     }
 
+    dataBinding {
+    enabled = true
+    }
+    
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -49,11 +53,16 @@ android {
         applicationId "com.netsepio.erebrus"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        manifestPlaceholders["PN_PROJECT_ID"] = "86b870c8-abdd-4557-9d45-5eb88492ef2f"
+        manifestPlaceholders["PN_PROJECT_CLIENT_KEY"] = "cIXEdkrZlotQpad9adbcm9gdrihbDnhTNcoOk3wO"
+        manifestPlaceholders["PN_APP_ID"] = "8c75fc1e-ced1-48c6-abbb-5d8ad846ebe9"
     }
+
     signingConfigs {
        release {
            keyAlias keystoreProperties['keyAlias']

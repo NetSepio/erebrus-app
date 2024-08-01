@@ -1,20 +1,4 @@
-// import 'dart:typed_data';
 
-// import 'package:pointycastle/pointycastle.dart';
-// import 'package:pointycastle/export.dart';
-
-// bool verifySignature(String message, String signature, String publicKey) {
-//   Digest sha256 = Digest('SHA-256');
-//   ECPoint publicKeyPoint = ECCurve_secp256k1().decodePoint(hex.decode(publicKey));
-
-//   ECSignature ecSignature = ECSignature.fromDER(hex.decode(signature));
-//   Uint8List messageBytes = Uint8List.fromList(utf8.encode(message));
-
-//   ECDSASigner signer = ECDSASigner(null, HMac(sha256, 64));
-
-//   signer.init(false, PublicKeyParameter(ECPublicKey(publicKeyPoint, ECCurve_secp256k1())));
-//   return signer.verifySignature(messageBytes, ecSignature);
-// }
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';

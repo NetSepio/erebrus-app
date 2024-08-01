@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wire/view/dwifi/dmap.dart';
 import 'package:wire/view/subscription/subscriptionScreen.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
-import 'package:wire/view/vpn/vpn_old.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -14,6 +14,7 @@ class _BottomBarState extends State<BottomBar> {
   int currentIndex = 0;
   List<Widget> pages = [
     const VpnHomeScreen(),
+    const MapSample(),
     // const VpnHomeOld(),
     const SubscriptionScreen(),
   ];
@@ -25,7 +26,7 @@ class _BottomBarState extends State<BottomBar> {
         currentIndex: currentIndex,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          // BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.wifi), label: "WiFi"),
           BottomNavigationBarItem(
               icon: Icon(Icons.subscriptions_outlined), label: "Subscription"),
         ],
