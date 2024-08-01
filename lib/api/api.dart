@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
@@ -107,10 +108,8 @@ class ApiController {
 
   Future<CheckSubModel> checkSubscription() async {
     Response res = await dio
-        .get(
-          "https://gateway.erebrus.io/api/v1.0/subscription",
-            options: header
-            )
+        .get("https://gateway.erebrus.io/api/v1.0/subscription",
+            options: header)
         .catchError((e) {
       log("checkSubscription error-- $e");
       return Future.error("error");
@@ -146,7 +145,7 @@ class ApiController {
       "signature": signature,
       "pubKey": walletAddress
     };
-    log("Auth data ----- $data");
+    log("Auth data ----- ${jsonEncode(data)}");
     Response res = await dio
         .post(baseUrl + ApiUrl().authenticate, data: data)
         .catchError((e) {

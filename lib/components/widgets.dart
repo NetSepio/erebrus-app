@@ -21,16 +21,22 @@ class MyButton extends StatelessWidget {
         height: 50,
         margin: const EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: customColor,
-        ),
+            borderRadius: BorderRadius.circular(40),
+            color: customColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blue.shade900,
+                blurRadius: 20,
+                spreadRadius: 0.1,
+              ),
+            ]),
         child: Center(
           child: Text(
             text,
             style: const TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 16,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -90,8 +96,6 @@ class MyTextField extends StatelessWidget {
 height(double height) => SizedBox(height: height);
 width(double width) => SizedBox(width: width);
 
-
-
 class CustomButton extends StatelessWidget {
   final Function() onTap;
   final String title;
@@ -108,7 +112,8 @@ class CustomButton extends StatelessWidget {
             color: appColor, borderRadius: BorderRadius.circular(10)),
         child: Text(
           title,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );

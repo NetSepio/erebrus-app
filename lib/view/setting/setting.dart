@@ -1,18 +1,12 @@
-import 'dart:developer';
-
-import 'package:android_flutter_wifi/android_flutter_wifi.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wifi_iot/wifi_iot.dart';
 import 'package:wire/config/common.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
+import 'package:wire/view/dwifi/dmap.dart';
 import 'package:wire/view/profile/profile.dart';
-import 'package:wire/view/profile/wifiShare.dart';
 import 'package:wire/view/setting/PrivacyPolicy.dart';
 import 'package:wire/view/speedCheck/speedCheck.dart';
 
@@ -30,8 +24,7 @@ class _SettingPageState extends State<SettingPage> {
   bool? _serviceEnabled;
   LocationData? _locationData;
   init() async {
-    await AndroidFlutterWifi.init();
-
+    // await AndroidFlutterWifi.init();
     packageInfo = await PackageInfo.fromPlatform();
     setState(() {});
   }
@@ -86,116 +79,130 @@ class _SettingPageState extends State<SettingPage> {
                 onTap: () => Get.to(() => const SpeedCheck()),
               ),
             ),
-            Card(
-              child: ListTile(
-                title: const Text("Discover WiFi Networks"),
-                subtitle: const Text("Search Public WiFi Around You"),
-                trailing: const Icon(Icons.wifi, color: Colors.blue, size: 20),
-                onTap: () async {
-                  var check = await AndroidFlutterWifi.isWifiEnabled();
-                  AndroidFlutterWifi.enableWifi();
+            // Card(
+            //   child: ListTile(
+            //     title: const Text("ÐWi-Fi"),
+            //     subtitle: const Text("Secure and fast Wi-Fi Everywhere"),
+            //     trailing: const Icon(Icons.wifi, size: 20, color: Colors.green),
+            //     onTap: () {
+            //       Get.to(() => const MapSample());
+            //       //  Get.to(() => const DWifiScreen());
+            //     },
+            //   ),
+            // ),
+       
+            // Card(
+            //   child: ListTile(
+            //     title: const Text("Discover WiFi Networks"),
+            //     subtitle: const Text("Search Public WiFi Around You"),
+            //     trailing: const Icon(Icons.wifi, color: Colors.blue, size: 20),
+            //     onTap: () async {
+            //       var check = await AndroidFlutterWifi.isWifiEnabled();
+            //       AndroidFlutterWifi.enableWifi();
 
-                  // await WiFiForIoTPlugin.forceWifiUsage(true);
-                  var location = await Permission.location.request().isGranted;
-                  log(check.toString());
-                  if (check && location) {
-                    Get.to(() => const WifiScanP());
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CupertinoAlertDialog(
-                          title: const Text("Turn on WiFi & Location"),
-                          actions: [
-                            CupertinoDialogAction(
-                              child: const Text("Ok"),
-                              onPressed: () {
-                                WiFiForIoTPlugin.setEnabled(true,
-                                    shouldOpenSettings: true);
-                                Get.back();
-                              },
-                            )
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: const Text("Share Hotspot"),
-                subtitle: const Text("Share your Mobile Internet with others"),
-                trailing: Image.asset(
-                  "assets/hotspot.png",
-                  height: 20,
-                  color: Colors.grey,
-                ),
-                //   subtitle: StreamBuilder(
-                //       stream: AndroidFlutterWifi.isWifiEnabled().asStream(),
-                //       builder: (context, snapshot) {
-                //         if (snapshot.data == null) {
-                //           return const Text("data");
-                //         }
-                //         log("isWifiEnabled -- ${snapshot.data}");
-                //         return CupertinoSwitch(
-                //             value: snapshot.data!,
-                //             onChanged: (value) async {
-                //               if (!value) {
-                //                 await AndroidFlutterWifi.disableWifi();
-                //               } else {
-                //                 log("message");
-                //                 await AndroidFlutterWifi.enableWifi();
-                //               }
-                //             });
-                //       }),
-                onTap: () async {
-                  // await Permission.location.request();
-                  // await Permission.locationAlways.request();
-                  // await Permission.locationWhenInUse.request();
-                  // await AndroidFlutterWifi.enableWifi();
-                  // var a = await WiFiForIoTPlugin.isWiFiAPEnabled();
-                  // var b = await WiFiForIoTPlugin.setEnabled(true);
-                  await location.requestPermission();
-                  _serviceEnabled = await location.serviceEnabled();
-                  _serviceEnabled = await location.requestService();
-                  showCupertinoDialog(
-                    context: context,
-                    builder: (context) {
-                      return CupertinoAlertDialog(
-                        title: const Text("You will disconnect from your wifi"),
-                        actions: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                  child: const Text("Cancel")),
-                              TextButton(
-                                  onPressed: () async {
-                                    try {
-                                      var c = await WiFiForIoTPlugin
-                                          .setWiFiAPEnabled(true);
-                                    } catch (e) {
-                                      log("HOTSPORT E_-$e");
-                                    }
-                                    Get.back();
-                                  },
-                                  child: const Text("Connect")),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  );
+            //       // await WiFiForIoTPlugin.forceWifiUsage(true);
+            //       var location = await Permission.location.request().isGranted;
+            //       log(check.toString());
+            //       if (check && location) {
+            //         Get.to(() => const WifiScanP());
+            //       } else {
+            //         showDialog(
+            //           context: context,
+            //           builder: (context) {
+            //             return CupertinoAlertDialog(
+            //               title: const Text("Turn on WiFi & Location"),
+            //               actions: [
+            //                 CupertinoDialogAction(
+            //                   child: const Text("Ok"),
+            //                   onPressed: () {
+            //                     WiFiForIoTPlugin.setEnabled(true,
+            //                         shouldOpenSettings: true);
+            //                     Get.back();
+            //                   },
+            //                 )
+            //               ],
+            //             );
+            //           },
+            //         );
+            //       }
+            //     },
+            //   ),
+            // ),
 
-                  // log("$c ---   $c");
-                },
-              ),
-            ),
+            // Card(
+            //   child: ListTile(
+            //     title: const Text("Share Hotspot"),
+            //     subtitle: const Text("Share your Mobile Internet with others"),
+            //     trailing: Image.asset(
+            //       "assets/hotspot.png",
+            //       height: 20,
+            //       color: Colors.grey,
+            //     ),
+            //     //   subtitle: StreamBuilder(
+            //     //       stream: AndroidFlutterWifi.isWifiEnabled().asStream(),
+            //     //       builder: (context, snapshot) {
+            //     //         if (snapshot.data == null) {
+            //     //           return const Text("data");
+            //     //         }
+            //     //         log("isWifiEnabled -- ${snapshot.data}");
+            //     //         return CupertinoSwitch(
+            //     //             value: snapshot.data!,
+            //     //             onChanged: (value) async {
+            //     //               if (!value) {
+            //     //                 await AndroidFlutterWifi.disableWifi();
+            //     //               } else {
+            //     //                 log("message");
+            //     //                 await AndroidFlutterWifi.enableWifi();
+            //     //               }
+            //     //             });
+            //     //       }),
+            //     onTap: () async {
+            //       // await Permission.location.request();
+            //       // await Permission.locationAlways.request();
+            //       // await Permission.locationWhenInUse.request();
+            //       // await AndroidFlutterWifi.enableWifi();
+            //       // var a = await WiFiForIoTPlugin.isWiFiAPEnabled();
+            //       // var b = await WiFiForIoTPlugin.setEnabled(true);
+            //       await location.requestPermission();
+            //       _serviceEnabled = await location.serviceEnabled();
+            //       _serviceEnabled = await location.requestService();
+            //       showCupertinoDialog(
+            //         context: context,
+            //         builder: (context) {
+            //           return CupertinoAlertDialog(
+            //             title: const Text("You will disconnect from your wifi"),
+            //             actions: [
+            //               Row(
+            //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //                 children: [
+            //                   TextButton(
+            //                       onPressed: () {
+            //                         Get.back();
+            //                       },
+            //                       child: const Text("Cancel")),
+            //                   TextButton(
+            //                       onPressed: () async {
+            //                         try {
+            //                           var c = await WiFiForIoTPlugin
+            //                               .setWiFiAPEnabled(true);
+            //                         } catch (e) {
+            //                           log("HOTSPORT E_-$e");
+            //                         }
+            //                         Get.back();
+            //                       },
+            //                       child: const Text("Connect")),
+            //                 ],
+            //               ),
+            //             ],
+            //           );
+            //         },
+            //       );
+
+            //       // log("$c ---   $c");
+            //     },
+            //   ),
+            // ),
+
             // Card(
             //   child: ListTile(
             //     title: const Text("Request Internet"),

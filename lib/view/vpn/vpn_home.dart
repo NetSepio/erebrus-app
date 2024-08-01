@@ -213,9 +213,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                         },
                         borderRadius: BorderRadius.circular(90),
                         child: AvatarGlow(
-                          glowColor: vpnActivate.value == true
-                              ? Colors.green
-                              : const Color.fromRGBO(37, 112, 252, 1),
+                          glowColor:
+                              //  vpnActivate.value == true
+                              //     ? Colors.green
+                              //     :
+                              const Color.fromRGBO(37, 112, 252, 1),
                           duration: const Duration(milliseconds: 2000),
                           repeat: true,
                           animate: vpnActivate.value == true ? true : false,
@@ -223,9 +225,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                           child: Material(
                             elevation: 0,
                             shape: const CircleBorder(),
-                            color: vpnActivate.value == true
-                                ? Colors.green
-                                : const Color.fromRGBO(87, 141, 240, 1),
+                            color:
+                                //  vpnActivate.value == true
+                                //     ? Colors.green
+                                //     :
+                                const Color.fromRGBO(87, 141, 240, 1),
                             child: SizedBox(
                               height: 150,
                               width: 150,
@@ -256,7 +260,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 60),
                   if (homeController.profileModel != null &&
                       homeController.profileModel!.value.payload != null)
                     nftsShow(),

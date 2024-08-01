@@ -20,7 +20,10 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
           child: Column(
             children: [
               Text(
-                """Last Revised: June 21st 2024
+                """
+Privacy Policy
+
+Last Revised: June 21st 2024
 Erebrus Privacy Policy
 
 Effective Date: June 20th 2024

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:aptos/aptos.dart';
 import 'package:aptos/coin_client.dart';
 import 'package:aptos/constants.dart';
+import 'package:aptos/models/signature.dart';
 import 'package:ed25519_edwards/ed25519_edwards.dart' as ed25519;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,6 @@ import 'package:wire/api/api.dart';
 import 'package:wire/config/secure_storage.dart';
 import 'package:wire/view/bottombar/bottombar.dart';
 import 'package:wire/view/home/home_controller.dart';
-import 'package:wire/view/home/verify.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -102,24 +102,15 @@ class _HomeScreenState extends State<HomeScreen> {
     log("message:--  $message");
     log("payload:--  $payload");
 
-    // var signKeyBytes = ed25519.sign(
-    //     sender.signingKey.privateKey, utf8.encode(payload.toString()));
-    // var signKeyHex = HEX.encode(signKeyBytes);
-    // print('SignKey Hex: $signKeyHex');
-    // var d = verifySignature(message, signKeyHex, sender.pubKey().hex());
-    String signatureHex =
-        "0x7d2c98d66041fdf6df028edf8bbc8f83279410e2b392e0e26d54db740abb23d6858d7fc54d1ce2be657488be7639f74046341393dbbf7c20d8611e6dd9f8070f"; // Replace with actual signature in hex format
-    String publicKeyHex =
-        "0xf16eee3e297c9208227f77dadb5bcfa4cdcf092b2f76e9c1dc1f3a3c59f9ed2c"; // Remove '0x' prefix if present and any non-hex characters
+    var signKeyBytes = ed25519.sign(
+        sender.signingKey.privateKey, utf8.encode(payload.toString()));
+    var signKeyHex = HEX.encode(signKeyBytes);
 
-    var d = verifySignature(message, signatureHex, publicKeyHex);
-    print("Signature verification result: $d");
-
-    log("New Ver ---  $d");
-    // ss.Signature signature = ss.Signature(
-    //     type: "ed25519_signature",
-    //     publicKey: sender.pubKey().hex(),
-    //     signature: "0x${HEX.encode(signKe)}");
+    print('SignKey Hex: $signKeyHex');
+    Signature signature = Signature(
+        type: "ed25519_signature",
+        publicKey: sender.pubKey().hex(),
+        signature: signKeyHex);
 
     await ApiController().getAuthenticate(
       flowid: nonce,
@@ -138,13 +129,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: ElevatedButton(
-      //       onPressed: () {
-      //         // aptosLogin();
-      //       },
-      //       child: const Text("data")),
-      // ),
       body: GetBuilder<HomeController>(
         init: homeController,
         builder: (controller) {
