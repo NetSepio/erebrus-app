@@ -149,17 +149,14 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: ElevatedButton(
-                                          onPressed: () {
-                                            textLogin(context);
-                                          },
-                                          child: const Text(
-                                            "Enter PASETO",
-                                          )),
-                                    ),
+                                  Center(
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          textLogin(context);
+                                        },
+                                        child: const Text(
+                                          "Enter PASETO",
+                                        )),
                                   ),
                                 ],
                               ),
