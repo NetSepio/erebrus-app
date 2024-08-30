@@ -39,54 +39,45 @@ class _SpeedCheckState extends State<SpeedCheck> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        
-      ),
+      backgroundColor: const Color(0xff040819),
+      appBar: AppBar(backgroundColor: const Color(0xff040819)),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (_ip != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Text(_isServerSelectionInProgress
-                      ? 'Selecting Server...'
-                      : 'IP: ${_ip ?? '--'} | ASP: ${_asn ?? '--'} | ISP: ${_isp ?? '--'}'),
-                ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SfRadialGauge(
-                      title: GaugeTitle(
-                          text: _uploadProgress != "0"
-                              ? 'Upload Speed'
-                              : 'Download Speed',
-                          textStyle: const TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold)),
+                      enableLoadingAnimation: true,
+                      // title: GaugeTitle(
+                      //     text:
+                      //     textStyle: const TextStyle(
+                      //         fontSize: 20.0, fontWeight: FontWeight.bold)),
                       axes: <RadialAxis>[
                         RadialAxis(
                             minimum: 0,
                             maximum: 150,
-                            axisLabelStyle: const GaugeTextStyle(),
+                            axisLabelStyle:
+                                const GaugeTextStyle(color: Colors.blue),
                             ranges: <GaugeRange>[
                               GaugeRange(
                                   startValue: 0,
                                   endValue: 50,
-                                  // color: Colors.red,
+                                  color: Colors.blue,
                                   startWidth: 10,
                                   endWidth: 10),
                               GaugeRange(
                                   startValue: 50,
                                   endValue: 100,
-                                  // color: Colors.amber,
+                                  color: Colors.blue,
                                   startWidth: 10,
                                   endWidth: 10),
                               GaugeRange(
                                   startValue: 100,
                                   endValue: 150,
-                                  // color: Colors.green,
+                                  color: Colors.blue,
                                   startWidth: 10,
                                   endWidth: 10)
                             ],
@@ -96,6 +87,10 @@ class _SpeedCheckState extends State<SpeedCheck> {
                                     ? _downloadRate
                                     : _uploadRate,
                                 enableAnimation: true,
+                                knobStyle: const KnobStyle(knobRadius: 0.05),
+                                needleEndWidth: 5,
+                                needleLength: 0.4,
+                                needleStartWidth: 0.4,
                               )
                             ],
                             axisLineStyle: const AxisLineStyle(
@@ -106,19 +101,31 @@ class _SpeedCheckState extends State<SpeedCheck> {
                             ),
                             annotations: <GaugeAnnotation>[
                               GaugeAnnotation(
-                                  widget: Container(
-                                    child: Text(
-                                      _uploadProgress == "0"
-                                          ? '${_downloadRate.toStringAsFixed(2)} $_unitText'
-                                          : '${_uploadRate.toStringAsFixed(2)} $_unitText',
-                                      style: const TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
+                                  widget: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        _uploadProgress == "0"
+                                            ? '${_downloadRate.toStringAsFixed(2)} $_unitText'
+                                            : '${_uploadRate.toStringAsFixed(2)} $_unitText',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xff3985FF),
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
+                                      Text(
+                                        _uploadProgress != "0"
+                                            ? 'Upload Speed'
+                                            : 'Download Speed',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   angle: 90,
-                                  positionFactor: 0.5)
+                                  positionFactor: 0.7)
                             ])
                       ]),
                   Row(
@@ -148,10 +155,13 @@ class _SpeedCheckState extends State<SpeedCheck> {
                                 axisLabelStyle:
                                     const GaugeTextStyle(fontSize: 0),
                                 axisLineStyle: const AxisLineStyle(
-                                  gradient: SweepGradient(colors: [
-                                    Colors.blue,
-                                    Colors.green,
-                                  ]),
+                                  gradient: SweepGradient(
+                                    colors: [
+                                      Colors.blue,
+                                      Colors.green,
+                                    ],
+                                  ),
+                                  thickness: 4,
                                 ),
                               )
                             ]),
@@ -160,56 +170,142 @@ class _SpeedCheckState extends State<SpeedCheck> {
                             "Progress",
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
-                          if (_uploadProgress == "0")
-                            if (_downloadCompletionTime > 0)
-                              Text(
-                                  'Time taken: ${(_downloadCompletionTime / 1000).toStringAsFixed(2)} sec(s)'),
-                          if (_uploadProgress != "0")
-                            if (_uploadCompletionTime > 0)
-                              Text(
-                                  'Time taken: ${(_uploadCompletionTime / 1000).toStringAsFixed(2)} sec(s)'),
+                          // if (_uploadProgress == "0")
+                          //   if (_downloadCompletionTime > 0)
+                          //     Text(
+                          //         'Time taken: ${(_downloadCompletionTime / 1000).toStringAsFixed(2)} sec(s)'),
+                          // if (_uploadProgress != "0")
+                          //   if (_uploadCompletionTime > 0)
+                          //     Text(
+                          //         'Time taken: ${(_uploadCompletionTime / 1000).toStringAsFixed(2)} sec(s)'),
                         ],
                       ),
                     ],
                   ),
                   const SizedBox(height: 20.0),
+                  if (_ip != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff20253A),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 10, bottom: 10),
+                          child: Column(
+                            children: [
+                              const Text("IP address"),
+                              Text(
+                                _ip ?? '--',
+                                style: const TextStyle(color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff20253A),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 10, bottom: 10),
+                          child: Column(
+                            children: [
+                              const Text("ASP"),
+                              Text(
+                                _asn ?? '--',
+                                style: const TextStyle(color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff20253A),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 10, bottom: 10),
+                          child: Column(
+                            children: [
+                              const Text("ISP"),
+                              Text(
+                                _isp ?? '--',
+                                style: const TextStyle(color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  const SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       if (_downloadProgress == "100")
-                        Column(
-                          children: [
-                            const Text(
-                              'Download Speed',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff20253A),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 10, bottom: 10),
+                          child: Column(
+                            children: [
+                              const Icon(
+                                Icons.file_download_sharp,
+                                size: 18,
                               ),
-                            ),
-                            Text('Progress: $_downloadProgress%'),
-                            Text('Download Rate: $_downloadRate $_unitText'),
-                            if (_downloadCompletionTime > 0)
+                              const SizedBox(height: 8),
                               Text(
-                                  'Time taken: ${(_downloadCompletionTime / 1000).toStringAsFixed(2)} sec(s)'),
-                          ],
+                                "$_downloadRate $_unitText",
+                                style: const TextStyle(
+                                    color: Color(0xff3985FF), fontSize: 16),
+                              ),
+                              const SizedBox(height: 4.0),
+                              const Text(
+                                "Download",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
+                              ),
+                            ],
+                          ),
                         ),
                       if (_uploadProgress == "100")
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Text(
-                              'Upload Speed',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff20253A),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 10, bottom: 10),
+                          child: Column(
+                            children: [
+                              const Icon(
+                                Icons.upload,
+                                size: 18,
                               ),
-                            ),
-                            Text('Progress: $_uploadProgress%'),
-                            Text('Upload Rate: $_uploadRate $_unitText'),
-                            if (_uploadCompletionTime > 0)
+                              const SizedBox(height: 8.0),
                               Text(
-                                  'Time taken: ${(_uploadCompletionTime / 1000).toStringAsFixed(2)} sec(s)'),
-                          ],
+                                "$_uploadRate $_unitText",
+                                style:
+                                    const TextStyle(color: Color(0xff3985FF)),
+                              ),
+                              const SizedBox(height: 4.0),
+                              const Text(
+                                "Upload",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
+                              ),
+                            ],
+                          ),
                         ),
                     ],
                   ),
@@ -218,11 +314,15 @@ class _SpeedCheckState extends State<SpeedCheck> {
               const SizedBox(height: 25.0),
               if (!_testInProgress) ...{
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff3985FF),
+                  ),
                   child: const Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Text(
                       'Start Speed Test',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ),
                   onPressed: () async {

@@ -67,12 +67,20 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
-        title: Text(
-          'EREBRUS',
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(fontWeight: FontWeight.w600),
+        title: Obx(
+          () => vpnActivate.value == true
+              ? Text(
+                  '⦿ Connected',
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.w600, color: Colors.green),
+                )
+              : Text(
+                  'EREBRUS',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontWeight: FontWeight.w600),
+                ),
         ),
         actions: [
           InkWell(
@@ -170,20 +178,60 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Obx(
-                    () => homeController.ipData.value.isNotEmpty
-                        ? Center(
-                            child: Text(
-                            "Current IP: ${homeController.ipData.value["ip"]}",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.w600),
-                          ))
-                        : const SizedBox(),
-                  ),
+                  Obx(() => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          if (vpnActivate.value == true)
+                            Container(
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: const Color(0xff20253A),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.only(
+                                  left: 25, right: 25, top: 10, bottom: 10),
+                              child: Text(homeController
+                                  .selectedPayload.value.ipinfocity
+                                  .toString()),
+                            ),
+                          if (homeController.ipData.value.isNotEmpty)
+                            Container(
+                              height: 60,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: const Color(0xff20253A),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: const EdgeInsets.only(
+                                  left: 25, right: 25, top: 10, bottom: 10),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Current IP",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    "${homeController.ipData.value["ip"]}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            )
+                        ],
+                      )),
                   const SizedBox(height: 100),
                   Obx(
                     () => Center(
