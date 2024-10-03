@@ -23,6 +23,35 @@ class HomeController extends GetxController {
   RxInt selectedNFT = 0.obs;
   Rx<ProfileModel>? profileModel;
   RxBool isLoading = true.obs;
+  String? selectedCountry;
+  String? selectedCity;
+  Map<String, List<AllNPayload>>? countryMap;
+  Map<String, String> countryCodes = {
+    "IN": "India",
+    "SG": "Singapore",
+    "SE": "Sweden",
+    "US": "United States",
+    "AU": "Australia",
+    "JP": "Japan",
+    "CA": "Canada",
+    "DE": "Denmark",
+    "GB": "United Kingdom",
+  };
+
+  Map<String, List<AllNPayload>> groupNodesByCountry(List<AllNPayload> nodes) {
+    Map<String, List<AllNPayload>> countryMap = {};
+    for (var node in nodes) {
+      if (!countryMap.containsKey(node.ipinfocountry)) {
+        countryMap[node.ipinfocountry!] = [];
+      }
+      countryMap[node.ipinfocountry]!.add(node);
+    }
+    if (selectedPayload.value.region == null) {
+      selectedPayload.value = allNodeModel.value.payload![0];
+      selectedCity = countryMap[0]!.first.chainName.toString();
+    }
+    return countryMap;
+  }
 
   getProfileData() async {
     try {
@@ -78,6 +107,7 @@ class HomeController extends GetxController {
 
   getAllNode() async {
     allNodeModel.value = await ApiController().getAllNode();
+    countryMap ??= groupNodesByCountry(allNodeModel.value.payload!);
     // allNodeModel.value.payload!
     //     .removeWhere((element) => element.status == "inactive");
     update();
@@ -154,6 +184,7 @@ class HomeController extends GetxController {
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
         providerBundleIdentifier: 'com.netsepio.erebrus',
+        // providerBundleIdentifier: 'com.esoft.reward.WGExtension',
       );
       vpnActivate.value = true;
       getIp();

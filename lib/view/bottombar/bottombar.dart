@@ -14,7 +14,7 @@ class _BottomBarState extends State<BottomBar> {
   int currentIndex = 0;
   List<Widget> pages = [
     const VpnHomeScreen(),
-    const MapSample(),
+    // const MapSample(),
     // const VpnHomeOld(),
     const SubscriptionScreen(),
   ];
@@ -26,7 +26,7 @@ class _BottomBarState extends State<BottomBar> {
         currentIndex: currentIndex,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.wifi), label: "WiFi"),
+          // BottomNavigationBarItem(icon: Icon(Icons.wifi), label: "WiFi"),
           BottomNavigationBarItem(
               icon: Icon(Icons.subscriptions_outlined), label: "Subscription"),
         ],

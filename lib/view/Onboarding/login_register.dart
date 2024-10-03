@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:ai_barcode_scanner/ai_barcode_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -40,14 +39,24 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.only(
-                      top: 50, bottom: 50, left: 20, right: 20),
-                  child: Image.asset(
-                    "assets/Erebrus_logo_wordmark.png",
-                    height: 50,
-                    // color: const Color.fromARGB(255, 10, 185, 121),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                          top: 50, bottom: 50, left: 20, right: 20),
+                      child: Image.asset(
+                        "assets/Erebrus_logo_wordmark.png",
+                        height: 50,
+                        // color: const Color.fromARGB(255, 10, 185, 121),
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    Image.asset(
+                      "assets/solo.png",
+                      height: 50,
+                    ),
+                  ],
                 ),
                 Expanded(
                   child: Column(
@@ -125,70 +134,64 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                           ),
                         ),
                       ),
+                      // const SizedBox(height: 20),
+                      // MyButton(
+                      //   customColor: const Color(0xff3985FF),
+                      //   text: "Login Using PASETO",
+                      //   onTap: () async {
+                      //     var parset0 = "";
+                      //     await Get.to(
+                      //       () => AiBarcodeScanner(
+                      //         title: "Enter PASETO",
+                      //         hideDragHandler: true,
+                      //         onDetect: (BarcodeCapture barcodeCapture) {
+                      //           log("message---   ${barcodeCapture.barcodes.first.displayValue}");
+                      //           if (barcodeCapture
+                      //                   .barcodes.first.displayValue !=
+                      //               null) {
+                      //             parset0 = barcodeCapture
+                      //                 .barcodes.first.displayValue
+                      //                 .toString();
+                      //             Get.back();
+                      //           }
+                      //         },
+                      //         child: Column(
+                      //           mainAxisSize: MainAxisSize.min,
+                      //           children: [
+                      //             Center(
+                      //               child: ElevatedButton(
+                      //                   onPressed: () {
+                      //                     textLogin(context);
+                      //                   },
+                      //                   child: const Text(
+                      //                     "Enter PASETO",
+                      //                   )),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     );
+                      //     await login(token: parset0);
+                      //   },
+                      // ),
                       const SizedBox(height: 20),
+
                       MyButton(
+                        // logoUrl: "assets/solo.png",
                         customColor: const Color(0xff3985FF),
-                        text: "Login Using PASETO",
-                        onTap: () async {
-                          var parset0 = "";
-                          await Get.to(
-                            () => AiBarcodeScanner(
-                              title: "Enter PASETO",
-                              hideDragHandler: true,
-                              onDetect: (BarcodeCapture barcodeCapture) {
-                                log("message---   ${barcodeCapture.barcodes.first.displayValue}");
-                                if (barcodeCapture
-                                        .barcodes.first.displayValue !=
-                                    null) {
-                                  parset0 = barcodeCapture
-                                      .barcodes.first.displayValue
-                                      .toString();
-                                  Get.back();
-                                }
-                              },
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Center(
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          textLogin(context);
-                                        },
-                                        child: const Text(
-                                          "Enter PASETO",
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                          await login(token: parset0);
+                        text: "Import account",
+                        onTap: () {
+                          Get.to(() => const ImportAccountScreen());
                         },
                       ),
                       const SizedBox(height: 20),
-
-                      // MyButton(
-                      //   customColor: const Color.fromARGB(255, 10, 185, 121),
-                      //   text: "Import account",
-                      //   onTap: () {
-                      //     Get.to(() => const ImportAccountScreen());
-                      //   },
-                      // ),
-                      // const MyButton(
-                      //   customColor: Colors.grey,
-                      //   text: "Google SignIn",
-                      //   onTap: null,
-                      // ),
-                      const SizedBox(height: 20),
-
-                      // MyButton(
-                      //   customColor:
-                      //       Colors.grey, // Color.fromARGB(255, 10, 185, 121),
-                      //   text: "Generate Seed Phrase",
-                      //   onTap: () {
-                      //     Get.to(() => const GenerateSeedPhrase());
-                      //   },
-                      // ),
+                      MyButton(
+                        customColor: const Color(0xff3985FF),
+                        text: "Generate Seed Phrase",
+                        onTap: () {
+                          Get.to(() => const GenerateSeedPhrase());
+                        },
+                      ),
                       const SizedBox(height: 120),
                     ],
                   ),

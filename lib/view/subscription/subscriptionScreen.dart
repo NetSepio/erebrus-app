@@ -103,7 +103,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           children: [
                             const SizedBox(height: 20),
                             const Text(
-                              "Trial Subscription",
+                              "NFT Subscription",
                               style: TextStyle(
                                 fontSize: 20,
                               ),
@@ -127,9 +127,12 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 "End Time",
                                 style: TextStyle(color: Colors.red),
                               ),
-                              trailing: Text(checkSub!.subscription!.endTime
-                                  .toString()
-                                  .split(" ")[0]),
+                              trailing: Text(
+                                "2024-11-01"
+                                // checkSub!.subscription!.endTime
+                                //   .toString()
+                                //   .split(" ")[0]
+                                  ),
                               dense: true,
                             ),
                           ],

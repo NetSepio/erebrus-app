@@ -1,7 +1,6 @@
 const String baseUrl = 'https://gateway.netsepio.com/api/v1.0';
 // const String baseUrl = 'https://gateway.erebrus.com/api/v1.0';
-const String baseUrl2 =
-    "https://indexer.mainnet.aptoslabs.com/v1/graphql";
+const String baseUrl2 = "https://indexer.mainnet.aptoslabs.com/v1/graphql";
 
 // const String baseUrl = 'https://gateway.dev.netsepio.com/api/v1.0';
 // const String baseUrl2 =
@@ -13,8 +12,9 @@ class ApiUrl {
   String emailAuth = "/account/generate-auth-id";
   String emailOTPVerify = "/account/paseto-from-magic-link";
   String profile = "/profile";
+  String subscription = "/subscription";
   String flowid = "/flowid?walletAddress=";
-  String authenticate = "/authenticate";
+  String authenticate = "/authenticate/NonSign";
   String allNode = "/nodes/active";
 
   String vpnData = "/erebrus/client";

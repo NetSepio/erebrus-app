@@ -2,20 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>370263808896-3hoqk26b640ih0gr75ih7jlnrqp4bt49.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC2EeuV-NlEnuDfLMSZoLKzZaofIZIQC4Y</string>
+	<string>AIzaSyCY1ZW8taX807JEMvNEV5kpQO7XF9PuY50</string>
 	<key>GCM_SENDER_ID</key>
-	<string>370263808896</string>
+	<string>793384925747</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.netsepio.erebrus</string>
+	<string>com.esoft.reward</string>
 	<key>PROJECT_ID</key>
-	<string>vpn-lazars</string>
+	<string>reward-ab032</string>
 	<key>STORAGE_BUCKET</key>
-	<string>vpn-lazars.appspot.com</string>
+	<string>reward-ab032.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -27,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:370263808896:ios:0d979ac7f476a271487f65</string>
+	<string>1:793384925747:ios:7238d9774dbd967873c146</string>
 </dict>
 </plist>

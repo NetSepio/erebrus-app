@@ -1,16 +1,12 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:aptos/aptos.dart';
-import 'package:aptos/coin_client.dart';
 import 'package:aptos/constants.dart';
-import 'package:aptos/models/signature.dart';
-import 'package:ed25519_edwards/ed25519_edwards.dart' as ed25519;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wire/api/api.dart';
 import 'package:wire/config/secure_storage.dart';
+import 'package:wire/view/Onboarding/sol.dart';
 import 'package:wire/view/bottombar/bottombar.dart';
 import 'package:wire/view/home/home_controller.dart';
 
@@ -27,11 +23,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // aptosLogin();
-
     homeController.getProfileData();
+    solanaAddress();
     // log("token -- " + box!.get("token"));
     super.initState();
+  }
+
+  solanaAddress() async {
+    String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+    log("mnemonics ---- ${mnemonics}");
+    var sd = await generateSolanaAddress(mnemonics);
+    log("Solana Address- $sd");
+    storage.writeStoredValues("solanaAddress", sd);
   }
 
   final aptosClient = AptosClient(Constants.devnetAPI, enableDebugLog: true);
@@ -78,53 +81,51 @@ class _HomeScreenState extends State<HomeScreen> {
   //   setState(() {});
   // }
 
-  aptosLogin() async {
-    String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
-    var pvtKey = await storage.getStoredValue('pvtKey');
-    final sender = AptosAccount.generateAccount(mnemonics);
+  // aptosLogin() async {
+  // String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+  // var pvtKey = await storage.getStoredValue('pvtKey');
+  // final sender = AptosAccount.generateAccount(mnemonics);
 
-    log("Wallet Address ${sender.accountAddress.hex()}");
-    var res = await homeController.getPerseto(walletAddress: sender.address);
-    var message = res['payload']['eula'];
-    var nonce = res['payload']['flowId'];
-    var payload = {'message': message, 'nonce': nonce};
+  // log("Wallet Address $pvtKey");
+  // log("Wallet Address hex ${sender.accountAddress.hex()}");
+  // var res = await homeController.getPerseto(walletAddress: sender.address);
 
-    var signKey = ed25519.sign(
-        sender.signingKey.privateKey, utf8.encode(payload.toString()));
+  // var message = res['payload']['eula'];
+  // var nonce = res['payload']['flowId'];
+  // var payload = {'message': message + nonce, 'account': pvtKey};
+  // var pp = message + nonce;
+  // var signKey =
+  //     ed25519.sign(sender.signingKey.privateKey, utf8.encode(pp.toString()));
 
-    var keyPair = sender.signingKey;
-    var publicKey = keyPair.publicKey;
-    var verify =
-        ed25519.verify(publicKey, utf8.encode(payload.toString()), signKey);
-    log("Verify ---  $verify");
-    log("publicKeyHex ---  ${sender.pubKey().hex()}");
-    log("signature -- > 0x${HEX.encode(signKey)}");
-    log("message:--  $message");
-    log("payload:--  $payload");
+  // var keyPair = sender.signingKey;
+  // var publicKey = keyPair.publicKey;
+  // var verify = ed25519.verify(publicKey, utf8.encode(pp.toString()), signKey);
+  // log("Verify ---  $verify");
+  // log("publicKeyHex ---  ${sender.pubKey().hex()}");
+  // log("signature -- > 0x${HEX.encode(signKey)}");
+  // // log("message:--  $message");
+  // log("payload:--  $pp");
 
-    var signKeyBytes = ed25519.sign(
-        sender.signingKey.privateKey, utf8.encode(payload.toString()));
-    var signKeyHex = HEX.encode(signKeyBytes);
+  // var signKeyBytes = ed25519.sign(
+  //     sender.signingKey.privateKey, utf8.encode(payload.toString()));
+  // var signKeyHex = HEX.encode(signKeyBytes);
 
-    print('SignKey Hex: $signKeyHex');
-    Signature signature = Signature(
-        type: "ed25519_signature",
-        publicKey: sender.pubKey().hex(),
-        signature: signKeyHex);
+  // print('SignKey Hex: $signKeyHex');
+  // Signature signature = Signature(
+  //     type: "ed25519_signature",
+  //     publicKey: sender.pubKey().hex(),
+  //     signature: signKeyHex);
 
-    await ApiController().getAuthenticate(
-      flowid: nonce,
-      signature: "0x${HEX.encode(signKey)}",
-      walletAddress: sender.accountAddress.hex(),
-    );
+  // await ApiController().getAuthenticate(
+  //     flowid: nonce, walletAddress: pvtKey.toString(), pubKey: "");
 
-    final coinClient = CoinClient(aptosClient);
+  // final coinClient = CoinClient(aptosClient);
 
-    // Check account balance
-    balance = await coinClient.checkBalance(sender.address);
-    log("balance -- $balance");
-    setState(() {});
-  }
+  // // Check account balance
+  // balance = await coinClient.checkBalance(sender.address);
+  // log("balance -- $balance");
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
               appBar: AppBar(
                 title: const Text("Erebrus"),
                 centerTitle: true,
+                actions: const [],
               ),
               body: const NoWalletFound(),
             );
