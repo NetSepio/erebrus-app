@@ -4,11 +4,13 @@ import 'package:wire/config/colors.dart';
 class MyButton extends StatelessWidget {
   final Color customColor;
   final String text;
+  final String? logoUrl;
   final void Function()? onTap;
   const MyButton({
     super.key,
     required this.customColor,
     required this.text,
+    this.logoUrl,
     required this.onTap,
   });
 
@@ -31,13 +33,24 @@ class MyButton extends StatelessWidget {
               ),
             ]),
         child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (logoUrl != null)
+                Image(
+                  image: AssetImage(logoUrl!),
+                  height: 25.0,
+                ),
+              if (logoUrl != null) SizedBox(width: 20),
+              Text(
+                text,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
         ),
       ),

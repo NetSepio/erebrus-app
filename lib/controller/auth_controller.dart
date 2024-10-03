@@ -59,7 +59,7 @@ class AuthController extends GetxController {
     Web3 web3 = Web3(approvalCallback);
     await web3.setCredentials(pvtKey);
     String accountAddress = await web3.getAddress();
-    log(accountAddress.toString());
+    log("Wallet Address $accountAddress");
     await storage.writeStoredValues("accountAddress", accountAddress);
   }
 }

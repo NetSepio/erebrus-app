@@ -13,6 +13,7 @@ import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
+import 'package:wire/view/bottombar/bottombar.dart';
 import 'package:wire/view/home/home.dart';
 import 'package:wire/view/profile/profile_model.dart';
 
@@ -107,21 +108,17 @@ class ApiController {
   }
 
   Future<CheckSubModel> checkSubscription() async {
-    Response res = await dio
-        .get("https://gateway.erebrus.io/api/v1.0/subscription",
-            options: header)
-        .catchError((e) {
-      log("checkSubscription error-- $e");
-      return Future.error("error");
-    });
-
-    log("checkSubscription -  ${res.data}");
-    if (res.statusCode == 200) {
-      try {
-        return CheckSubModel.fromJson(res.data);
-      } catch (e) {}
+    try {
+      Response res = await dio.get(
+        "https://gateway.erebrus.io/api/v1.0/subscription",
+        options: header,
+      );
+      log("checkSubscription -  ${res.data}");
+      return CheckSubModel.fromJson(res.data);
+    } on DioException catch (e) {
+      log("checkSubscription error-- ${e.response}");
+      return CheckSubModel.fromJson(e.response!.data);
     }
-    return CheckSubModel();
   }
 
   Future getFlowId({required String walletAddress}) async {
@@ -132,29 +129,32 @@ class ApiController {
     });
     if (res.statusCode == 200) {
       log("Flow Data  ${res.data}");
+      getAuthenticate(
+          flowid: res.data["payload"]["flowId"].toString(),
+          walletAddress: walletAddress);
       return await res.data;
     }
   }
 
   Future getAuthenticate(
-      {required String flowid,
-      required String walletAddress,
-      required String signature}) async {
+      {required String flowid, required String walletAddress}) async {
     Map data = {
       "flowId": flowid,
-      "signature": signature,
-      "pubKey": walletAddress
+      "walletAddress": walletAddress,
     };
     log("Auth data ----- ${jsonEncode(data)}");
-    Response res = await dio
-        .post(baseUrl + ApiUrl().authenticate, data: data)
-        .catchError((e) {
-      log("getAuthenticate error");
-    });
+    try {
+      Response res =
+          await dio.post(baseUrl + ApiUrl().authenticate, data: data);
 
-    log("profile -  ${res.data}");
-    if (res.statusCode == 200) {
-      log("Flow Data  ${res.data}");
+      log("profile -  ${res.data}");
+      if (res.statusCode == 200) {
+        log("Flow Data  ${res.data}");
+        box!.put("token", res.data["payload"]["token"]);
+        Get.offAll(() => const BottomBar());
+      }
+    } on DioException catch (e) {
+      log("getAuthenticate error ${e.response!.data}");
     }
   }
 
@@ -210,7 +210,7 @@ class ApiController {
     try {
       log(header.headers.toString());
       Response res = await dio.get(
-          "https://gateway.erebrus.io/api/v1.0/nodes/active",
+          "https://gateway.erebrus.io/api/v1.0/nodes/all",
           options: header);
 
       if (res.statusCode == 200) {

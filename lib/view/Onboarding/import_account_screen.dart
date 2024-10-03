@@ -1,15 +1,21 @@
+import 'dart:developer';
+
+import 'package:aptos/aptos.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wire/config/common.dart';
+import 'package:wire/config/secure_storage.dart';
 import 'package:wire/config/theme.dart';
 import 'package:wire/controller/auth_controller.dart';
-import 'package:wire/view/home/home.dart';
+import 'package:wire/view/home/home_controller.dart';
 
 class ImportAccountScreen extends StatelessWidget {
   const ImportAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final storage = SecureStorage();
+    HomeController homeController = Get.find();
     return GetBuilder<AuthController>(
       init: AuthController(),
       builder: (controller) {
@@ -69,11 +75,19 @@ class ImportAccountScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         controller.privateKeyFromMnemonic(
                             newMnemonic:
                                 controller.importAccountphrase.text.trim());
-                        Get.offAll(() => const HomeScreen());
+                        String mnemonics =
+                            await storage.getStoredValue("mnemonic") ?? "";
+                        var pvtKey = await storage.getStoredValue('pvtKey');
+                        final sender = AptosAccount.generateAccount(mnemonics);
+
+                        log("Wallet Address $pvtKey");
+                        log("Wallet Address hex ${sender.accountAddress.hex()}");
+                        var res = await homeController.getPerseto(
+                            walletAddress: sender.address);
                       },
                       child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12),

@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:developer';
-
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class VpnHomeScreen extends StatefulWidget {
 
 class _VpnHomeScreenState extends State<VpnHomeScreen> {
   HomeController homeController = Get.find();
-
+  RxBool showDummyNft = false.obs;
   @override
   void initState() {
     homeController.wireguard.vpnStageSnapshot.listen((event) {
@@ -45,6 +45,12 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
         }
       }
     });
+    Timer(
+      Duration(seconds: 2),
+      () {
+        showDummyNft.value = true;
+      },
+    );
     homeController.generateKeyPair();
 
     // apiCall();
@@ -114,10 +120,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                 children: [
                   const SizedBox(height: 25),
                   SizedBox(
-                    height: 100,
+                    height: 70,
                     width: Get.width,
                     child: Obx(
-                      () => homeController.allNodeModel.value.payload != null
+                      () => homeController.allNodeModel.value.payload != null &&
+                              homeController.countryMap != null
                           ? vpnActivate.value == true
                               ? Row(
                                   mainAxisAlignment:
@@ -127,9 +134,13 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                                 .selectedPayload.value.name ==
                                             null
                                         ? "Select region"
-                                        : homeController
-                                            .selectedPayload.value.ipinfocity
-                                            .toString()),
+                                        : homeController.countryCodes[
+                                                homeController.selectedPayload
+                                                    .value.ipinfocountry
+                                                    .toString()] ??
+                                            homeController.selectedPayload.value
+                                                .ipinfocountry
+                                                .toString()),
                                     const Icon(
                                       Icons.circle,
                                       color: Colors.green,
@@ -137,51 +148,94 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                     )
                                   ],
                                 )
-                              : DropdownButtonFormField<AllNPayload>(
+                              : DropdownButtonFormField<String>(
                                   decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 0.2)),
-                                  ),
-                                  isDense: true,
-                                  hint: Text(homeController
-                                              .selectedPayload.value.name ==
-                                          null
-                                      ? "Select region"
-                                      : homeController
-                                          .selectedPayload.value.ipinfocity
-                                          .toString()),
-                                  onChanged: (AllNPayload? newValue) {
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Select Region',
+                                      contentPadding:
+                                          EdgeInsets.symmetric(horizontal: 10)),
+                                  value: homeController.selectedCountry,
+                                  hint: const Text('Select Region'),
+                                  items: homeController.countryMap!.keys
+                                      .map((country) {
+                                    return DropdownMenuItem<String>(
+                                        value: country,
+                                        child: Text(homeController
+                                                .countryCodes[country] ??
+                                            country));
+                                  }).toList(),
+                                  onChanged: (value) {
                                     setState(() {
-                                      homeController.selectedPayload.value =
-                                          newValue!;
+                                      homeController.selectedCountry = value;
+
+                                      homeController.selectedCity =
+                                          homeController
+                                              .countryMap![homeController
+                                                  .selectedCountry]!
+                                              .first
+                                              .chainName
+                                              .toString();
+                                      homeController.selectedPayload
+                                          .value = homeController.countryMap![
+                                              homeController.selectedCountry]!
+                                          .firstWhere((node) =>
+                                              node.chainName ==
+                                              homeController.selectedCity);
                                     });
                                   },
-                                  items: List.generate(
-                                      homeController.allNodeModel.value.payload!
-                                          .length, (index) {
-                                    if (homeController
-                                            .selectedPayload.value.region ==
-                                        null) {
-                                      homeController.selectedPayload.value =
-                                          homeController.allNodeModel.value
-                                              .payload![index];
-                                    }
-                                    return DropdownMenuItem(
-                                      value: homeController
-                                          .allNodeModel.value.payload![index],
-                                      child: Text(homeController.allNodeModel
-                                          .value.payload![index].ipinfocity
-                                          .toString()),
-                                    );
-                                  }))
+                                )
                           : const SizedBox(),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  Obx(
+                    () => vpnActivate.value == false &&
+                            homeController.selectedCountry != null
+                        ? DropdownButtonFormField<AllNPayload>(
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Select Node',
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 10)),
+                            value: homeController.selectedCity != null
+                                ? homeController.countryMap![
+                                        homeController.selectedCountry]!
+                                    .firstWhere((node) =>
+                                        node.chainName ==
+                                        homeController.selectedCity)
+                                : null,
+                            hint: const Text('Select Node'),
+                            items: homeController
+                                .countryMap![homeController.selectedCountry]!
+                                .map((node) {
+                              return DropdownMenuItem<AllNPayload>(
+                                value: node,
+                                child: Text(
+                                  node.id!.substring(0, 5) +
+                                      " ... " +
+                                      node.id!.substring(node.id!.length - 5),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (AllNPayload? value) {
+                              setState(() {
+                                homeController.selectedCity = value!.chainName;
+                                homeController.selectedPayload.value = value;
+                                log(homeController
+                                    .selectedPayload.value.ipinfocountry
+                                    .toString());
+                              });
+                            },
+                          )
+                        : const SizedBox(),
+                  ),
+                  const SizedBox(height: 25),
                   Obx(() => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          if (vpnActivate.value == true)
+                          if (showDummyNft.value)
                             Container(
                               height: 60,
                               decoration: BoxDecoration(
@@ -190,54 +244,71 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                               ),
                               alignment: Alignment.center,
                               padding: const EdgeInsets.only(
-                                  left: 25, right: 25, top: 10, bottom: 10),
-                              child: Text(homeController
-                                  .selectedPayload.value.ipinfocity
-                                  .toString()),
+                                  left: 20, right: 20, top: 10, bottom: 10),
+                              child: Text(vpnActivate.value == false
+                                  ? "Location : India"
+                                  : "Location : " +
+                                      (homeController.countryCodes[
+                                              homeController.selectedPayload
+                                                  .value.ipinfocountry
+                                                  .toString()] ??
+                                          homeController.selectedPayload.value
+                                              .ipinfocountry
+                                              .toString())),
                             ),
+                          SizedBox(width: 10),
                           if (homeController.ipData.value.isNotEmpty)
-                            Container(
-                              height: 60,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff20253A),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.only(
-                                  left: 25, right: 25, top: 10, bottom: 10),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Current IP",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    "${homeController.ipData.value["ip"]}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontSize: 12,
-                                          color: Colors.grey,
-                                        ),
-                                  ),
-                                ],
+                            Expanded(
+                              child: Container(
+                                height: 60,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff20253A),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 20, top: 10, bottom: 10),
+                                child: Text(
+                                  "Current IP : " +
+                                      (homeController.selectedPayload.value
+                                                      .ipinfoip !=
+                                                  null &&
+                                              vpnActivate.value == true
+                                          ? "${homeController.selectedPayload.value.ipinfoip}"
+                                          : "${homeController.ipData.value["ip"]}"),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                      ),
+                                ),
                               ),
                             )
                         ],
                       )),
-                  const SizedBox(height: 100),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // if (vpnActivate.value == true)
+
+                  const SizedBox(height: 80),
                   Obx(
                     () => Center(
                       child: InkWell(
                         onTap: () {
-                          // _activateVpn(!vpnActivate);
+                          // if (homeController.checkSub.value.status ==
+                          //         "notFound" ||
+                          //     homeController.checkSub.value.status ==
+                          //         "expired") {
+                          //   Fluttertoast.showToast(
+                          //     msg: "Check Your Subscription",
+                          //   );
+                          //   return;
+                          // }
                           if (vpnActivate.value == false) {
                             if (homeController.collectionId != null &&
                                 homeController.selectedNFT.value != 0) {
@@ -245,27 +316,17 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                             } else {
                               homeController.registerClient();
                             }
-                            // startVpn();
-                            // if (payload == null) {
-                            // apiCall();
-                            // generateKeyPair();
-                            // } else {
-                            // _activateVpn(!vpnActivate);
-                            // }
                           } else {
                             homeController.generateKeyPair();
                             homeController.disconnect();
-                            // _activateVpn(!vpnActivate);
                           }
                           homeController.getIp();
                         },
                         borderRadius: BorderRadius.circular(90),
                         child: AvatarGlow(
-                          glowColor:
-                              //  vpnActivate.value == true
-                              //     ? Colors.green
-                              //     :
-                              const Color.fromRGBO(37, 112, 252, 1),
+                          glowColor: vpnActivate.value == true
+                              ? Colors.green
+                              : const Color.fromRGBO(37, 112, 252, 1),
                           duration: const Duration(milliseconds: 2000),
                           repeat: true,
                           animate: vpnActivate.value == true ? true : false,
@@ -273,11 +334,9 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                           child: Material(
                             elevation: 0,
                             shape: const CircleBorder(),
-                            color:
-                                //  vpnActivate.value == true
-                                //     ? Colors.green
-                                //     :
-                                const Color.fromRGBO(87, 141, 240, 1),
+                            color: vpnActivate.value == true
+                                ? Colors.green
+                                : const Color.fromRGBO(87, 141, 240, 1),
                             child: SizedBox(
                               height: 150,
                               width: 150,
@@ -312,75 +371,107 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                   if (homeController.profileModel != null &&
                       homeController.profileModel!.value.payload != null)
                     nftsShow(),
-                  const SizedBox(height: 15),
-                  Obx(
-                    () => homeController.checkSub.value.subscription != null
-                        ? InkWell(
-                            onTap: () {
-                              homeController.collectionId = null;
-                              homeController.selectedNFT.value = 0;
-                              setState(() {});
-                            },
-                            child: Card(
-                              color: homeController.collectionId == null
-                                  ? Colors.blueGrey.shade900
-                                  : const Color(0xff1B1A1F),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 15, top: 20),
-                                    child: Text(
-                                      "Trial Subscription",
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                      ),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    title: Row(
-                                      children: [
-                                        Text(
-                                          homeController.checkSub.value.status
-                                              .toString()
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                              color: homeController.checkSub
-                                                          .value.status!
-                                                          .toLowerCase() ==
-                                                      "active"
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                              fontSize: 18),
-                                        ),
-                                        Text(
-                                          homeController.checkSub.value.status!
-                                                      .toLowerCase() ==
-                                                  "active"
-                                              ? " Till "
-                                              : " ON ",
-                                          style: const TextStyle(fontSize: 18),
-                                        ),
-                                        Text(
-                                          homeController.checkSub.value
-                                              .subscription!.endTime
-                                              .toString()
-                                              .split(" ")[0],
-                                          style: const TextStyle(fontSize: 18),
-                                        ),
-                                      ],
-                                    ),
-                                    dense: true,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
+                  // const SizedBox(height: 15),
+                  // Obx(
+                  //   () => homeController.checkSub.value.subscription != null
+                  //       ? InkWell(
+                  //           onTap: () {
+                  //             homeController.collectionId = null;
+                  //             homeController.selectedNFT.value = 0;
+                  //             setState(() {});
+                  //           },
+                  //           child: Card(
+                  //             color: homeController.collectionId == null
+                  //                 ? Colors.blueGrey.shade900
+                  //                 : const Color(0xff1B1A1F),
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 const Padding(
+                  //                   padding: EdgeInsets.only(left: 15, top: 20),
+                  //                   child: Text(
+                  //                     "Trial Subscription",
+                  //                     style: TextStyle(
+                  //                       fontSize: 22,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 ListTile(
+                  //                   title: Row(
+                  //                     children: [
+                  //                       Text(
+                  //                         homeController.checkSub.value.status
+                  //                             .toString()
+                  //                             .toUpperCase(),
+                  //                         style: TextStyle(
+                  //                             color: homeController.checkSub
+                  //                                         .value.status!
+                  //                                         .toLowerCase() ==
+                  //                                     "active"
+                  //                                 ? Colors.green
+                  //                                 : Colors.red,
+                  //                             fontSize: 18),
+                  //                       ),
+                  //                       Text(
+                  //                         homeController.checkSub.value.status!
+                  //                                     .toLowerCase() ==
+                  //                                 "active"
+                  //                             ? " Till "
+                  //                             : " ON ",
+                  //                         style: const TextStyle(fontSize: 18),
+                  //                       ),
+                  //                       Text(
+                  //                         homeController.checkSub.value
+                  //                             .subscription!.endTime
+                  //                             .toString()
+                  //                             .split(" ")[0],
+                  //                         style: const TextStyle(fontSize: 18),
+                  //                       ),
+                  //                     ],
+                  //                   ),
+                  //                   dense: true,
+                  //                 ),
+                  //                 const SizedBox(
+                  //                   height: 20,
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         )
+                  //       : const SizedBox(),
+                  // ),
+
+                  SizedBox(height: 20),
+                  Obx(() => showDummyNft.value
+                      ? Card(
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.asset(
+                                  "assets/nft_sol.jpg",
+                                  width: Get.width * .3,
+                                ),
                               ),
-                            ),
-                          )
-                        : const SizedBox(),
-                  ),
+                              SizedBox(width: 20),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Erebrus Community NFT #001"),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "Unlock secure VPN access and become part of the Erebrus network with this exclusive NFT. Enjoy privacy, security, and the power of decentralized browsing!",
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      : SizedBox()),
                 ],
               ),
             ),
@@ -550,38 +641,10 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                                 fontSize: 26,
                                                 fontWeight: FontWeight.w800),
                                           ),
-                                          // Text(
-                                          //   data["current_token_data"]["description"]
-                                          //       .toString(),
-                                          //   style:
-                                          //       Theme.of(context).textTheme.bodyLarge,
-                                          // ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                  // InkWell(
-                                  //   onTap: () {
-                                  //     selectedNFT = index;
-
-                                  //     collectionId = data['current_token_data']
-                                  //         ['current_collection']["collection_id"];
-                                  //     setState(() {});
-                                  //   },
-                                  //   child: selectedNFT == index
-                                  //       ? const Icon(
-                                  //           Icons.check_circle,
-                                  //           size: 30,
-                                  //           color:
-                                  //               Color.fromRGBO(37, 112, 252, 1),
-                                  //         )
-                                  //       : const Icon(
-                                  //           Icons.circle_outlined,
-                                  //           size: 30,
-                                  //           color:
-                                  //               Color.fromRGBO(37, 112, 252, 1),
-                                  //         ),
-                                  // )
                                 ],
                               ),
                             ),
