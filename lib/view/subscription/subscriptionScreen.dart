@@ -42,7 +42,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'EREBRUS',
+          'OKTO',
           style: Theme.of(context)
               .textTheme
               .titleLarge!
