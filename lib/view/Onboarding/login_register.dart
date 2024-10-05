@@ -51,11 +51,15 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                         // color: const Color.fromARGB(255, 10, 185, 121),
                       ),
                     ),
-                    SizedBox(width: 20),
                     Image.asset(
                       "assets/solo.png",
                       height: 50,
                     ),
+                    Image.asset(
+                      "assets/sc.png",
+                      height: 60,
+                    ),
+                    SizedBox(width: 20),
                   ],
                 ),
                 Expanded(

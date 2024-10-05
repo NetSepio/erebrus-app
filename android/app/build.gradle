@@ -101,5 +101,5 @@ flutter {
 }
 
 dependencies {
-     implementation 'com.vkpapps.wifimanager:APManager:1.0.0'
+    //  implementation 'com.vkpapps.wifimanager:APManager:1.0.0'
 }

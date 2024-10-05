@@ -113,12 +113,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Future<void> _requestLocationPermission() async {
-    // final status = await Permission.location.request();
-    // if (status.isGranted) {
+    final status = await Permission.location.request();
+    if (status.isGranted) {
       Get.to(() => const LoginOrRegisterPage());
-    // } else {
-    //   exit(0);
-    // }
+    } else {
+      exit(0);
+    }
   }
 
   @override
