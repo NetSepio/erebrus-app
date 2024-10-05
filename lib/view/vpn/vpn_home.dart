@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -235,27 +236,28 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                   Obx(() => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          if (showDummyNft.value)
-                            Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff20253A),
-                                borderRadius: BorderRadius.circular(10),
+                          if (vpnActivate.value == true)
+                            if (showDummyNft.value)
+                              Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff20253A),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 20, top: 10, bottom: 10),
+                                child: Text(vpnActivate.value == false
+                                    ? "Location : India"
+                                    : "Location : " +
+                                        (homeController.countryCodes[
+                                                homeController.selectedPayload
+                                                    .value.ipinfocountry
+                                                    .toString()] ??
+                                            homeController.selectedPayload.value
+                                                .ipinfocountry
+                                                .toString())),
                               ),
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 10, bottom: 10),
-                              child: Text(vpnActivate.value == false
-                                  ? "Location : India"
-                                  : "Location : " +
-                                      (homeController.countryCodes[
-                                              homeController.selectedPayload
-                                                  .value.ipinfocountry
-                                                  .toString()] ??
-                                          homeController.selectedPayload.value
-                                              .ipinfocountry
-                                              .toString())),
-                            ),
                           SizedBox(width: 10),
                           if (homeController.ipData.value.isNotEmpty)
                             Expanded(

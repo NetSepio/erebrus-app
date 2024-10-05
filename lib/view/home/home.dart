@@ -30,11 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   solanaAddress() async {
-    String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
-    log("mnemonics ---- ${mnemonics}");
-    var sd = await generateSolanaAddress(mnemonics);
-    log("Solana Address- $sd");
-    storage.writeStoredValues("solanaAddress", sd);
+    try {
+      String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+      log("mnemonics ---- ${mnemonics}");
+      var sd = await generateSolanaAddress(mnemonics);
+      log("Solana Address- $sd");
+      storage.writeStoredValues("solanaAddress", sd);
+    } catch (e) {}
   }
 
   final aptosClient = AptosClient(Constants.devnetAPI, enableDebugLog: true);
