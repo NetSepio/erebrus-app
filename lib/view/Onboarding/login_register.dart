@@ -46,8 +46,9 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       padding: const EdgeInsets.only(
                           top: 50, bottom: 50, left: 20, right: 20),
                       child: Image.asset(
-                        "assets/Erebrus_logo_wordmark.png",
-                        height: 50,
+                        "assets/image-removebg-preview.png",
+                        // "assets/Erebrus_logo_wordmark.png",
+                        height: 60,
                         // color: const Color.fromARGB(255, 10, 185, 121),
                       ),
                     ),
@@ -57,7 +58,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                     // ),
                     Image.asset(
                       "assets/sc.png",
-                      height: 60,
+                      height: 70,
                     ),
                     SizedBox(width: 20),
                   ],

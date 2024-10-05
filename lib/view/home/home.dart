@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // return const BottomBar();
             return Scaffold(
               appBar: AppBar(
-                title: const Text("Erebrus"),
+                title: const Text("OKTO"),
                 centerTitle: true,
                 actions: const [],
               ),
