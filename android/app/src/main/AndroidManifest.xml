@@ -12,7 +12,7 @@
     
 
     <application
-        android:label="Erebrus"
+        android:label="OKTO"
         android:name="${applicationName}"
         android:allowBackup="false"
         android:fullBackupOnly="false"

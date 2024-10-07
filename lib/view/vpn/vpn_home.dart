@@ -461,7 +461,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Erebrus Community NFT #001"),
+                                    Text("Community NFT #001"),
                                     SizedBox(height: 5),
                                     Text(
                                       "Unlock secure VPN access and become part of the Erebrus network with this exclusive NFT. Enjoy privacy, security, and the power of decentralized browsing!",
