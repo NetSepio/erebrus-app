@@ -183,8 +183,8 @@ class HomeController extends GetxController {
       await wireguard.startVpn(
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
-        providerBundleIdentifier: 'com.netsepio.erebrus',
-        // providerBundleIdentifier: 'com.esoft.reward.WGExtension',
+        // providerBundleIdentifier: 'com.esoft.reward.VPNExtension',
+        providerBundleIdentifier: 'com.esoft.reward.WGExtension',
       );
       vpnActivate.value = true;
       getIp();
