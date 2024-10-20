@@ -49,7 +49,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     Timer(
       Duration(seconds: 2),
       () {
-        showDummyNft.value = true;
+        // showDummyNft.value = true;
       },
     );
     homeController.generateKeyPair();

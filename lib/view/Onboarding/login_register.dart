@@ -7,7 +7,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/components/widgets.dart';
+import 'package:wire/config/assets.dart';
+import 'package:wire/config/colors.dart';
 import 'package:wire/config/common.dart';
+import 'package:wire/config/strings.dart';
 import 'package:wire/view/Onboarding/generate_phrase_screen.dart';
 import 'package:wire/view/Onboarding/import_account_screen.dart';
 import 'package:wire/view/home/home.dart';
@@ -27,12 +30,11 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage("assets/bg.png"), fit: BoxFit.cover),
+            image: AssetImage(appBackground), fit: BoxFit.cover),
       ),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        // backgroundColor: const Color.fromARGB(255, 19, 18, 18),
         body: SafeArea(
           child: Center(
             child: Column(
@@ -46,19 +48,17 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       padding: const EdgeInsets.only(
                           top: 50, bottom: 50, left: 20, right: 20),
                       child: Image.asset(
-                        "assets/image-removebg-preview.png",
-                        // "assets/Erebrus_logo_wordmark.png",
-                        height: 60,
-                        // color: const Color.fromARGB(255, 10, 185, 121),
+                        erebrusLogoWordMark,
+                        height: 50,
                       ),
                     ),
-                    // Image.asset(
-                    //   "assets/solo.png",
-                    //   height: 50,
-                    // ),
                     Image.asset(
-                      "assets/sc.png",
-                      height: 70,
+                      solanaLogo,
+                      height: 50,
+                    ),
+                    Image.asset(
+                      solanaLogo,
+                      height: 50,
                     ),
                     SizedBox(width: 20),
                   ],
@@ -67,38 +67,23 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // sign in button
-                      // MyButton(
-                      //   customColor: Colors.white.withOpacity(0.7),
-                      //   text: "Sign in",
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => const SignInPage(),
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
-
                       const Text(
-                        "Welcome",
+                        welcome,
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 50),
                       ),
                       const Text(
-                        "Please Login with your preffered account",
+                        preferAc,
                         style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                       const SizedBox(height: 30),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black,
                             // backgroundColor: Colors.white,
-                            backgroundColor: const Color(0xff3985FF),
+                            backgroundColor: blue,
                           ),
                           onPressed: () async {
                             final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -119,14 +104,14 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image(
-                                  image: AssetImage("assets/images/google.png"),
+                                  image: AssetImage(googleLogo),
                                   height: 18.0,
                                   width: 24,
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 24, right: 8),
                                   child: Text(
-                                    'Login with Google',
+                                    loginWithGoogle,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
@@ -139,60 +124,18 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                           ),
                         ),
                       ),
-                      // const SizedBox(height: 20),
-                      // MyButton(
-                      //   customColor: const Color(0xff3985FF),
-                      //   text: "Login Using PASETO",
-                      //   onTap: () async {
-                      //     var parset0 = "";
-                      //     await Get.to(
-                      //       () => AiBarcodeScanner(
-                      //         title: "Enter PASETO",
-                      //         hideDragHandler: true,
-                      //         onDetect: (BarcodeCapture barcodeCapture) {
-                      //           log("message---   ${barcodeCapture.barcodes.first.displayValue}");
-                      //           if (barcodeCapture
-                      //                   .barcodes.first.displayValue !=
-                      //               null) {
-                      //             parset0 = barcodeCapture
-                      //                 .barcodes.first.displayValue
-                      //                 .toString();
-                      //             Get.back();
-                      //           }
-                      //         },
-                      //         child: Column(
-                      //           mainAxisSize: MainAxisSize.min,
-                      //           children: [
-                      //             Center(
-                      //               child: ElevatedButton(
-                      //                   onPressed: () {
-                      //                     textLogin(context);
-                      //                   },
-                      //                   child: const Text(
-                      //                     "Enter PASETO",
-                      //                   )),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     );
-                      //     await login(token: parset0);
-                      //   },
-                      // ),
                       const SizedBox(height: 20),
-
                       MyButton(
-                        // logoUrl: "assets/solo.png",
-                        customColor: const Color(0xff3985FF),
-                        text: "Import account",
+                        customColor: blue,
+                        text: importAccount,
                         onTap: () {
                           Get.to(() => const ImportAccountScreen());
                         },
                       ),
                       const SizedBox(height: 20),
                       MyButton(
-                        customColor: const Color(0xff3985FF),
-                        text: "Generate Seed Phrase",
+                        customColor: blue,
+                        text: generateSeedPhrase,
                         onTap: () {
                           Get.to(() => const GenerateSeedPhrase());
                         },
@@ -201,8 +144,6 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                     ],
                   ),
                 ),
-
-                // const Spacer(),
                 // Footer
                 Container(
                   margin: const EdgeInsets.only(bottom: 40),
@@ -214,7 +155,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                           launchUrl(Uri.parse("https://erebrus.io/terms"));
                         },
                         child: const Text(
-                          "Terms of Use",
+                          termsOfUse,
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -224,7 +165,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       InkWell(
                         onTap: () => Get.to(() => const PrivacyPolicy()),
                         child: const Text(
-                          "Privacy Policy",
+                          privacyPolicy,
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -247,7 +188,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
       builder: (context) {
         TextEditingController textEditingController = TextEditingController();
         return AlertDialog(
-          title: const Text("Enter Auth Token"),
+          title: const Text(enterAuthToken),
           content: TextField(
             controller: textEditingController,
             decoration: const InputDecoration(
@@ -270,7 +211,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       Fluttertoast.showToast(msg: "Invalid Auth Token");
                     }
                   },
-                  child: const Text("Login")),
+                  child: const Text(loginTxt)),
             )
           ],
         );

@@ -44,7 +44,7 @@ android {
     dataBinding {
     enabled = true
     }
-    
+ 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -59,7 +59,10 @@ android {
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-
+        resConfigs "en"
+         ndk {
+            abiFilters 'arm64-v8a' // Include only arm64-v8a
+        }
         manifestPlaceholders["PN_PROJECT_ID"] = "86b870c8-abdd-4557-9d45-5eb88492ef2f"
         manifestPlaceholders["PN_PROJECT_CLIENT_KEY"] = "cIXEdkrZlotQpad9adbcm9gdrihbDnhTNcoOk3wO"
         manifestPlaceholders["PN_APP_ID"] = "8c75fc1e-ced1-48c6-abbb-5d8ad846ebe9"
@@ -101,5 +104,4 @@ flutter {
 }
 
 dependencies {
-    //  implementation 'com.vkpapps.wifimanager:APManager:1.0.0'
 }

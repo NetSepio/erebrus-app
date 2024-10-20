@@ -33,8 +33,4 @@ class Boxes {
   static Box get getFingerprintBox => Hive.box('fingerprintBox');
   static Box get getNetworkConfigBox => Hive.box('network_config');
   static Box get getCurrentNetworkBox => Hive.box('current_network');
-  // static Box<TokenModel> get getTokenOnCurrentNetworkBox =>
-  //     Hive.box<TokenModel>('tokens_on_Network');
-  // static Box<TransactionHistory> get getTransactionOnCurrentNetworkBox =>
-  //     Hive.box<TransactionHistory>('transaction_on_Network');
 }

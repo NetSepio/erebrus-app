@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_internet_speed_test/flutter_internet_speed_test.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:wire/config/colors.dart';
 
 class SpeedCheck extends StatefulWidget {
   const SpeedCheck({Key? key}) : super(key: key);
@@ -108,9 +109,9 @@ class _SpeedCheckState extends State<SpeedCheck> {
                                         _uploadProgress == "0"
                                             ? '${_downloadRate.toStringAsFixed(2)} $_unitText'
                                             : '${_uploadRate.toStringAsFixed(2)} $_unitText',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 20,
-                                          color: Color(0xff3985FF),
+                                          color: blue,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -265,8 +266,7 @@ class _SpeedCheckState extends State<SpeedCheck> {
                               const SizedBox(height: 8),
                               Text(
                                 "$_downloadRate $_unitText",
-                                style: const TextStyle(
-                                    color: Color(0xff3985FF), fontSize: 16),
+                                style: TextStyle(color: blue, fontSize: 16),
                               ),
                               const SizedBox(height: 4.0),
                               const Text(
@@ -295,8 +295,7 @@ class _SpeedCheckState extends State<SpeedCheck> {
                               const SizedBox(height: 8.0),
                               Text(
                                 "$_uploadRate $_unitText",
-                                style:
-                                    const TextStyle(color: Color(0xff3985FF)),
+                                style: TextStyle(color: blue),
                               ),
                               const SizedBox(height: 4.0),
                               const Text(
@@ -315,7 +314,7 @@ class _SpeedCheckState extends State<SpeedCheck> {
               if (!_testInProgress) ...{
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff3985FF),
+                    backgroundColor: blue,
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(10.0),
