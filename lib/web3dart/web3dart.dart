@@ -1,18 +1,12 @@
 // ignore_for_file: depend_on_referenced_packages, deprecated_member_use
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:bip32/bip32.dart' as bip32;
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:decimal/decimal.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:get/get.dart';
 import 'package:hex/hex.dart';
 import 'package:http/http.dart';
-import 'package:web3dart/json_rpc.dart';
 import 'package:web3dart/web3dart.dart';
 
 class Web3 {
@@ -42,72 +36,6 @@ class Web3 {
       'logo_path': 'assets/images/ethereum_logo.png',
       'symbol': 'ETH',
     };
-    // HomeController homeController = HomeController();
-    // switch (homeController.getCurrentNetwork) {
-    //   case 'Ethereum Mainnet':
-    //     return {
-    //       'rpc_url': dotenv.env["Ethereum_Mainnet"],
-    //       'network_id': 1,
-    //       'logo_path': 'assets/images/ethereum_logo.png',
-    //       'symbol': 'ETH',
-    //     };
-    //   case 'Ropsten Testnet':
-    //     return {
-    //       'rpc_url': dotenv.env["Ropsten_Testnet"],
-    //       'network_id': 3,
-    //       'logo_path': 'assets/images/ethereum_logo.png',
-    //       'symbol': 'ETH',
-    //     };
-    //   case 'Rinkeby Testnet':
-    //     return {
-    //       'rpc_url': dotenv.env["Rinkeby_Testnet"],
-    //       'network_id': 4,
-    //       'logo_path': 'assets/images/ethereum_logo.png',
-    //       'symbol': 'ETH',
-    //     };
-    //   case 'Coerli Testnet':
-    //     return {
-    //       'rpc_url': dotenv.env["Coerli_Testnet"],
-    //       'network_id': 5,
-    //       'logo_path': 'assets/images/ethereum_logo.png',
-    //       'symbol': 'ETH',
-    //     };
-    //   case 'Kovan Testnet':
-    //     return {
-    //       'rpc_url': dotenv.env["Kovan_Testnet"],
-    //       'network_id': 42,
-    //       'logo_path': 'assets/images/ethereum_logo.png',
-    //       'symbol': 'ETH',
-    //     };
-    //   case 'Matic Mainnet':
-    //     return {
-    //       'rpc_url': dotenv.env["Matic_Mainnet"],
-    //       'network_id': 137,
-    //       'logo_path': 'assets/images/matic_logo.png',
-    //       'symbol': 'MATIC',
-    //     };
-    //   case 'Mumbai Testnet':
-    //     return {
-    //       'rpc_url': dotenv.env["Mumbai_Testnet"],
-    //       'network_id': 80001,
-    //       'logo_path': 'assets/images/matic_logo.png',
-    //       'symbol': 'MATIC',
-    //     };
-    //   case 'Binance Mainnet':
-    //     return {
-    //       'rpc_url': 'https://bsc-dataseed.binance.org/',
-    //       'network_id': 65,
-    //       'logo_path': 'assets/images/Binance-Icon-Logo.png',
-    //       'symbol': 'BNB',
-    //     };
-    //   default:
-    //     return {
-    //       'rpc_url': dotenv.env["Default_rpc_url"],
-    //       'network_id': 56,
-    //       'logo_path': 'assets/images/ethereum_logo.png',
-    //       'symbol': 'ETH',
-    //     };
-    // }
   }
 
   static String privateKeyFromMnemonic(String mnemonic, {int childIndex = 0}) {
@@ -137,7 +65,4 @@ class Web3 {
 
     return await _client.getBalance(a);
   }
-
-
-
 }

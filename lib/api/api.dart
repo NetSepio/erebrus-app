@@ -178,13 +178,10 @@ class ApiController {
       Map data = {
         "name": "Erebrus",
         "collectionId": collectionId,
-        // "0x9745c19d98eC04849a515b122ad5bb1024954e5cch3ee298bf£1a548f2422¢9ac",
-        "publickey":
-            privateKey, //"DKaXOigN4qR/rfeDP4+BOE8uSIhXdYQUTekR/SVq7Eo="
+        "publickey": privateKey,
       };
       log("API Param  $selectedString -- $data");
       Response res = await dio.post(
-        // "https://gateway.netsepio.com/api/v1.0/erebrus/client/$selectedString",
         'https://gateway.netsepio.com/api/v1.0/erebrus/client/${selectedString.toLowerCase()}',
         options: header,
         data: data,
@@ -293,37 +290,4 @@ class ApiController {
       log('VPN Data delete----------------');
     }
   }
-  // Future<NftListModel> nfts() async {
-  //   var address =
-  //       "0xc143aba11d86c6a0d5959eaec1ad18652693768d92daab18f323fd7de1dc9829";
-  //   var where = [];
-  //   var offset = 0;
-  //   var limit = 12;
-  //   log(header.headers.toString());
-  //   Response res = await dio
-  //       .post("https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql",
-  //           // baseUrl2 + ApiUrl().nftCount,
-  //           data: {
-  //             "query":
-  //                 "query getAccountCurrentTokens($address: String!, $where: [current_token_ownerships_v2_bool_exp!]!, $offset: Int, $limit: Int) {\n  current_token_ownerships_v2(\n    where: {owner_address: {_eq: $address}, amount: {_gt: 0}, _or: [{table_type_v1: {_eq: \"0x3::token::TokenStore\"}}, {table_type_v1: {_is_null: true}}], _and: $where}\n    order_by: [{last_transaction_version: desc}, {token_data_id: desc}]\n    offset: $offset\n    limit: $limit\n  ) {\n    amount\n    current_token_data {\n      ...TokenDataFields\n    }\n    last_transaction_version\n    property_version_v1\n    token_properties_mutated_v1\n    is_soulbound_v2\n    is_fungible_v2\n  }\n  current_token_ownerships_v2_aggregate(\n    where: {owner_address: {_eq: $address}, amount: {_gt: 0}}\n  ) {\n    aggregate {\n      count\n    }\n  }\n}\n\nfragment TokenDataFields on current_token_datas_v2 {\n  description\n  token_uri\n  token_name\n  token_data_id\n  current_collection {\n    ...CollectionDataFields\n  }\n  token_properties\n  token_standard\n  cdn_asset_uris {\n    cdn_image_uri\n  }\n}\n\nfragment CollectionDataFields on current_collections_v2 {\n  uri\n  max_supply\n  description\n  collection_name\n  collection_id\n  creator_address\n  cdn_asset_uris {\n    cdn_image_uri\n  }\n}",
-  //             "variables": {
-  //               "address": address,
-  //               "limit": limit,
-  //               "offset": offset,
-  //               "where": where
-  //             },
-  //             "operationName": "getAccountCurrentTokens"
-  //           },
-  //           options: header)
-  //       .catchError((e) {
-  //     log("NFT error - - ${e.toString()}");
-  //   });
-
-  //   if (res.statusCode == 200) {
-  //     log(res.data.toString());
-  //     NftListModel profileModel = NftListModel.fromJson(res.data);
-  //     return profileModel;
-  //   }
-  //   return NftListModel();
-  // }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wifi_iot/wifi_iot.dart';
+import 'package:wire/config/assets.dart';
 import 'package:wire/model/DWifiModel.dart';
 
 class DWifiScreen extends StatefulWidget {
@@ -121,7 +122,7 @@ class _DWifiScreenState extends State<DWifiScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage("assets/earth.png"))),
+          image: DecorationImage(image: AssetImage(earthBackground))),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(

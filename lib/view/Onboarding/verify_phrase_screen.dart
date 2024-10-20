@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wire/config/common.dart';
@@ -38,9 +36,9 @@ class _VerifyPhraseScreenState extends State<VerifyPhraseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: blackrussion,
+      backgroundColor: blackRussion,
       appBar: AppBar(
-        backgroundColor: blackrussion,
+        backgroundColor: blackRussion,
         actions: [
           // ElevatedButton(
           //     onPressed: () async {

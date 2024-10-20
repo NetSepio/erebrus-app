@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wire/api/api.dart';
+import 'package:wire/config/assets.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/view/setting/setting.dart';
 
@@ -75,7 +76,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             isLoading.value == false)
                       Column(
                         children: [
-                          Image.asset("assets/Brazuca_Sitting.png"),
+                          Image.asset(subscriptionLogo),
                           const SizedBox(height: 30),
                           const Text(
                             "Subscribe and Unlock Full Access,\nLog In to Get Started",
@@ -103,7 +104,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           children: [
                             const SizedBox(height: 20),
                             const Text(
-                              "NFT Subscription",
+                              "Solana Subscription",
                               style: TextStyle(
                                 fontSize: 20,
                               ),

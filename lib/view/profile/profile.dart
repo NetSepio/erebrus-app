@@ -35,12 +35,6 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // decoration: BoxDecoration(
-      //   image: DecorationImage(
-      //       image: AssetImage("assets/bgLogo.jpg"),
-      //       fit: BoxFit.fitHeight,
-      //       colorFilter: ColorFilter.mode(Colors.black12, BlendMode.colorBurn)),
-      // ),
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(

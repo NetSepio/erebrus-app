@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     Timer(
       Duration(seconds: 2),
       () {
-        showDummyNft.value = true;
+        // showDummyNft.value = true;
       },
     );
     homeController.generateKeyPair();
