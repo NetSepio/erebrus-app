@@ -63,12 +63,12 @@ class _VerifyPhraseScreenState extends State<VerifyPhraseScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Backup quiz",
+                "Backup Quiz",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               height(10),
               const Text(
-                "Select the matching words for the serial numbers.",
+                "Select The Matching Words For The Serial Numbers",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.grey,
@@ -227,7 +227,7 @@ class _VerifyPhraseScreenState extends State<VerifyPhraseScreen> {
                       Get.showSnackbar(const GetSnackBar(
                         duration: Duration(seconds: 3),
                         title: "Word Not match",
-                        message: "Enter in correct order",
+                        message: "Enter In Correct Order",
                         barBlur: 10,
                         overlayBlur: 4,
                         borderRadius: 20,

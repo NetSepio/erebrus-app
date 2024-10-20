@@ -15,7 +15,7 @@ import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
-import 'package:wire/view/Onboarding/sol.dart';
+import 'package:wire/view/Onboarding/generateSolanaAddress.dart';
 import 'package:wire/view/profile/profile_model.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
 import 'package:wireguard_flutter/wireguard_flutter.dart';

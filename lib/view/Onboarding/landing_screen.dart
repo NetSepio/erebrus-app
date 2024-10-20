@@ -38,7 +38,7 @@ class LandingScreen extends StatelessWidget {
                             ),
                             height(4),
                             const Text(
-                              "I am beginner",
+                              "I Am Beginner",
                               style: TextStyle(color: Colors.white),
                             ),
                           ],
@@ -69,7 +69,7 @@ class LandingScreen extends StatelessWidget {
                               ),
                               height(4),
                               const Text(
-                                "Import an existing wallet",
+                                "Import An Existing Wallet",
                                 style: TextStyle(color: Colors.white),
                               ),
                             ],

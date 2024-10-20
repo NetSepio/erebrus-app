@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:wire/config/api_const.dart';
@@ -33,13 +34,13 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
           case VpnStage.connected:
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Successfully Connected to VPN'),
+              content: Text('Successfully Connected To VPN'),
             ));
             break;
           case VpnStage.disconnected:
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Disconnected from VPN'),
+              content: Text('Disconnected From VPN'),
             ));
             break;
           default:
@@ -134,7 +135,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                     Text(homeController
                                                 .selectedPayload.value.name ==
                                             null
-                                        ? "Select region"
+                                        ? "Select Region"
                                         : homeController.countryCodes[
                                                 homeController.selectedPayload
                                                     .value.ipinfocountry
@@ -307,8 +308,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                           //     homeController.checkSub.value.status ==
                           //         "expired") {
                           //   Fluttertoast.showToast(
-                          //     msg: "Check Your Subscription",
-                          //   );
+                          //       msg: "Check Your Subscription");
                           //   return;
                           // }
                           if (vpnActivate.value == false) {

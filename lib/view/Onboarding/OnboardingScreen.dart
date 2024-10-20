@@ -85,7 +85,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 Expanded(
                   child: TextButton(
-                    child:  Text(deny),
+                    child: Text(deny),
                     onPressed: () {
                       exit(0);
                     },
@@ -275,19 +275,17 @@ List<OnboardingContents> contents = [
   OnboardingContents(
     title: "Decentralize Your Internet",
     image: onboarding1,
-    desc:
-        "Unlock the Power of a Robust Network for Unmatched Resilience and Security",
+    desc: "Unlock a Robust Network for Unmatched Resilience and Security",
   ),
   OnboardingContents(
     title: "High-Speed Unlimited Bandwidth",
     image: onboarding2,
     desc:
-        "fast internet without limitations, tailored for seamless browsing and streaming",
+        "Unlimited Fast Internet, Perfect for Seamless Browsing and Streaming",
   ),
   OnboardingContents(
     title: "Permission to Secure Your Connection",
     image: onboarding3,
-    desc:
-        "Allow access to your location and wifi to optimize your network security",
+    desc: "Allow Location and WIFI Access to Optimize Network Security",
   ),
 ];
