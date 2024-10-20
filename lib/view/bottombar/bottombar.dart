@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wire/view/dwifi/dmap.dart';
 import 'package:wire/view/subscription/subscriptionScreen.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
 
@@ -15,7 +14,6 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const VpnHomeScreen(),
     // const MapSample(),
-    // const VpnHomeOld(),
     const SubscriptionScreen(),
   ];
   @override

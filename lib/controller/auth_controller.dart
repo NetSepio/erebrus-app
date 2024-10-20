@@ -3,9 +3,7 @@ import 'dart:developer';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:wire/config/secure_storage.dart';
 import 'package:wire/web3dart/web3dart.dart';
 
@@ -61,42 +59,5 @@ class AuthController extends GetxController {
     String accountAddress = await web3.getAddress();
     log("Wallet Address $accountAddress");
     await storage.writeStoredValues("accountAddress", accountAddress);
-  }
-}
-
-class LocalAuthApi {
-  static final _auth = LocalAuthentication();
-
-  static Future<bool> hasBiometrics() async {
-    try {
-      return await _auth.canCheckBiometrics;
-    } on PlatformException {
-      rethrow;
-    }
-  }
-
-  static Future<List<BiometricType>> getBiometrics() async {
-    try {
-      return await _auth.getAvailableBiometrics();
-    } on PlatformException catch (_) {
-      return <BiometricType>[];
-    }
-  }
-
-  static Future<bool> authenticate() async {
-    final isAvailable = await _auth.canCheckBiometrics;
-    if (!isAvailable) return false;
-    try {
-      return await _auth.authenticate(
-        localizedReason: 'myriadflow needs fingerprint to authenticate',
-        options: const AuthenticationOptions(
-          biometricOnly: false,
-          useErrorDialogs: true,
-          stickyAuth: true,
-        ),
-      );
-    } on PlatformException catch (_) {
-      return false;
-    }
   }
 }

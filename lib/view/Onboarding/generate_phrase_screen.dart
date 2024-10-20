@@ -35,9 +35,9 @@ class _GenerateSeedPhraseState extends State<GenerateSeedPhrase> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: blackrussion,
+      backgroundColor: blackRussion,
       appBar: AppBar(
-        backgroundColor: blackrussion,
+        backgroundColor: blackRussion,
         title: const Text(
           "My Wallet",
           style: TextStyle(color: Colors.white),

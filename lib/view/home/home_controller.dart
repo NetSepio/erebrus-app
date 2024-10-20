@@ -9,11 +9,13 @@ import 'package:flutter_curve25519/flutter_curve25519.dart';
 import 'package:get/get.dart';
 import 'package:get_ip_address/get_ip_address.dart';
 import 'package:wire/api/api.dart';
+import 'package:wire/config/secure_storage.dart';
 import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
+import 'package:wire/view/Onboarding/sol.dart';
 import 'package:wire/view/profile/profile_model.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
 import 'package:wireguard_flutter/wireguard_flutter.dart';
@@ -26,6 +28,7 @@ class HomeController extends GetxController {
   String? selectedCountry;
   String? selectedCity;
   Map<String, List<AllNPayload>>? countryMap;
+  final storage = SecureStorage();
   Map<String, String> countryCodes = {
     "IN": "India",
     "SG": "Singapore",
@@ -76,6 +79,14 @@ class HomeController extends GetxController {
     }
   }
 
+  getSolanaAddress() async {
+    String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+    log("mnemonics ---- ${mnemonics}");
+    var sd = await generateSolanaAddress(mnemonics);
+    log("Solana Address- $sd");
+    storage.writeStoredValues("solanaAddress", sd);
+  }
+
   //.......
   Rx<AllNodeModel> allNodeModel = AllNodeModel().obs;
   Rx<RegisterClientModel> registerClientModel = RegisterClientModel().obs;
@@ -107,7 +118,7 @@ class HomeController extends GetxController {
 
   getAllNode() async {
     allNodeModel.value = await ApiController().getAllNode();
-    countryMap ??= groupNodesByCountry(allNodeModel.value.payload!);
+    countryMap ??= await groupNodesByCountry(allNodeModel.value.payload!);
     // allNodeModel.value.payload!
     //     .removeWhere((element) => element.status == "inactive");
     update();
@@ -183,7 +194,7 @@ class HomeController extends GetxController {
       await wireguard.startVpn(
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
-        providerBundleIdentifier: 'com.netsepio.erebrus',
+        providerBundleIdentifier: 'com.griddownllc.tunnelvpn.VPNExtension',
         // providerBundleIdentifier: 'com.esoft.reward.WGExtension',
       );
       vpnActivate.value = true;

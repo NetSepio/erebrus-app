@@ -12,7 +12,7 @@ width(width) {
   return SizedBox(width: double.tryParse(width.toString()));
 }
 
-textfiled(hinttext, {controller}) {
+textFiled(hinttext, {controller}) {
   return TextField(
     controller: controller,
     decoration: InputDecoration(

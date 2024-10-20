@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:wire/config/assets.dart';
+import 'package:wire/config/colors.dart';
+import 'package:wire/config/strings.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
 import 'package:wire/view/setting/PrivacyPolicy.dart';
 
@@ -23,11 +26,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   int _currentPage = 0;
-  List colors = const [
-    Color(0xffDAD3C8),
-    Color(0xffFFE5DE),
-    Color(0xffDCF6E6),
-  ];
 
   AnimatedContainer _buildDots({
     int? index,
@@ -36,8 +34,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       duration: const Duration(milliseconds: 200),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: const Color(0xff3985FF)),
-        color: _currentPage == index ? const Color(0xff3985FF) : Colors.black,
+        border: Border.all(color: blue),
+        color: _currentPage == index ? blue : Colors.black,
       ),
       margin: const EdgeInsets.only(right: 5),
       height: 10,
@@ -62,14 +60,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            'Location Permission Required',
+            locationPermissionRequired,
             textAlign: TextAlign.center,
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                  'This app collects location data to enable locate nearby wifi and wifi share even when the app is closed or not in use.',
+              const Text(locationPermissionSubText,
                   textAlign: TextAlign.center),
               const SizedBox(height: 20),
               InkWell(
@@ -77,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Get.to(() => const PrivacyPolicy());
                 },
                 child: const Text(
-                  "Privacy Policy",
+                  privacyPolicy,
                   style: TextStyle(color: Colors.blue),
                 ),
               )
@@ -88,7 +85,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 Expanded(
                   child: TextButton(
-                    child: const Text('Deny'),
+                    child:  Text(deny),
                     onPressed: () {
                       exit(0);
                     },
@@ -96,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 Expanded(
                   child: TextButton(
-                    child: const Text('Allow'),
+                    child: const Text(allow),
                     onPressed: () async {
                       Navigator.of(context).pop();
                       // Request location permission
@@ -113,12 +110,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Future<void> _requestLocationPermission() async {
-    // final status = await Permission.location.request();
-    // if (status.isGranted) {
+    final status = await Permission.location.request();
+    if (status.isGranted) {
       Get.to(() => const LoginOrRegisterPage());
-    // } else {
-    //   exit(0);
-    // }
+    } else {
+      exit(0);
+    }
   }
 
   @override
@@ -190,7 +187,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(30),
                     child: Container(
@@ -215,7 +211,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           setState(() {});
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff3985FF),
+                          backgroundColor: blue,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
@@ -237,54 +233,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                     ),
                   )
-
-                  // : Padding(
-                  //     padding: const EdgeInsets.all(30),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //       children: [
-                  //         TextButton(
-                  //           onPressed: () {
-                  //             _controller.jumpToPage(2);
-                  //           },
-                  //           style: TextButton.styleFrom(
-                  //             elevation: 0,
-                  //             textStyle: TextStyle(
-                  //               fontWeight: FontWeight.w600,
-                  //               fontSize: (width <= 550) ? 13 : 17,
-                  //             ),
-                  //           ),
-                  //           child: const Text(
-                  //             "SKIP",
-                  //             style: TextStyle(color: Colors.white),
-                  //           ),
-                  //         ),
-                  //         ElevatedButton(
-                  //           onPressed: () {
-                  // _controller.nextPage(
-                  //   duration: const Duration(milliseconds: 200),
-                  //   curve: Curves.easeIn,
-                  // );
-                  //           },
-                  //           style: ElevatedButton.styleFrom(
-                  //             backgroundColor: Colors.black,
-                  //             shape: RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(50),
-                  //             ),
-                  //             elevation: 0,
-                  //             padding: (width <= 550)
-                  //                 ? const EdgeInsets.symmetric(
-                  //                     horizontal: 30, vertical: 20)
-                  //                 : const EdgeInsets.symmetric(
-                  //                     horizontal: 30, vertical: 25),
-                  //             textStyle: TextStyle(
-                  //                 fontSize: (width <= 550) ? 13 : 17),
-                  //           ),
-                  //           child: const Text("NEXT"),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   )
                 ],
               ),
             ),
@@ -326,17 +274,20 @@ class OnboardingContents {
 List<OnboardingContents> contents = [
   OnboardingContents(
     title: "Decentralize Your Internet",
-    image: "assets/01.png",
-    desc: "Unlock the Power of a Robust Network for Unmatched Resilience and Security",
+    image: onboarding1,
+    desc:
+        "Unlock the Power of a Robust Network for Unmatched Resilience and Security",
   ),
   OnboardingContents(
     title: "High-Speed Unlimited Bandwidth",
-    image: "assets/02.png",
-    desc: "fast internet without limitations, tailored for seamless browsing and streaming",
+    image: onboarding2,
+    desc:
+        "fast internet without limitations, tailored for seamless browsing and streaming",
   ),
   OnboardingContents(
     title: "Permission to Secure Your Connection",
-    image: "assets/03.png",
-    desc: "Allow access to your location and wifi to optimize your network security",
+    image: onboarding3,
+    desc:
+        "Allow access to your location and wifi to optimize your network security",
   ),
 ];

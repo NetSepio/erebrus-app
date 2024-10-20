@@ -38,14 +38,11 @@ class _MyAppState extends State<MyApp> {
         builder: FToastBuilder(),
       ),
       debugShowCheckedModeBanner: false,
-
       home: box!.containsKey("token")
           ? box!.get("token") != ""
               ? const HomeScreen()
               : const OnboardingScreen()
           : const OnboardingScreen(),
-
-      // theme: ThemeData(primaryColor: Colors.green.shade900),
       theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
           primaryColor: Colors.green.shade900),
