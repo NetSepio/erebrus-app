@@ -35,12 +35,12 @@ class ImportAccountScreen extends StatelessWidget {
                   ),
                   height(50),
                   const Text(
-                    "Enter your secret phrase",
+                    "Enter Your Secret Phrase",
                     style: TextStyle(color: white, fontSize: 18),
                   ),
                   height(10),
                   const Text(
-                    "Enter each word in the order",
+                    "Enter Each Word In The Order",
                     textAlign: TextAlign.center,
                     style: TextStyle(color: grey),
                   ),

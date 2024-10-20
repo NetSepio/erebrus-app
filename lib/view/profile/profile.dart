@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/config/secure_storage.dart';
+import 'package:wire/config/strings.dart';
 import 'package:wire/view/profile/profile_model.dart';
 
 class Profile extends StatefulWidget {
@@ -39,7 +40,7 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: const Text("Profile"),
+          title: const Text(profileTxt),
           centerTitle: true,
         ),
         body: Padding(
@@ -52,23 +53,43 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                "assets/evm.png",
+                                "assets/solo.png",
                                 width: 40,
-                                height: 40,
                               ),
-                              Image.asset(
-                                "assets/sc.png",
-                                width: 120,
-                              ),
+                              SizedBox(width: 5),
+                              Obx(() => Expanded(
+                                    child: TextField(
+                                      readOnly: true,
+                                      maxLines: 2,
+                                      controller: TextEditingController(
+                                          text: solanaAdd.value.toString()),
+                                      decoration: InputDecoration(
+                                        labelText: "Solana Wallet",
+                                        filled: true,
+                                        fillColor: Colors.black,
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )),
                             ],
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(
+                            height: 20,
+                          ),
                           if (profileModel!.payload!.walletAddress != null)
                             Row(
                               children: [
+                                Image.asset(
+                                  "assets/evm.png",
+                                  width: 40,
+                                  height: 40,
+                                ),
                                 SizedBox(width: 5),
                                 Expanded(
                                   child: TextField(
@@ -106,38 +127,6 @@ class _ProfileState extends State<Profile> {
                                 ),
                               ),
                             ),
-                          // Divider(indent: 10),
-                          // SizedBox(height: 10),
-                          // Image.asset(
-                          //   "assets/solo.png",
-                          //   width: 40,
-                          // ),
-                          // SizedBox(height: 10),
-                          // Row(
-                          //   children: [
-                          //     SizedBox(width: 5),
-                          //     Obx(() => Expanded(
-                          //           child: TextField(
-                          //             readOnly: true,
-                          //             maxLines: 2,
-                          //             controller: TextEditingController(
-                          //                 text: solanaAdd.value.toString()),
-                          //             decoration: InputDecoration(
-                          //               labelText: "Solana Wallet",
-                          //               filled: true,
-                          //               fillColor: Colors.black,
-                          //               border: OutlineInputBorder(
-                          //                 borderSide: BorderSide(
-                          //                   width: 1,
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         )),
-                          //   ],
-                          // ),
-                          // SizedBox(height: 20),
-                       
                         ],
                       ),
                     ),

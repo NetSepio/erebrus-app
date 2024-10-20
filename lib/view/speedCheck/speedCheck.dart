@@ -19,9 +19,9 @@ class _SpeedCheckState extends State<SpeedCheck> {
   double _uploadRate = 0;
   String _downloadProgress = '0';
   String _uploadProgress = '0';
-  int _downloadCompletionTime = 0;
-  int _uploadCompletionTime = 0;
-  bool _isServerSelectionInProgress = false;
+  int downloadCompletionTime = 0;
+  int uploadCompletionTime = 0;
+  bool isServerSelectionInProgress = false;
 
   String? _ip;
   String? _asn;
@@ -198,7 +198,7 @@ class _SpeedCheckState extends State<SpeedCheck> {
                               left: 25, right: 25, top: 10, bottom: 10),
                           child: Column(
                             children: [
-                              const Text("IP address"),
+                              const Text("IP Address"),
                               Text(
                                 _ip ?? '--',
                                 style: const TextStyle(color: Colors.grey),
@@ -338,14 +338,14 @@ class _SpeedCheckState extends State<SpeedCheck> {
                         _unitText =
                             download.unit == SpeedUnit.kbps ? 'Kbps' : 'Mbps';
                         _downloadProgress = '100';
-                        _downloadCompletionTime = download.durationInMillis;
+                        downloadCompletionTime = download.durationInMillis;
                       });
                       setState(() {
                         _uploadRate = upload.transferRate;
                         _unitText =
                             upload.unit == SpeedUnit.kbps ? 'Kbps' : 'Mbps';
                         _uploadProgress = '100';
-                        _uploadCompletionTime = upload.durationInMillis;
+                        uploadCompletionTime = upload.durationInMillis;
                         _testInProgress = false;
                       });
                     }, onProgress: (double percent, TestResult data) {
@@ -372,11 +372,11 @@ class _SpeedCheckState extends State<SpeedCheck> {
                       reset();
                     }, onDefaultServerSelectionInProgress: () {
                       setState(() {
-                        _isServerSelectionInProgress = true;
+                        isServerSelectionInProgress = true;
                       });
                     }, onDefaultServerSelectionDone: (Client? client) {
                       setState(() {
-                        _isServerSelectionInProgress = false;
+                        isServerSelectionInProgress = false;
                         _ip = client?.ip;
                         _asn = client?.asn;
                         _isp = client?.isp;
@@ -386,14 +386,14 @@ class _SpeedCheckState extends State<SpeedCheck> {
                         _downloadRate = data.transferRate;
                         _unitText =
                             data.unit == SpeedUnit.kbps ? 'Kbps' : 'Mbps';
-                        _downloadCompletionTime = data.durationInMillis;
+                        downloadCompletionTime = data.durationInMillis;
                       });
                     }, onUploadComplete: (TestResult data) {
                       setState(() {
                         _uploadRate = data.transferRate;
                         _unitText =
                             data.unit == SpeedUnit.kbps ? 'Kbps' : 'Mbps';
-                        _uploadCompletionTime = data.durationInMillis;
+                        uploadCompletionTime = data.durationInMillis;
                       });
                     }, onCancel: () {
                       reset();
@@ -427,8 +427,8 @@ class _SpeedCheckState extends State<SpeedCheck> {
         _downloadProgress = '0';
         _uploadProgress = '0';
         _unitText = 'Mbps';
-        _downloadCompletionTime = 0;
-        _uploadCompletionTime = 0;
+        downloadCompletionTime = 0;
+        uploadCompletionTime = 0;
 
         _ip = null;
         _asn = null;

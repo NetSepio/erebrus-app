@@ -4,6 +4,7 @@ import 'package:location/location.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wire/config/common.dart';
+import 'package:wire/config/strings.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
 import 'package:wire/view/profile/profile.dart';
 import 'package:wire/view/setting/PrivacyPolicy.dart';
@@ -49,8 +50,8 @@ class _SettingPageState extends State<SettingPage> {
           children: [
             Card(
               child: ListTile(
-                title: const Text("Profile"),
-                subtitle: const Text("Your Account Information"),
+                title: const Text(profileTxt),
+                subtitle: const Text(profileSubTxt),
                 trailing:
                     const Icon(Icons.person, size: 20, color: Colors.green),
                 onTap: () => Get.to(() => const Profile()),
@@ -58,8 +59,8 @@ class _SettingPageState extends State<SettingPage> {
             ),
             Card(
               child: ListTile(
-                title: const Text("SpeedTest"),
-                subtitle: const Text("Check Your Internet Speed"),
+                title: const Text(speedTestTxt),
+                subtitle: const Text(speedTestSubTxt),
                 trailing:
                     const Icon(Icons.speed, size: 20, color: Colors.green),
                 onTap: () => Get.to(() => const SpeedCheck()),
@@ -72,14 +73,14 @@ class _SettingPageState extends State<SettingPage> {
               indent: 10,
             ),
             ListTile(
-              title: const Text('Terms and Conditions'),
+              title: const Text(termsAndConditionsText),
               trailing: const Icon(Icons.policy, color: Colors.blue, size: 20),
               onTap: () {
                 launchUrl(Uri.parse("https://erebrus.io/terms"));
               },
             ),
             ListTile(
-              title: const Text('Privacy Policy'),
+              title: const Text(privacyPolicy),
               trailing: const Icon(Icons.policy, color: Colors.blue, size: 20),
               onTap: () {
                 Get.to(() => const PrivacyPolicy());
@@ -87,7 +88,7 @@ class _SettingPageState extends State<SettingPage> {
               },
             ),
             ListTile(
-              title: const Text('Logout'),
+              title: const Text(logoutTxt),
               trailing: const Icon(
                 Icons.logout,
                 color: Colors.red,
@@ -100,7 +101,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
             ListTile(
               title: const Text(
-                'Delete Account',
+                deleteAccountTxt,
                 style: TextStyle(color: Colors.red),
               ),
               trailing: const Icon(Icons.delete, size: 20, color: Colors.red),
@@ -109,15 +110,14 @@ class _SettingPageState extends State<SettingPage> {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: const Text('Delete Account'),
-                    content: const Text(
-                        'Are you sure you want to delete your account?'),
+                    title: const Text(deleteAccountTxt),
+                    content: const Text(deleteAccountSubTxt),
                     actions: [
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context); // Close the dialog
                         },
-                        child: const Text('Cancel'),
+                        child: const Text(cancelTxt),
                       ),
                       TextButton(
                         onPressed: () {
@@ -126,7 +126,7 @@ class _SettingPageState extends State<SettingPage> {
                           // After deleting the account, you can navigate to the login page or perform any other action
                         },
                         child: const Text(
-                          'Delete',
+                          deleteTxt,
                           style: TextStyle(color: Colors.red),
                         ),
                       ),

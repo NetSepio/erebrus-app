@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/config/assets.dart';
+import 'package:wire/config/strings.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/view/setting/setting.dart';
 
@@ -43,7 +44,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'OKTO',
+          '',
           style: Theme.of(context)
               .textTheme
               .titleLarge!
@@ -78,8 +79,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         children: [
                           Image.asset(subscriptionLogo),
                           const SizedBox(height: 30),
-                          const Text(
-                            "Subscribe and Unlock Full Access,\nLog In to Get Started",
+                          Text(
+                            subscribeSubTxt,
                             style: TextStyle(),
                             textAlign: TextAlign.center,
                           ),
@@ -92,7 +93,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               checkSubscription();
                             },
                             child: const Text(
-                              " Try our free trial now ",
+                              " ${freeTrial} ",
                               style: TextStyle(color: Colors.white),
                             ),
                           )
@@ -104,7 +105,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           children: [
                             const SizedBox(height: 20),
                             const Text(
-                              "Solana Subscription",
+                              SubscriptionTxt,
                               style: TextStyle(
                                 fontSize: 20,
                               ),
@@ -128,12 +129,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 "End Time",
                                 style: TextStyle(color: Colors.red),
                               ),
-                              trailing: Text(
-                                "2024-11-01"
-                                // checkSub!.subscription!.endTime
-                                //   .toString()
-                                //   .split(" ")[0]
-                                  ),
+                              trailing: Text(checkSub!.subscription!.endTime
+                                  .toString()
+                                  .split(" ")[0]),
                               dense: true,
                             ),
                           ],

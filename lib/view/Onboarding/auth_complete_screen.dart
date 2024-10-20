@@ -42,11 +42,11 @@ class AuthCompleteScreen extends StatelessWidget {
               const ListTile(
                 leading: Icon(Icons.vpn_key),
                 title: Text(
-                  "The Mnemonic is the key to your wallet",
+                  "The Mnemonic Is the Key to Your Wallet",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
                 subtitle: Text(
-                  "Obtaining your mnemonic means obtaining your assets",
+                  "Obtaining Your Mnemonic Means Obtaining Your Assets",
                   style: TextStyle(
                     color: blueGray,
                   ),
@@ -60,7 +60,7 @@ class AuthCompleteScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
                 subtitle: Text(
-                  "Do not make copies or take screenshots.",
+                  "Do Not Make Copies Or Take Screenshots",
                   style: TextStyle(
                     color: blueGray,
                   ),
@@ -70,11 +70,11 @@ class AuthCompleteScreen extends StatelessWidget {
               const ListTile(
                 leading: Icon(Icons.health_and_safety),
                 title: Text(
-                  "Store in a safe place",
+                  "Store In A Safe Place.",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
                 subtitle: Text(
-                  "Once lost, the assets cannot be recovered",
+                  "Once Lost, The Assets Cannot Be Recovered.",
                   style: TextStyle(
                     color: blueGray,
                   ),
@@ -96,7 +96,7 @@ class AuthCompleteScreen extends StatelessWidget {
               activeColor: Colors.blue.shade900,
               onChanged: (v) {},
               title: const Text(
-                "I Understand that I am responsible for the security of my mnemonic.",
+                "I Understand That I Am Responsible For The Security Of My Mnemonic.",
                 style: TextStyle(fontWeight: FontWeight.w100),
               ),
             ),

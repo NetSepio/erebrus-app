@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           } else {
             return Scaffold(
               appBar: AppBar(
-                title: const Text("OKTO"),
+                title: const Text("EREBRUS"),
                 centerTitle: true,
                 actions: const [],
               ),
@@ -67,7 +67,7 @@ class NoWalletFound extends StatelessWidget {
           SizedBox(width: Get.width),
           Image.asset(noWalletFound, height: 100),
           const Text(
-            "No Wallet found. Please link an Solana Wallet to your profile.",
+            "No Wallet Found. Please Link A Solana Wallet To Your Profile",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
           ),
@@ -75,7 +75,7 @@ class NoWalletFound extends StatelessWidget {
               onPressed: () async {
                 await launchUrl(Uri.parse("https://app.netsepio.com/"));
               },
-              child: const Text("link Wallet"))
+              child: const Text("Link Wallet"))
         ],
       ),
     );
