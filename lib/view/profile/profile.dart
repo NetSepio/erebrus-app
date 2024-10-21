@@ -52,33 +52,34 @@ class _ProfileState extends State<Profile> {
                   : Container(
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                "assets/solo.png",
-                                width: 40,
-                              ),
-                              SizedBox(width: 5),
-                              Obx(() => Expanded(
-                                    child: TextField(
-                                      readOnly: true,
-                                      maxLines: 2,
-                                      controller: TextEditingController(
-                                          text: solanaAdd.value.toString()),
-                                      decoration: InputDecoration(
-                                        labelText: "Solana Wallet",
-                                        filled: true,
-                                        fillColor: Colors.black,
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 1,
+                          if (solanaAdd.value.isNotEmpty)
+                            Row(
+                              children: [
+                                Image.asset(
+                                  "assets/solo.png",
+                                  width: 40,
+                                ),
+                                SizedBox(width: 5),
+                                Obx(() => Expanded(
+                                      child: TextField(
+                                        readOnly: true,
+                                        maxLines: 2,
+                                        controller: TextEditingController(
+                                            text: solanaAdd.value.toString()),
+                                        decoration: InputDecoration(
+                                          labelText: "Solana Wallet",
+                                          filled: true,
+                                          fillColor: Colors.black,
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              width: 1,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  )),
-                            ],
-                          ),
+                                    )),
+                              ],
+                            ),
                           SizedBox(
                             height: 20,
                           ),

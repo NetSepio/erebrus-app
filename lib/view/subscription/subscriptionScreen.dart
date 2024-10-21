@@ -6,7 +6,7 @@ import 'package:wire/config/assets.dart';
 import 'package:wire/config/strings.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/view/setting/setting.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
 
@@ -136,7 +136,16 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             ),
                           ],
                         ),
-                      )
+                      ),
+                    SizedBox(height: 30),
+                    if (checkSub!.status.toString() == "notFound" ||
+                        checkSub!.status.toString() == "expired")
+                      ElevatedButton(
+                          onPressed: () {
+                            launchUrl(
+                                Uri.parse("https://erebrus.io/subscription"));
+                          },
+                          child: Text("Renew Subscription")),
                   ],
                 ),
         ),

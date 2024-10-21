@@ -15,7 +15,6 @@ import 'package:wire/view/Onboarding/generate_phrase_screen.dart';
 import 'package:wire/view/Onboarding/import_account_screen.dart';
 import 'package:wire/view/home/home.dart';
 import 'package:wire/view/profile/profile_model.dart';
-import 'package:wire/view/setting/PrivacyPolicy.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
   const LoginOrRegisterPage({super.key});
@@ -51,10 +50,6 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                         erebrusLogoWordMark,
                         height: 50,
                       ),
-                    ),
-                    Image.asset(
-                      solanaLogo,
-                      height: 50,
                     ),
                     Image.asset(
                       solanaLogo,
@@ -163,11 +158,14 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       ),
                       const SizedBox(width: 20),
                       InkWell(
-                        onTap: () => Get.to(() => const PrivacyPolicy()),
+                        onTap: () {
+                          launchUrl(Uri.parse("https://erebrus.io/privacy"));
+                        },
+                        // onTap: () => Get.to(() => const PrivacyPolicy()),
                         child: const Text(
                           privacyPolicy,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.white, 
                           ),
                         ),
                       ),
