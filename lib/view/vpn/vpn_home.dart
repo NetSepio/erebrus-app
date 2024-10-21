@@ -34,13 +34,13 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
           case VpnStage.connected:
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Successfully Connected To VPN'),
+              content: Text('Successfully Connected to VPN'),
             ));
             break;
           case VpnStage.disconnected:
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Disconnected From VPN'),
+              content: Text('Disconnected from VPN'),
             ));
             break;
           default:

@@ -67,7 +67,7 @@ class NoWalletFound extends StatelessWidget {
           SizedBox(width: Get.width),
           Image.asset(noWalletFound, height: 100),
           const Text(
-            "No Wallet Found. Please Link A Solana Wallet To Your Profile",
+            "No Wallet Found. Please Link A Solana Wallet to Your Profile",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
           ),

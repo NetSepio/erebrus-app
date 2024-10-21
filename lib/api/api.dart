@@ -250,8 +250,8 @@ class ApiController {
         throw Exception(errorMessage);
       }
     } catch (e) {
-      Get.snackbar('Error', 'An error occurred',
-          colorText: Colors.white, backgroundColor: Colors.red);
+      // Get.snackbar('Error', 'An error occurred',
+      //     colorText: Colors.white, backgroundColor: Colors.red);
       log('Error: $e');
       return RegisterClientModel();
     }

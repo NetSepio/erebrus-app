@@ -6,6 +6,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_curve25519/flutter_curve25519.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_ip_address/get_ip_address.dart';
 import 'package:wire/api/api.dart';
@@ -14,8 +15,8 @@ import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
-import 'package:wire/view/Onboarding/login_register.dart';
 import 'package:wire/view/Onboarding/generateSolanaAddress.dart';
+import 'package:wire/view/Onboarding/login_register.dart';
 import 'package:wire/view/profile/profile_model.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
 import 'package:wireguard_flutter/wireguard_flutter.dart';
@@ -80,11 +81,13 @@ class HomeController extends GetxController {
   }
 
   getSolanaAddress() async {
-    String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
-    log("mnemonics ---- ${mnemonics}");
-    var sd = await generateSolanaAddress(mnemonics);
-    log("Solana Address- $sd");
-    storage.writeStoredValues("solanaAddress", sd);
+    try {
+      String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+      log("mnemonics ---- ${mnemonics}");
+      var sd = await generateSolanaAddress(mnemonics);
+      log("Solana Address- $sd");
+      storage.writeStoredValues("solanaAddress", sd);
+    } catch (e) {}
   }
 
   //.......
@@ -230,6 +233,11 @@ class HomeController extends GetxController {
     log("presharedKey -- $presharedKey");
     registerClientModel.value = await ApiController().registerClient(
         selectedPayload.value.id.toString(), initPublicKey, initPrivateKey);
+    if (registerClientModel.value.payload == null) {
+      Fluttertoast.showToast(
+          msg: "Something went wrong. Please try another region.");
+      return;
+    }
     RegisterPayload vpnData = registerClientModel.value.payload!;
     initAddress = vpnData.client!.address!.first;
     initAllowedIp =
