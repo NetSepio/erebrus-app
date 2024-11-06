@@ -74,14 +74,14 @@ class _SettingPageState extends State<SettingPage> {
             ),
             ListTile(
               title: const Text(termsAndConditionsText),
-              trailing: const Icon(Icons.policy, color: Colors.blue, size: 20),
+              trailing: const Icon(Icons.policy, color: Color(0xff0162FF), size: 20),
               onTap: () {
                 launchUrl(Uri.parse("https://erebrus.io/terms"));
               },
             ),
             ListTile(
               title: const Text(privacyPolicy),
-              trailing: const Icon(Icons.policy, color: Colors.blue, size: 20),
+              trailing: const Icon(Icons.policy, color: Color(0xff0162FF), size: 20),
               onTap: () {
                 Get.to(() => const PrivacyPolicy());
                 // launchUrl(Uri.parse("https://netsepio.com/privacy.html"));

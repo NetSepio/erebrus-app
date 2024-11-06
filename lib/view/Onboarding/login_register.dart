@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/components/widgets.dart';
@@ -51,10 +52,10 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                         height: 50,
                       ),
                     ),
-                    Image.asset(
-                      solanaLogo,
-                      height: 50,
-                    ),
+                    // Image.asset(
+                    //   solanaLogo,
+                    //   height: 50,
+                    // ),
                     SizedBox(width: 20),
                   ],
                 ),
@@ -71,6 +72,28 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                         preferAc,
                         style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
+                      const SizedBox(height: 30),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(15.0),
+                      //   child: SignInWithAppleButton(
+                      //     onPressed: () async {
+                      //       await ApiController().googleEmailLogin(
+                      //           email: "sahilr96649@gmail.com");
+                      //       // final credential =
+                      //       //     await SignInWithApple.getAppleIDCredential(
+                      //       //   scopes: [
+                      //       //     AppleIDAuthorizationScopes.email,
+                      //       //   ],
+                      //       // );
+
+                      //       // print("--=---=-===--=-=-=-");
+                      //       // print(credential);
+
+                      //       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+                      //       // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                      //     },
+                      //   ),
+                      // ),
                       const SizedBox(height: 30),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -89,8 +112,8 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
                             // await ApiController()
                             //     .googleAuth(idToken: ggAuth.idToken.toString());
-                            await ApiController()
-                                .googleEmailLogin(email: result.email);
+                      await ApiController()
+                          .googleEmailLogin(email: result.email);
                           },
                           child: const SizedBox(
                             height: 50,
@@ -119,6 +142,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                           ),
                         ),
                       ),
+
                       const SizedBox(height: 20),
                       MyButton(
                         customColor: blue,
@@ -165,7 +189,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                         child: const Text(
                           privacyPolicy,
                           style: TextStyle(
-                            color: Colors.white, 
+                            color: Colors.white,
                           ),
                         ),
                       ),

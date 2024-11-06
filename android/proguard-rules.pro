@@ -1,2 +1,6 @@
 -keep class app.wachu.wireguard_vpn.** {*;}
 -keep class com.beust.klaxon.** {*;}
+-keep class androidx.window.** { *; }
+-dontwarn androidx.window.**
+-keep class androidx.window.sidecar.** { *; }
+-dontwarn androidx.window.sidecar.**
