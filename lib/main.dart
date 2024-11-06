@@ -10,6 +10,7 @@ import 'package:wire/view/Onboarding/OnboardingScreen.dart';
 import 'package:wire/view/home/home.dart';
 import 'package:wire/view/home/home_controller.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
