@@ -26,10 +26,11 @@ class HomeController extends GetxController {
   RxInt selectedNFT = 0.obs;
   Rx<ProfileModel>? profileModel;
   RxBool isLoading = true.obs;
-  String? selectedCountry;
+  RxString? selectedCountry="".obs;
   String? selectedCity;
   Map<String, List<AllNPayload>>? countryMap;
   final storage = SecureStorage();
+  Rx<AllNPayload> selectedPayload = AllNPayload().obs;
   Map<String, String> countryCodes = {
     "IN": "India",
     "SG": "Singapore",
@@ -52,7 +53,9 @@ class HomeController extends GetxController {
     }
     if (selectedPayload.value.region == null) {
       selectedPayload.value = allNodeModel.value.payload![0];
-      selectedCity = countryMap[0]!.first.chainName.toString();
+      selectedCountry!.value = countryMap!.keys.first;
+      selectedCity =
+          countryMap[selectedPayload.value.region]!.first.chainName.toString();
     }
     return countryMap;
   }
@@ -175,8 +178,6 @@ class HomeController extends GetxController {
 
     update();
   }
-
-  Rx<AllNPayload> selectedPayload = AllNPayload().obs;
 
   Future startVpn() async {
     var conf = '''[Interface]

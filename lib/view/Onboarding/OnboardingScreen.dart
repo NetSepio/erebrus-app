@@ -45,6 +45,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Future<void> _checkLocationPermission() async {
+    if (Platform.isIOS) {
+      Get.to(() => const LoginOrRegisterPage());
+      return;
+    }
     if (await Permission.location.isGranted) {
       Get.to(() => const LoginOrRegisterPage());
       return;
@@ -139,35 +143,37 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 itemBuilder: (context, i) {
                   return Padding(
                     padding: const EdgeInsets.all(40.0),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          contents[i].image,
-                          height: SizeConfig.blockV! * 42,
-                        ),
-                        SizedBox(
-                          height: (height >= 840) ? 60 : 30,
-                        ),
-                        Text(
-                          contents[i].title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: "Mulish",
-                            fontWeight: FontWeight.w600,
-                            fontSize: (width <= 550) ? 30 : 35,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            contents[i].image,
+                            height: SizeConfig.blockV! * 32,
                           ),
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          contents[i].desc,
-                          style: TextStyle(
-                            fontFamily: "Mulish",
-                            fontWeight: FontWeight.w300,
-                            fontSize: (width <= 550) ? 17 : 25,
+                          SizedBox(
+                            height: (height >= 840) ? 60 : 30,
                           ),
-                          textAlign: TextAlign.center,
-                        )
-                      ],
+                          Text(
+                            contents[i].title,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: "Mulish",
+                              fontWeight: FontWeight.w600,
+                              fontSize: (width <= 550) ? 30 : 35,
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          Text(
+                            contents[i].desc,
+                            style: TextStyle(
+                              fontFamily: "Mulish",
+                              fontWeight: FontWeight.w300,
+                              fontSize: (width <= 550) ? 17 : 25,
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },

@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:wire/config/api_const.dart';
@@ -39,9 +39,10 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
             break;
           case VpnStage.disconnected:
             ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Disconnected from VPN'),
-            ));
+            if (Platform.isAndroid)
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('Disconnected from VPN'),
+              ));
             break;
           default:
         }
@@ -156,7 +157,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                       labelText: 'Select Region',
                                       contentPadding:
                                           EdgeInsets.symmetric(horizontal: 10)),
-                                  value: homeController.selectedCountry,
+                                  value: homeController.selectedCountry!.value,
                                   hint: const Text('Select Region'),
                                   items: homeController.countryMap!.keys
                                       .map((country) {
@@ -168,18 +169,19 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                   }).toList(),
                                   onChanged: (value) {
                                     setState(() {
-                                      homeController.selectedCountry = value;
+                                      homeController.selectedCountry!.value =
+                                          value!;
 
                                       homeController.selectedCity =
                                           homeController
                                               .countryMap![homeController
-                                                  .selectedCountry]!
+                                                  .selectedCountry!.value]!
                                               .first
                                               .chainName
                                               .toString();
                                       homeController.selectedPayload
                                           .value = homeController.countryMap![
-                                              homeController.selectedCountry]!
+                                              homeController.selectedCountry!.value]!
                                           .firstWhere((node) =>
                                               node.chainName ==
                                               homeController.selectedCity);
@@ -191,7 +193,8 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                   ),
                   Obx(
                     () => vpnActivate.value == false &&
-                            homeController.selectedCountry != null
+                            homeController.selectedCountry != null &&
+                            homeController.selectedCountry!.value.isNotEmpty
                         ? DropdownButtonFormField<AllNPayload>(
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -200,14 +203,14 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                     EdgeInsets.symmetric(horizontal: 10)),
                             value: homeController.selectedCity != null
                                 ? homeController.countryMap![
-                                        homeController.selectedCountry]!
+                                        homeController.selectedCountry!.value]!
                                     .firstWhere((node) =>
                                         node.chainName ==
                                         homeController.selectedCity)
                                 : null,
                             hint: const Text('Select Node'),
                             items: homeController
-                                .countryMap![homeController.selectedCountry]!
+                                .countryMap![homeController.selectedCountry!.value]!
                                 .map((node) {
                               return DropdownMenuItem<AllNPayload>(
                                 value: node,
@@ -338,7 +341,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                             shape: const CircleBorder(),
                             color: vpnActivate.value == true
                                 ? Colors.green
-                                : const Color.fromRGBO(87, 141, 240, 1),
+                                : const Color(0xff0162FF),
                             child: SizedBox(
                               height: 150,
                               width: 150,

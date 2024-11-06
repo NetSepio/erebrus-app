@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/config/assets.dart';
 import 'package:wire/config/strings.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/view/setting/setting.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
 
@@ -44,7 +45,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          '',
+          'Erebrus'.toUpperCase(),
           style: Theme.of(context)
               .textTheme
               .titleLarge!
@@ -77,7 +78,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             isLoading.value == false)
                       Column(
                         children: [
-                          Image.asset(subscriptionLogo),
+                          Image.asset(
+                            subscriptionLogo,
+                            height: 200,
+                          ),
                           const SizedBox(height: 30),
                           Text(
                             subscribeSubTxt,
@@ -87,7 +91,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           const SizedBox(height: 20),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue),
+                                backgroundColor: Color(0xff0162FF)),
                             onPressed: () async {
                               await ApiController().trialSubscription();
                               checkSubscription();
@@ -138,8 +142,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         ),
                       ),
                     SizedBox(height: 30),
-                    if (checkSub!.status.toString() == "notFound" ||
-                        checkSub!.status.toString() == "expired")
+                    if (checkSub!.status.toString() == "expired")
                       ElevatedButton(
                           onPressed: () {
                             launchUrl(
