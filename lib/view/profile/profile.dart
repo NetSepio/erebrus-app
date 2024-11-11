@@ -86,11 +86,11 @@ class _ProfileState extends State<Profile> {
                       if (profileModel!.payload!.walletAddress != null)
                         Row(
                           children: [
-                            Image.asset(
-                              "assets/evm.png",
-                              width: 40,
-                              height: 40,
-                            ),
+                            // Image.asset(
+                            //   "assets/evm.png",
+                            //   width: 40,
+                            //   height: 40,
+                            // ),
                             SizedBox(width: 5),
                             Expanded(
                               child: TextField(
@@ -100,7 +100,7 @@ class _ProfileState extends State<Profile> {
                                     text: profileModel!.payload!.walletAddress
                                         .toString()),
                                 decoration: const InputDecoration(
-                                  labelText: "EVM Wallet",
+                                  labelText: "APTOS Wallet",
                                   filled: true,
                                   fillColor: Colors.black38,
                                   border: OutlineInputBorder(
