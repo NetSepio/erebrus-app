@@ -5,10 +5,15 @@ import 'dart:io';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:wire/api/api.dart';
 import 'package:wire/config/api_const.dart';
+import 'package:wire/config/colors.dart';
+import 'package:wire/config/common.dart';
 import 'package:wire/model/AllNodeModel.dart';
+import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/view/home/home_controller.dart';
 import 'package:wire/view/setting/setting.dart';
 import 'package:wireguard_flutter/wireguard_flutter.dart';
@@ -27,6 +32,8 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   RxBool showDummyNft = false.obs;
   @override
   void initState() {
+    homeController.initvpn();
+    subsTry();
     homeController.wireguard.vpnStageSnapshot.listen((event) {
       debugPrint("status changed $event");
       if (mounted) {
@@ -59,6 +66,64 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     // apiCall();
     // vpnActivate ? _obtainStats() : null;
     super.initState();
+  }
+
+  subsTry() async {
+    bool firs = await box!.containsKey("FirstTime");
+    CheckSubModel? checkSub = await ApiController().checkSubscription();
+    if (checkSub.subscription == null) {
+      await Timer(
+        Duration(seconds: 1),
+        () async {
+          if (!firs) {
+            box!.put("FirstTime", true);
+            await showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(
+                    "Try Our Free Subscription",
+                    textAlign: TextAlign.center,
+                  ),
+                  content: Text(
+                    "Unleash the power of future internet with our ÐVPN and ÐWi-Fi",
+                    textAlign: TextAlign.center,
+                  ),
+                  actions: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: Text("Cancel")),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: blue,
+                                foregroundColor: Colors.white),
+                            onPressed: () async {
+                              EasyLoading.show();
+                              try {
+                                await ApiController().trialSubscription();
+                                await ApiController().checkSubscription();
+                                EasyLoading.dismiss();
+                              } catch (e) {
+                                EasyLoading.dismiss();
+                              }
+                              Get.back();
+                            },
+                            child: Text("Subscribe")),
+                      ],
+                    )
+                  ],
+                );
+              },
+            );
+          }
+        },
+      );
+    }
   }
 
   @override
@@ -122,6 +187,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 25),
+
                   SizedBox(
                     height: 70,
                     width: Get.width,
@@ -179,12 +245,13 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                               .first
                                               .chainName
                                               .toString();
-                                      homeController.selectedPayload
-                                          .value = homeController.countryMap![
-                                              homeController.selectedCountry!.value]!
-                                          .firstWhere((node) =>
-                                              node.chainName ==
-                                              homeController.selectedCity);
+                                      homeController.selectedPayload.value =
+                                          homeController.countryMap![
+                                                  homeController
+                                                      .selectedCountry!.value]!
+                                              .firstWhere((node) =>
+                                                  node.chainName ==
+                                                  homeController.selectedCity);
                                     });
                                   },
                                 )
@@ -209,8 +276,8 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                         homeController.selectedCity)
                                 : null,
                             hint: const Text('Select Node'),
-                            items: homeController
-                                .countryMap![homeController.selectedCountry!.value]!
+                            items: homeController.countryMap![
+                                    homeController.selectedCountry!.value]!
                                 .map((node) {
                               return DropdownMenuItem<AllNPayload>(
                                 value: node,

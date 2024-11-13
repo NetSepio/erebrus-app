@@ -6,6 +6,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_curve25519/flutter_curve25519.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_ip_address/get_ip_address.dart';
@@ -26,7 +27,7 @@ class HomeController extends GetxController {
   RxInt selectedNFT = 0.obs;
   Rx<ProfileModel>? profileModel;
   RxBool isLoading = true.obs;
-  RxString? selectedCountry="".obs;
+  RxString? selectedCountry = "".obs;
   String? selectedCity;
   Map<String, List<AllNPayload>>? countryMap;
   final storage = SecureStorage();
@@ -53,7 +54,7 @@ class HomeController extends GetxController {
     }
     if (selectedPayload.value.region == null) {
       selectedPayload.value = allNodeModel.value.payload![0];
-      selectedCountry!.value = countryMap!.keys.first;
+      selectedCountry!.value = countryMap.keys.first;
       selectedCity =
           countryMap[selectedPayload.value.region]!.first.chainName.toString();
     }
@@ -137,6 +138,10 @@ class HomeController extends GetxController {
     update();
   }
 
+  initvpn() async {
+    await wireguard.initialize(interfaceName: initName);
+  }
+
   void generateKeyPair() {
     final random = math.Random.secure();
     List<int> seed = List<int>.generate(32, (index) => random.nextInt(256));
@@ -157,6 +162,7 @@ class HomeController extends GetxController {
   }
 
   apiCall() async {
+    EasyLoading.show();
     if (selectedPayload.value.region != null) {
       await ApiController()
           .getVpnData(
@@ -194,13 +200,13 @@ class HomeController extends GetxController {
                 ''';
     log("vpn conf -- $conf");
     try {
-      await wireguard.initialize(interfaceName: initName);
       await wireguard.startVpn(
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
         providerBundleIdentifier: 'com.griddownllc.tunnelvpn.VPNExtension',
         // providerBundleIdentifier: 'com.esoft.reward.WGExtension',
       );
+      EasyLoading.dismiss();
       vpnActivate.value = true;
       getIp();
     } catch (error, stack) {
@@ -232,6 +238,7 @@ class HomeController extends GetxController {
   registerClient() async {
     log("initPublicKey -- $initPublicKey");
     log("presharedKey -- $presharedKey");
+    EasyLoading.show();
     registerClientModel.value = await ApiController().registerClient(
         selectedPayload.value.id.toString(), initPublicKey, initPrivateKey);
     if (registerClientModel.value.payload == null) {
