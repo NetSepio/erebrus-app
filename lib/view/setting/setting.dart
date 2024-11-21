@@ -54,7 +54,10 @@ class _SettingPageState extends State<SettingPage> {
                 subtitle: const Text(profileSubTxt),
                 trailing:
                     const Icon(Icons.person, size: 20, color: Colors.green),
-                onTap: () => Get.to(() => const Profile()),
+                onTap: () => Get.to(() => Profile(
+                      title: profileTxt,
+                      showBackArrow: true,
+                    )),
               ),
             ),
             Card(
@@ -74,14 +77,16 @@ class _SettingPageState extends State<SettingPage> {
             ),
             ListTile(
               title: const Text(termsAndConditionsText),
-              trailing: const Icon(Icons.policy, color: Color(0xff0162FF), size: 20),
+              trailing:
+                  const Icon(Icons.policy, color: Color(0xff0162FF), size: 20),
               onTap: () {
                 launchUrl(Uri.parse("https://erebrus.io/terms"));
               },
             ),
             ListTile(
               title: const Text(privacyPolicy),
-              trailing: const Icon(Icons.policy, color: Color(0xff0162FF), size: 20),
+              trailing:
+                  const Icon(Icons.policy, color: Color(0xff0162FF), size: 20),
               onTap: () {
                 Get.to(() => const PrivacyPolicy());
                 // launchUrl(Uri.parse("https://netsepio.com/privacy.html"));

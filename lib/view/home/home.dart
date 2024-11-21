@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     homeController.getProfileData();
-    homeController.getSolanaAddress();
     super.initState();
   }
 
