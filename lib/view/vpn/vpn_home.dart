@@ -6,6 +6,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:wire/api/api.dart';
@@ -15,6 +16,7 @@ import 'package:wire/config/common.dart';
 import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/view/home/home_controller.dart';
+import 'package:wire/view/profile/profile.dart';
 import 'package:wire/view/setting/setting.dart';
 import 'package:wireguard_flutter/wireguard_flutter.dart';
 
@@ -33,7 +35,8 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   @override
   void initState() {
     homeController.initvpn();
-    subsTry();
+    walletSelection();
+
     homeController.wireguard.vpnStageSnapshot.listen((event) {
       debugPrint("status changed $event");
       if (mounted) {
@@ -66,6 +69,54 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     // apiCall();
     // vpnActivate ? _obtainStats() : null;
     super.initState();
+  }
+
+  walletSelection() async {
+    await Future.delayed(Duration(milliseconds: 100));
+    if (box!.containsKey("selectedWalletAddress") == false ||
+        box!.get("selectedWalletAddress") == null) {
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 270,
+                  width: Get.width,
+                  child: Profile(
+                    title: "",
+                    showBackArrow: false,
+                  ),
+                ),
+                // WalletDropdown(),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent.shade700,
+                      foregroundColor: Colors.white),
+                  onPressed: () {
+                    if (box!.containsKey("selectedWalletAddress") &&
+                        box!.get("selectedWalletAddress") != null) {
+                      Get.back();
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Please Select Wallet",
+                          gravity: ToastGravity.CENTER,
+                          backgroundColor: Colors.red);
+                    }
+                  },
+                  child: Center(child: Text("Ok"))),
+            ],
+          );
+        },
+      );
+    }
+    await subsTry();
   }
 
   subsTry() async {
@@ -160,7 +211,6 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
           InkWell(
             onTap: () {
               Get.to(() => const SettingPage());
-              // Get.to(() => const SettingScreen());
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),
@@ -440,8 +490,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 60),
-                  if (homeController.profileModel != null &&
-                      homeController.profileModel!.value.payload != null)
+                  // if (homeController.profileModel != null &&
+                  //     homeController.profileModel!.value.payload != null)
+                  if (box!.containsKey("selectedWalletAddress") &&
+                      box!.get("selectedWalletAddress").toString() != "" &&
+                      box!.get("selectedWalletAddress").toString() != "null")
                     nftsShow(),
                   // const SizedBox(height: 15),
                   // Obx(
@@ -618,8 +671,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
       }
       '''),
           variables: {
-            "address": homeController.profileModel!.value.payload!.walletAddress
-                .toString(),
+            "address": box!.get("selectedWalletAddress"),
             // "0xc143aba11d86c6a0d5959eaec1ad18652693768d92daab18f323fd7de1dc9829",
             "limit": 12,
             "offset": 0,
@@ -639,12 +691,13 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
 
           if (result.data == null ||
               result.data!['current_token_ownerships_v2'] == null) {
-            return const Text("No Data");
+            return const Text("");
           }
           //result.data!['current_token_ownerships_v2'][index]['current_collection]['collection_id]
           return ListView.builder(
             shrinkWrap: true,
             padding: EdgeInsets.zero,
+            physics: BouncingScrollPhysics(),
             itemCount: result.data!['current_token_ownerships_v2'].length,
             itemBuilder: (context, index) {
               var data = result.data!['current_token_ownerships_v2'][index];
@@ -655,8 +708,9 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
               }
               var collectionName = data['current_token_data']
                   ['current_collection']["collection_name"];
-              log(data.toString());
-              return collectionName == "EREBRUS"
+              log("NFF))) " + data.toString());
+              return collectionName.toString().contains("NETSEPIO") ||
+                      collectionName.toString().contains("EREBRUS")
                   ? Column(
                       children: [
                         const SizedBox(height: 20),
@@ -702,7 +756,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                                   child:
                                                       CircularProgressIndicator()),
                                           errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
+                                              Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Image.asset(
+                                                "assets/erebrus_mobile_app_icon.png"),
+                                          ),
                                         ),
                                       const SizedBox(width: 15),
                                       Column(

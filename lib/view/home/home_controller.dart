@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 import 'dart:typed_data';
-
+import 'package:bip39/bip39.dart' as bip39;
+import 'package:solana/solana.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_curve25519/flutter_curve25519.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -11,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_ip_address/get_ip_address.dart';
 import 'package:wire/api/api.dart';
+import 'package:wire/config/common.dart';
 import 'package:wire/config/secure_storage.dart';
 import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
@@ -66,6 +68,8 @@ class HomeController extends GetxController {
       ProfileModel? result = await ApiController().getProfile();
       isLoading.value = false;
       profileModel = Rx<ProfileModel>(result);
+      // if (result.payload != null && result.payload!.walletAddress != null)
+      //   box!.put("selectedWalletAddress", result.payload!.walletAddress!);
       update();
     } catch (e) {
       isLoading.value = false;
@@ -84,15 +88,6 @@ class HomeController extends GetxController {
     }
   }
 
-  getSolanaAddress() async {
-    try {
-      String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
-      log("mnemonics ---- ${mnemonics}");
-      var sd = await generateSolanaAddress(mnemonics);
-      log("Solana Address- $sd");
-      storage.writeStoredValues("solanaAddress", sd);
-    } catch (e) {}
-  }
 
   //.......
   Rx<AllNodeModel> allNodeModel = AllNodeModel().obs;
