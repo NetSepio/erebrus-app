@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+// import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wire/config/common.dart';
 import 'package:wire/config/strings.dart';
@@ -20,13 +20,13 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   Location location = Location();
-  PackageInfo? packageInfo;
+  // PackageInfo? packageInfo;
 
   bool? _serviceEnabled;
   LocationData? _locationData;
   init() async {
     // await AndroidFlutterWifi.init();
-    packageInfo = await PackageInfo.fromPlatform();
+    // packageInfo = await PackageInfo.fromPlatform();
     setState(() {});
   }
 
@@ -143,10 +143,10 @@ class _SettingPageState extends State<SettingPage> {
               },
             ),
             const SizedBox(height: 30),
-            if (packageInfo != null)
-              Center(
-                  child: Text(
-                      "V. ${packageInfo!.version.toString()}+${packageInfo!.buildNumber}"))
+            // if (packageInfo != null)
+            //   Center(
+            //       child: Text(
+            //           "V. ${packageInfo!.version.toString()}+${packageInfo!.buildNumber}"))
           ],
         ),
       ),
