@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 import 'dart:typed_data';
-import 'package:bip39/bip39.dart' as bip39;
-import 'package:solana/solana.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_curve25519/flutter_curve25519.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -12,13 +11,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_ip_address/get_ip_address.dart';
 import 'package:wire/api/api.dart';
-import 'package:wire/config/common.dart';
 import 'package:wire/config/secure_storage.dart';
 import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
-import 'package:wire/view/Onboarding/generateSolanaAddress.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
 import 'package:wire/view/profile/profile_model.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
@@ -87,7 +84,6 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
-
 
   //.......
   Rx<AllNodeModel> allNodeModel = AllNodeModel().obs;
@@ -198,7 +194,7 @@ class HomeController extends GetxController {
       await wireguard.startVpn(
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
-        providerBundleIdentifier: 'com.griddownllc.tunnelvpn.VPNExtension',
+        providerBundleIdentifier: 'com.erebrus.app.VPNExtension',
         // providerBundleIdentifier: 'com.esoft.reward.WGExtension',
       );
       EasyLoading.dismiss();

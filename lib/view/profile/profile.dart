@@ -4,7 +4,6 @@ import 'package:aptos/aptos.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:solana/solana.dart';
 import 'package:sui/cryptography/signature.dart';
 import 'package:sui/sui_account.dart';
 import 'package:web3dart/crypto.dart';
@@ -12,7 +11,10 @@ import 'package:web3dart/web3dart.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/config/common.dart';
 import 'package:wire/config/secure_storage.dart';
-import 'package:wire/view/Onboarding/generateSolanaAddress.dart';
+import 'package:wire/view/Onboarding/eclipAddress.dart';
+import 'package:wire/view/Onboarding/evmAddress.dart';
+import 'package:wire/view/Onboarding/solanaAdd.dart';
+import 'package:wire/view/Onboarding/soonAddress.dart';
 import 'package:wire/view/profile/profile_model.dart';
 import 'package:wire/view/profile/walletSelection.dart';
 
@@ -32,32 +34,10 @@ class _ProfileState extends State<Profile> {
   final storage = SecureStorage();
 
   apiCall() async {
+    var mnemonics = await storage.getStoredValue("mnemonic") ?? "";
     profileModel = await ApiController().getProfile();
+    await getSolanaAddress(mnemonics);
     setState(() {});
-  }
-
-  Future<String> getSolanaAddress() async {
-    try {
-      String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
-      log("mnemonics ---- ${mnemonics}");
-
-      // Generate seed from mnemonic
-      final seed = bip39.mnemonicToSeed(mnemonics);
-
-      // Create Ed25519 keypair from the seed
-      final wallet = await Ed25519HDKeyPair.fromMnemonic(mnemonics);
-
-      // Get the public address
-      final solanaAddress = wallet.address;
-
-      log('Your Solana address is: $solanaAddress');
-      storage.writeStoredValues("solanaAddress", "${solanaAddress}");
-      solanaAdd.value = solanaAddress;
-      box!.put("solanaAdd", solanaAddress);
-      return solanaAddress;
-    } catch (e) {
-      return "";
-    }
   }
 
   SuiAccount? ed25519;
@@ -85,8 +65,10 @@ class _ProfileState extends State<Profile> {
   void deriveWalletAddresses() async {
     var mnemonic = await storage.getStoredValue("mnemonic") ?? "";
     final seed = bip39.mnemonicToSeed(mnemonic);
+    await getEvmWallet(mnemonic);
+    await getEclipseAddress(mnemonic);
+   await getSoonAddress(mnemonic);
 
-    await eclipAddress(mnemonic);
     // Derive EVM Wallet Address
     final evmPrivateKey =
         EthPrivateKey.fromHex(bytesToHex(seed.sublist(0, 32)));
@@ -106,7 +88,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     apiCall();
-    getSolanaAddress();
+
     suiWal();
     deriveWalletAddresses();
     super.initState();
