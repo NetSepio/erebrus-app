@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wire/config/common.dart';
 import 'package:wire/config/strings.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
+import 'package:wire/view/Onboarding/solanaAdd.dart';
 import 'package:wire/view/profile/profile.dart';
 import 'package:wire/view/setting/PrivacyPolicy.dart';
 import 'package:wire/view/speedCheck/speedCheck.dart';
@@ -48,6 +49,7 @@ class _SettingPageState extends State<SettingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+         
             Card(
               child: ListTile(
                 title: const Text(profileTxt),

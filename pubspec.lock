@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  base_x:
+    dependency: transitive
+    description:
+      name: base_x
+      sha256: "519abcdafd637d4b6bd7e72fabd8f9264935f804b9b9f6c5d8411c7d52cbf8fd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   bcs:
     dependency: transitive
     description:
@@ -89,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.1+5"
+  bs58:
+    dependency: "direct main"
+    description:
+      name: bs58
+      sha256: "3ed24dadf386ca749ff50af678be1131ef569a3583a6f37b87b90c032270c767"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   bs58check:
     dependency: transitive
     description:
@@ -194,7 +210,7 @@ packages:
     source: hosted
     version: "3.0.6"
   cryptography:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cryptography
       sha256: d146b76d33d94548cf035233fbc2f4338c1242fa119013bead807d033fc4ae05
@@ -258,7 +274,7 @@ packages:
     source: hosted
     version: "0.3.1"
   ed25519_hd_key:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: ed25519_hd_key
       sha256: "31e191ec97492873067e46dc9cc0c7d55170559c83a478400feffa0627acaccf"
@@ -281,14 +297,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
-  elliptic:
-    dependency: transitive
-    description:
-      name: elliptic
-      sha256: "0c303d810603953a65dc39c4c542fb7538defd9e212403c54c266140819523b6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.11"
   fake_async:
     dependency: transitive
     description:
@@ -736,14 +744,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.0-beta.6"
-  hdkey:
-    dependency: "direct main"
-    description:
-      name: hdkey
-      sha256: "3e41132d53df36ea5b574226c39289c6d7a8ee9b93703ba0333024f7e82c3fd9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   hex:
     dependency: transitive
     description:
