@@ -1,0 +1,6 @@
+framework module wifi_scan {
+  umbrella header "wifi_scan-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -66,7 +66,7 @@ dependencies:
   flutter_easyloading: ^3.0.5
   location: ^7.0.1
   # package_info_plus: ^8.1.1
-  google_maps_flutter: ^2.6.1
+  # google_maps_flutter: ^2.6.1
   geocoding: ^3.0.0
   geolocator: ^13.0.1
   solana: ^0.31.0
