@@ -11,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_ip_address/get_ip_address.dart';
 import 'package:wire/api/api.dart';
+import 'package:wire/config/common.dart';
 import 'package:wire/config/secure_storage.dart';
 import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
@@ -65,8 +66,8 @@ class HomeController extends GetxController {
       ProfileModel? result = await ApiController().getProfile();
       isLoading.value = false;
       profileModel = Rx<ProfileModel>(result);
-      // if (result.payload != null && result.payload!.walletAddress != null)
-      //   box!.put("selectedWalletAddress", result.payload!.walletAddress!);
+      if (result.payload != null && result.payload!.walletAddress != null)
+        box!.put("ApiWallet", result.payload!.walletAddress!);
       update();
     } catch (e) {
       isLoading.value = false;
@@ -92,7 +93,7 @@ class HomeController extends GetxController {
   RxMap ipData = {}.obs;
   final wireguard = WireGuardFlutter.instance;
 
-  String initName = 'App';
+  String initName = 'Erebrus';
   String initAddress = "";
   String initPort = "51820";
   String initDnsServer = "1.1.1.1";

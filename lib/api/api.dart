@@ -81,6 +81,9 @@ class ApiController {
       log("profile -  ${res.data}");
       if (res.statusCode == 200) {
         ProfileModel profileModel = ProfileModel.fromJson(res.data);
+        if (profileModel.payload != null &&
+            profileModel.payload!.walletAddress != null)
+          box!.put("ApiWallet", profileModel.payload!.walletAddress!);
         return profileModel;
       }
     } on DioException catch (e) {
@@ -94,9 +97,9 @@ class ApiController {
     Response res = await dio
         .post("https://gateway.erebrus.io/api/v1.0/subscription/trial",
             options: header)
-        .catchError((e) {
+        .catchError((e) async {
       log("getProfile error-- $e");
-      return Future.error("error");
+      return await Future.error("error");
     });
 
     log("trialSubscription -  ${res.data}");
@@ -114,10 +117,10 @@ class ApiController {
         options: header,
       );
       log("checkSubscription -  ${res.data}");
-      return CheckSubModel.fromJson(res.data);
+      return await CheckSubModel.fromJson(res.data);
     } on DioException catch (e) {
       log("checkSubscription error-- ${e.response}");
-      return CheckSubModel.fromJson(e.response!.data);
+      return await CheckSubModel.fromJson(e.response!.data);
     }
   }
 
@@ -147,7 +150,7 @@ class ApiController {
       Response res =
           await dio.post(baseUrl + ApiUrl().authenticate, data: data);
 
-      log("profile -  ${res.data}");
+      log("profile - =-0-=-= ${res.data}");
       if (res.statusCode == 200) {
         log("Flow Data  ${res.data}");
         box!.put("token", res.data["payload"]["token"]);

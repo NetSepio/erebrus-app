@@ -56,6 +56,7 @@ class WalletGenerator {
 
 Future getEvmWallet(mnemonic) async {
 // Get wallet from mnemonic
+
   try {
     // Validate mnemonic first
     if (WalletGenerator.validateMnemonic(mnemonic)) {
