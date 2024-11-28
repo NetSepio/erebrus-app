@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wire/config/common.dart';
+import 'package:wire/controller/profileContrller.dart';
 import 'package:wire/view/Onboarding/OnboardingScreen.dart';
 import 'package:wire/view/home/home.dart';
 import 'package:wire/view/home/home_controller.dart';
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
+    Get.put(ProfileController());
     return GetMaterialApp(
       builder: EasyLoading.init(
         builder: FToastBuilder(),

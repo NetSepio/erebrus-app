@@ -13,8 +13,13 @@ import 'package:wire/api/api.dart';
 import 'package:wire/config/api_const.dart';
 import 'package:wire/config/colors.dart';
 import 'package:wire/config/common.dart';
+import 'package:wire/config/secure_storage.dart';
+import 'package:wire/controller/profileContrller.dart';
 import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
+import 'package:wire/view/Onboarding/eclipAddress.dart';
+import 'package:wire/view/Onboarding/solanaAdd.dart';
+import 'package:wire/view/Onboarding/soonAddress.dart';
 import 'package:wire/view/home/home_controller.dart';
 import 'package:wire/view/profile/profile.dart';
 import 'package:wire/view/setting/setting.dart';
@@ -31,7 +36,10 @@ class VpnHomeScreen extends StatefulWidget {
 
 class _VpnHomeScreenState extends State<VpnHomeScreen> {
   HomeController homeController = Get.find();
+  ProfileController profileController = Get.find();
   RxBool showDummyNft = false.obs;
+  final storage = SecureStorage();
+
   @override
   void initState() {
     homeController.initvpn();
@@ -72,49 +80,63 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   }
 
   walletSelection() async {
-    await Future.delayed(Duration(milliseconds: 100));
-    if (box!.containsKey("selectedWalletAddress") == false ||
-        box!.get("selectedWalletAddress") == null) {
-      await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 270,
-                  width: Get.width,
-                  child: Profile(
-                    title: "",
-                    showBackArrow: false,
+    EasyLoading.show();
+    var mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+    profileController.mnemonics.value = mnemonics;
+    await profileController.getProfile();
+    await getSolanaAddress(mnemonics);
+    await suiWal(mnemonics);
+    await getEclipseAddress(mnemonics);
+    await getSoonAddress(mnemonics);
+    await evmAptos(mnemonics);
+    setState(() {});
+
+    await Future.delayed(Duration(milliseconds: 50));
+    EasyLoading.dismiss();
+    if (box!.containsKey("ApiWallet") && box!.get("ApiWallet") != null) {
+      if (box!.containsKey("selectedWalletAddress") == false ||
+          box!.get("selectedWalletAddress") == null) {
+        await showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return AlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 270,
+                    width: Get.width,
+                    child: Profile(
+                      title: "",
+                      showBackArrow: false,
+                    ),
                   ),
-                ),
-                // WalletDropdown(),
+                  // WalletDropdown(),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent.shade700,
+                        foregroundColor: Colors.white),
+                    onPressed: () {
+                      if (box!.containsKey("selectedWalletAddress") &&
+                          box!.get("selectedWalletAddress") != null) {
+                        Get.back();
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Please Select Wallet",
+                            gravity: ToastGravity.CENTER,
+                            backgroundColor: Colors.red);
+                      }
+                    },
+                    child: Center(child: Text("Ok"))),
               ],
-            ),
-            actions: [
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent.shade700,
-                      foregroundColor: Colors.white),
-                  onPressed: () {
-                    if (box!.containsKey("selectedWalletAddress") &&
-                        box!.get("selectedWalletAddress") != null) {
-                      Get.back();
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "Please Select Wallet",
-                          gravity: ToastGravity.CENTER,
-                          backgroundColor: Colors.red);
-                    }
-                  },
-                  child: Center(child: Text("Ok"))),
-            ],
-          );
-        },
-      );
+            );
+          },
+        );
+      }
     }
     await subsTry();
   }
@@ -158,6 +180,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                               try {
                                 await ApiController().trialSubscription();
                                 await ApiController().checkSubscription();
+                                await walletSelection();
                                 EasyLoading.dismiss();
                               } catch (e) {
                                 EasyLoading.dismiss();
