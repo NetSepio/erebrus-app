@@ -231,21 +231,25 @@ class HomeController extends GetxController {
     log("initPublicKey -- $initPublicKey");
     log("presharedKey -- $presharedKey");
     EasyLoading.show();
-    registerClientModel.value = await ApiController().registerClient(
-        selectedPayload.value.id.toString(), initPublicKey, initPrivateKey);
-    if (registerClientModel.value.payload == null) {
-      Fluttertoast.showToast(
-          msg: "Something went wrong. Please try another region.");
-      return;
+    try {
+      registerClientModel.value = await ApiController().registerClient(
+          selectedPayload.value.id.toString(), initPublicKey, initPrivateKey);
+      if (registerClientModel.value.payload == null) {
+        Fluttertoast.showToast(
+            msg: "Something went wrong. Please try another region.");
+        return;
+      }
+      RegisterPayload vpnData = registerClientModel.value.payload!;
+      initAddress = vpnData.client!.address!.first;
+      initAllowedIp =
+          "${vpnData.client!.allowedIPs!.first}, ${vpnData.client!.allowedIPs![1]}";
+      initPublicKey = vpnData.serverPublicKey!;
+      initEndpoint = "${vpnData.endpoint}:51820";
+      presharedKey = vpnData.client!.presharedKey!;
+      update();
+      startVpn();
+    } catch (e) {
+      EasyLoading.dismiss();
     }
-    RegisterPayload vpnData = registerClientModel.value.payload!;
-    initAddress = vpnData.client!.address!.first;
-    initAllowedIp =
-        "${vpnData.client!.allowedIPs!.first}, ${vpnData.client!.allowedIPs![1]}";
-    initPublicKey = vpnData.serverPublicKey!;
-    initEndpoint = "${vpnData.endpoint}:51820";
-    presharedKey = vpnData.client!.presharedKey!;
-    update();
-    startVpn();
   }
 }

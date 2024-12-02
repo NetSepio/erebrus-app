@@ -21,6 +21,16 @@ class ImportAccountScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           backgroundColor: black,
+          appBar: AppBar(
+            backgroundColor: black,
+            leading: InkWell(
+              onTap: () => Get.back(),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(Icons.arrow_back_ios, color: white),
+              ),
+            ),
+          ),
           body: Container(
             width: Get.width,
             height: Get.height,
@@ -30,10 +40,7 @@ class ImportAccountScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SafeArea(
-                    child: Icon(Icons.arrow_back_ios, color: white),
-                  ),
-                  height(50),
+                  height(20),
                   const Text(
                     "Enter Your Secret Phrase",
                     style: TextStyle(color: white, fontSize: 18),

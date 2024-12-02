@@ -9,7 +9,8 @@ import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/view/setting/setting.dart';
 
 class SubscriptionScreen extends StatefulWidget {
-  const SubscriptionScreen({super.key});
+  final bool showAppbar;
+  const SubscriptionScreen({super.key,  this.showAppbar=true});
 
   @override
   State<SubscriptionScreen> createState() => _SubscriptionScreenState();
@@ -40,7 +41,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:widget.showAppbar? AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
@@ -62,7 +63,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             ),
           )
         ],
-      ),
+      ):null,
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Obx(

@@ -82,6 +82,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   walletSelection() async {
     EasyLoading.show();
     var mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+    if (mnemonics.isEmpty) {
+      EasyLoading.dismiss();
+      // await subsTry();
+      return;
+    }
     profileController.mnemonics.value = mnemonics;
     await profileController.getProfile();
     await getSolanaAddress(mnemonics);
@@ -145,58 +150,53 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     bool firs = await box!.containsKey("FirstTime");
     CheckSubModel? checkSub = await ApiController().checkSubscription();
     if (checkSub.subscription == null) {
-      await Timer(
-        Duration(seconds: 1),
-        () async {
-          if (!firs) {
-            box!.put("FirstTime", true);
-            await showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(
-                    "Try Our Free Subscription",
-                    textAlign: TextAlign.center,
-                  ),
-                  content: Text(
-                    "Unleash the power of future internet with our ÐVPN and ÐWi-Fi",
-                    textAlign: TextAlign.center,
-                  ),
-                  actions: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: Text("Cancel")),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: blue,
-                                foregroundColor: Colors.white),
-                            onPressed: () async {
-                              EasyLoading.show();
-                              try {
-                                await ApiController().trialSubscription();
-                                await ApiController().checkSubscription();
-                                await walletSelection();
-                                EasyLoading.dismiss();
-                              } catch (e) {
-                                EasyLoading.dismiss();
-                              }
-                              Get.back();
-                            },
-                            child: Text("Subscribe")),
-                      ],
-                    )
+      if (!firs) {
+        box!.put("FirstTime", true);
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(
+                "Try Our Free Subscription",
+                textAlign: TextAlign.center,
+              ),
+              content: Text(
+                "Unleash the power of future internet with our ÐVPN and ÐWi-Fi",
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text("Cancel")),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: blue,
+                            foregroundColor: Colors.white),
+                        onPressed: () async {
+                          EasyLoading.show();
+                          try {
+                            await ApiController().trialSubscription();
+                            await ApiController().checkSubscription();
+                            await walletSelection();
+                            EasyLoading.dismiss();
+                          } catch (e) {
+                            EasyLoading.dismiss();
+                          }
+                          Get.back();
+                        },
+                        child: Text("Subscribe")),
                   ],
-                );
-              },
+                )
+              ],
             );
-          }
-        },
-      );
+          },
+        );
+      }
     }
   }
 
@@ -446,14 +446,17 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                     () => Center(
                       child: InkWell(
                         onTap: () {
-                          // if (homeController.checkSub.value.status ==
-                          //         "notFound" ||
-                          //     homeController.checkSub.value.status ==
-                          //         "expired") {
-                          //   Fluttertoast.showToast(
-                          //       msg: "Check Your Subscription");
-                          //   return;
-                          // }
+                          if (homeController.checkSub.value.status == "notFound"
+                              //     ||
+                              // homeController.checkSub.value.status ==
+                              //     "expired"
+                              ) {
+                            Fluttertoast.showToast(
+                                msg: "Check Your Subscription",
+                                gravity: ToastGravity.CENTER,
+                                backgroundColor: Colors.red);
+                            return;
+                          }
                           if (vpnActivate.value == false) {
                             if (homeController.collectionId != null &&
                                 homeController.selectedNFT.value != 0) {
@@ -705,7 +708,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
         builder: (QueryResult result, {refetch, fetchMore}) {
           if (result.hasException) {
             log("Exception --  ${result.exception}");
-            return Text("No Internet".toString());
+            return Text("".toString());
           }
 
           if (result.isLoading) {
