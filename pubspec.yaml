@@ -46,7 +46,7 @@ dependencies:
   hive: ^2.2.3
   lottie: ^3.1.2
   hive_flutter: ^1.1.0
-  google_sign_in: ^6.1.6
+  google_sign_in: ^6.2.2
   dio: ^5.4.0
   avatar_glow: ^3.0.1
   get_ip_address: ^0.0.6

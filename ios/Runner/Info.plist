@@ -86,5 +86,14 @@
 	<array>
 		<string>allow-vpn</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+		<key>CFBundleURLSchemes</key>
+			<array>
+			<string>com.erebrus.app</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

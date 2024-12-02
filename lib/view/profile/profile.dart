@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wire/config/common.dart';
 import 'package:wire/config/secure_storage.dart';
 import 'package:wire/controller/profileContrller.dart';
 import 'package:wire/view/Onboarding/eclipAddress.dart';
 import 'package:wire/view/Onboarding/solanaAdd.dart';
 import 'package:wire/view/Onboarding/soonAddress.dart';
 import 'package:wire/view/profile/walletSelection.dart';
+import 'package:wire/view/subscription/subscriptionScreen.dart';
 
 class Profile extends StatefulWidget {
   final String title;
@@ -171,35 +173,42 @@ class _ProfileState extends State<Profile> {
                 //     ],
                 //   ),
                 // const SizedBox(height: 20),
-                Obx(() =>
-                    (profileController.profileModel.value.payload!.email !=
+                Obx(() => (profileController.profileModel.value.payload !=
+                            null &&
+                        profileController.profileModel.value.payload!.email !=
                             null)
-                        ? TextField(
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              labelText: profileController
-                                  .profileModel.value.payload!.email
-                                  .toString(),
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 1,
-                                ),
-                              ),
+                    ? TextField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          labelText: profileController
+                              .profileModel.value.payload!.email
+                              .toString(),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
                             ),
-                          )
-                        : SizedBox()),
-                Column(
-                  children: [
-                    SizedBox(height: 20),
-                    Text(
-                      "Your Preferred Wallet",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20),
-                    WalletDropdown(),
-                  ],
-                ),
+                          ),
+                        ),
+                      )
+                    : SizedBox()),
+                if (box!.get("solanaAdd") == null)
+                  Expanded(
+                      child: SubscriptionScreen(
+                    showAppbar: false,
+                  )),
+                if (box!.get("solanaAdd") != null)
+                  Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Text(
+                        "Your Preferred Wallet",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 20),
+                      WalletDropdown(),
+                    ],
+                  ),
               ],
             ),
           ),
