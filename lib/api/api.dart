@@ -48,7 +48,7 @@ class ApiController {
         box!.put("email", email);
         emailLogin(email: email);
       });
-      log("Apple Register login error");
+      log("Apple Register login Successfully");
       EasyLoading.dismiss();
     } on DioException catch (e) {
       EasyLoading.dismiss();
@@ -308,35 +308,38 @@ class ApiController {
 
   deleteVpn({required String uuid}) async {
     log(header.headers.toString());
+    try {
+      Response res = await dio
+          .delete(
+        "https://gateway.netsepio.com/api/v1.0/erebrus/client/$uuid",
+        options: header,
+      )
+          .catchError((e) {
+        log(e.toString());
+      });
 
-    Response res = await dio
-        .delete(
-      "https://gateway.netsepio.com/api/v1.0/erebrus/client/$uuid",
-      options: header,
-    )
-        .catchError((e) {
-      log(e.toString());
-    });
-
-    if (res.statusCode == 200) {
-      log('VPN Data delete----------------');
+      if (res.statusCode == 200) {
+        log('VPN Data delete----------------');
+      }
+    } on DioException catch (e) {
+      log('VPN Data delete ERROR 32 --------------${e.response}');
     }
   }
 
   deleteVpn2({required String uuid, required String region}) async {
     log(header.headers.toString());
+    try {
+      var url="https://gateway.netsepio.com/api/v1.0/erebrus/client/$region/$uuid";
+      Response res = await dio.delete(
+        url,
+        options: header,
+      );
 
-    Response res = await dio
-        .delete(
-      "https://gateway.netsepio.com/api/v1.0/erebrus/client/$region/$uuid",
-      options: header,
-    )
-        .catchError((e) {
-      log(e.toString());
-    });
-
-    if (res.statusCode == 200) {
-      log('VPN Data delete----------------');
+      if (res.statusCode == 200) {
+        log('VPN Data delete----------------');
+      }
+    } on DioException catch (e) {
+      log('VPN Data delete ERROR  --------------${e.response}');
     }
   }
 }

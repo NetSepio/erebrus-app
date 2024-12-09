@@ -97,6 +97,14 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       //   ),
                       // ),
                       const SizedBox(height: 30),
+                      // ElevatedButton(
+                      //     onPressed: () async {
+                      //       await ApiController().registerApple(
+                      //           email: "qa@gmail.com",
+                      //           appleId:
+                      //               "000097.93be26068af64c1b9ffce0e3601dcb47.14523333");
+                      //     },
+                      //     child: Text("data")),
                       if (Platform.isIOS)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -119,6 +127,8 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                                       appleId: credential.userIdentifier!);
                                 }
                               } catch (e) {
+                                Fluttertoast.showToast(
+                                    msg: "Something want wrong");
                                 log("message----EEE---$e");
                               }
                             },

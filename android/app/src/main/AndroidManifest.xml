@@ -20,6 +20,14 @@
            <meta-data
         android:name="com.google.android.gms.vision.DEPENDENCIES"
         android:value="barcode"/>
+        <service
+            android:name=".CustomVpnService"
+            android:exported="true"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".MainActivity"
             android:exported="true"
