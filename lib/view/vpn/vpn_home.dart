@@ -37,7 +37,7 @@ class VpnHomeScreen extends StatefulWidget {
 class _VpnHomeScreenState extends State<VpnHomeScreen> {
   HomeController homeController = Get.find();
   ProfileController profileController = Get.find();
-  RxBool showDummyNft = false.obs;
+  RxBool showDummyNft = true.obs;
   final storage = SecureStorage();
 
   @override
