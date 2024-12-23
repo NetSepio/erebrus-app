@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 import 'dart:typed_data';
-import 'package:bip39/bip39.dart' as bip39;
-import 'package:solana/solana.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_curve25519/flutter_curve25519.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -18,7 +17,6 @@ import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
-import 'package:wire/view/Onboarding/generateSolanaAddress.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
 import 'package:wire/view/profile/profile_model.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
@@ -68,8 +66,8 @@ class HomeController extends GetxController {
       ProfileModel? result = await ApiController().getProfile();
       isLoading.value = false;
       profileModel = Rx<ProfileModel>(result);
-      // if (result.payload != null && result.payload!.walletAddress != null)
-      //   box!.put("selectedWalletAddress", result.payload!.walletAddress!);
+      if (result.payload != null && result.payload!.walletAddress != null)
+        box!.put("ApiWallet", result.payload!.walletAddress!);
       update();
     } catch (e) {
       isLoading.value = false;
@@ -88,7 +86,6 @@ class HomeController extends GetxController {
     }
   }
 
-
   //.......
   Rx<AllNodeModel> allNodeModel = AllNodeModel().obs;
   Rx<RegisterClientModel> registerClientModel = RegisterClientModel().obs;
@@ -96,7 +93,7 @@ class HomeController extends GetxController {
   RxMap ipData = {}.obs;
   final wireguard = WireGuardFlutter.instance;
 
-  String initName = 'App';
+  String initName = 'Erebrus';
   String initAddress = "";
   String initPort = "51820";
   String initDnsServer = "1.1.1.1";
@@ -198,7 +195,7 @@ class HomeController extends GetxController {
       await wireguard.startVpn(
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
-        providerBundleIdentifier: 'com.griddownllc.tunnelvpn.VPNExtension',
+        providerBundleIdentifier: 'com.erebrus.app.VPNExtension',
         // providerBundleIdentifier: 'com.esoft.reward.WGExtension',
       );
       EasyLoading.dismiss();
@@ -234,21 +231,25 @@ class HomeController extends GetxController {
     log("initPublicKey -- $initPublicKey");
     log("presharedKey -- $presharedKey");
     EasyLoading.show();
-    registerClientModel.value = await ApiController().registerClient(
-        selectedPayload.value.id.toString(), initPublicKey, initPrivateKey);
-    if (registerClientModel.value.payload == null) {
-      Fluttertoast.showToast(
-          msg: "Something went wrong. Please try another region.");
-      return;
+    try {
+      registerClientModel.value = await ApiController().registerClient(
+          selectedPayload.value.id.toString(), initPublicKey, initPrivateKey);
+      if (registerClientModel.value.payload == null) {
+        Fluttertoast.showToast(
+            msg: "Something went wrong. Please try another region.");
+        return;
+      }
+      RegisterPayload vpnData = registerClientModel.value.payload!;
+      initAddress = vpnData.client!.address!.first;
+      initAllowedIp =
+          "${vpnData.client!.allowedIPs!.first}, ${vpnData.client!.allowedIPs![1]}";
+      initPublicKey = vpnData.serverPublicKey!;
+      initEndpoint = "${vpnData.endpoint}:51820";
+      presharedKey = vpnData.client!.presharedKey!;
+      update();
+      startVpn();
+    } catch (e) {
+      EasyLoading.dismiss();
     }
-    RegisterPayload vpnData = registerClientModel.value.payload!;
-    initAddress = vpnData.client!.address!.first;
-    initAllowedIp =
-        "${vpnData.client!.allowedIPs!.first}, ${vpnData.client!.allowedIPs![1]}";
-    initPublicKey = vpnData.serverPublicKey!;
-    initEndpoint = "${vpnData.endpoint}:51820";
-    presharedKey = vpnData.client!.presharedKey!;
-    update();
-    startVpn();
   }
 }

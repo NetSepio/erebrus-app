@@ -13,8 +13,13 @@ import 'package:wire/api/api.dart';
 import 'package:wire/config/api_const.dart';
 import 'package:wire/config/colors.dart';
 import 'package:wire/config/common.dart';
+import 'package:wire/config/secure_storage.dart';
+import 'package:wire/controller/profileContrller.dart';
 import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
+import 'package:wire/view/Onboarding/eclipAddress.dart';
+import 'package:wire/view/Onboarding/solanaAdd.dart';
+import 'package:wire/view/Onboarding/soonAddress.dart';
 import 'package:wire/view/home/home_controller.dart';
 import 'package:wire/view/profile/profile.dart';
 import 'package:wire/view/setting/setting.dart';
@@ -31,7 +36,10 @@ class VpnHomeScreen extends StatefulWidget {
 
 class _VpnHomeScreenState extends State<VpnHomeScreen> {
   HomeController homeController = Get.find();
-  RxBool showDummyNft = false.obs;
+  ProfileController profileController = Get.find();
+  RxBool showDummyNft = true.obs;
+  final storage = SecureStorage();
+
   @override
   void initState() {
     homeController.initvpn();
@@ -72,49 +80,68 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   }
 
   walletSelection() async {
-    await Future.delayed(Duration(milliseconds: 100));
-    if (box!.containsKey("selectedWalletAddress") == false ||
-        box!.get("selectedWalletAddress") == null) {
-      await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 270,
-                  width: Get.width,
-                  child: Profile(
-                    title: "",
-                    showBackArrow: false,
+    EasyLoading.show();
+    var mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+    if (mnemonics.isEmpty) {
+      EasyLoading.dismiss();
+      // await subsTry();
+      return;
+    }
+    profileController.mnemonics.value = mnemonics;
+    await profileController.getProfile();
+    await getSolanaAddress(mnemonics);
+    await suiWal(mnemonics);
+    await getEclipseAddress(mnemonics);
+    await getSoonAddress(mnemonics);
+    await evmAptos(mnemonics);
+    setState(() {});
+
+    await Future.delayed(Duration(milliseconds: 50));
+    EasyLoading.dismiss();
+    if (box!.containsKey("ApiWallet") && box!.get("ApiWallet") != null) {
+      if (box!.containsKey("selectedWalletAddress") == false ||
+          box!.get("selectedWalletAddress") == null) {
+        await showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return AlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 270,
+                    width: Get.width,
+                    child: Profile(
+                      title: "",
+                      showBackArrow: false,
+                    ),
                   ),
-                ),
-                // WalletDropdown(),
+                  // WalletDropdown(),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent.shade700,
+                        foregroundColor: Colors.white),
+                    onPressed: () {
+                      if (box!.containsKey("selectedWalletAddress") &&
+                          box!.get("selectedWalletAddress") != null) {
+                        Get.back();
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Please Select Wallet",
+                            gravity: ToastGravity.CENTER,
+                            backgroundColor: Colors.red);
+                      }
+                    },
+                    child: Center(child: Text("Ok"))),
               ],
-            ),
-            actions: [
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent.shade700,
-                      foregroundColor: Colors.white),
-                  onPressed: () {
-                    if (box!.containsKey("selectedWalletAddress") &&
-                        box!.get("selectedWalletAddress") != null) {
-                      Get.back();
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "Please Select Wallet",
-                          gravity: ToastGravity.CENTER,
-                          backgroundColor: Colors.red);
-                    }
-                  },
-                  child: Center(child: Text("Ok"))),
-            ],
-          );
-        },
-      );
+            );
+          },
+        );
+      }
     }
     await subsTry();
   }
@@ -123,57 +150,53 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     bool firs = await box!.containsKey("FirstTime");
     CheckSubModel? checkSub = await ApiController().checkSubscription();
     if (checkSub.subscription == null) {
-      await Timer(
-        Duration(seconds: 1),
-        () async {
-          if (!firs) {
-            box!.put("FirstTime", true);
-            await showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(
-                    "Try Our Free Subscription",
-                    textAlign: TextAlign.center,
-                  ),
-                  content: Text(
-                    "Unleash the power of future internet with our ÐVPN and ÐWi-Fi",
-                    textAlign: TextAlign.center,
-                  ),
-                  actions: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: Text("Cancel")),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: blue,
-                                foregroundColor: Colors.white),
-                            onPressed: () async {
-                              EasyLoading.show();
-                              try {
-                                await ApiController().trialSubscription();
-                                await ApiController().checkSubscription();
-                                EasyLoading.dismiss();
-                              } catch (e) {
-                                EasyLoading.dismiss();
-                              }
-                              Get.back();
-                            },
-                            child: Text("Subscribe")),
-                      ],
-                    )
+      if (!firs) {
+        box!.put("FirstTime", true);
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(
+                "Try Our Free Subscription",
+                textAlign: TextAlign.center,
+              ),
+              content: Text(
+                "Unleash the power of future internet with our ÐVPN and ÐWi-Fi",
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text("Cancel")),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: blue,
+                            foregroundColor: Colors.white),
+                        onPressed: () async {
+                          EasyLoading.show();
+                          try {
+                            await ApiController().trialSubscription();
+                            await ApiController().checkSubscription();
+                            await walletSelection();
+                            EasyLoading.dismiss();
+                          } catch (e) {
+                            EasyLoading.dismiss();
+                          }
+                          Get.back();
+                        },
+                        child: Text("Subscribe")),
                   ],
-                );
-              },
+                )
+              ],
             );
-          }
-        },
-      );
+          },
+        );
+      }
     }
   }
 
@@ -423,14 +446,17 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                     () => Center(
                       child: InkWell(
                         onTap: () {
-                          // if (homeController.checkSub.value.status ==
-                          //         "notFound" ||
-                          //     homeController.checkSub.value.status ==
-                          //         "expired") {
-                          //   Fluttertoast.showToast(
-                          //       msg: "Check Your Subscription");
-                          //   return;
-                          // }
+                          if (homeController.checkSub.value.status == "notFound"
+                              //     ||
+                              // homeController.checkSub.value.status ==
+                              //     "expired"
+                              ) {
+                            Fluttertoast.showToast(
+                                msg: "Check Your Subscription",
+                                gravity: ToastGravity.CENTER,
+                                backgroundColor: Colors.red);
+                            return;
+                          }
                           if (vpnActivate.value == false) {
                             if (homeController.collectionId != null &&
                                 homeController.selectedNFT.value != 0) {
@@ -682,7 +708,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
         builder: (QueryResult result, {refetch, fetchMore}) {
           if (result.hasException) {
             log("Exception --  ${result.exception}");
-            return Text("No Internet".toString());
+            return Text("".toString());
           }
 
           if (result.isLoading) {

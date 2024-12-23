@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:wire/Ai/aivoice.dart';
+import 'package:wire/view/dwifi/dmap.dart';
 import 'package:wire/view/subscription/subscriptionScreen.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
 
@@ -13,9 +16,15 @@ class _BottomBarState extends State<BottomBar> {
   int currentIndex = 0;
   List<Widget> pages = [
     const VpnHomeScreen(),
-    // const MapSample(),
-    const SubscriptionScreen(),
+    const MapSample(),
+    VoiceChatBot(),
+    // const SubscriptionScreen(),
   ];
+  @override
+  void initState() {
+     Geolocator.requestPermission();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +33,9 @@ class _BottomBarState extends State<BottomBar> {
         currentIndex: currentIndex,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          // BottomNavigationBarItem(icon: Icon(Icons.wifi), label: "WiFi"),
+          BottomNavigationBarItem(icon: Icon(Icons.wifi), label: "Near WiFi"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.subscriptions_outlined), label: "Subscription"),
+              icon: Icon(Icons.subscriptions_outlined), label: "Assistant"),
         ],
         onTap: (value) {
           currentIndex = value;
