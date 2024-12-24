@@ -31,7 +31,10 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 .env
+.lock
 /build/
+/ios/Pods/
+
 
 # Symbolication related
 

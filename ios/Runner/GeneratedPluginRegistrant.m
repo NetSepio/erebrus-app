@@ -24,15 +24,12 @@
 @import flutter_secure_storage;
 #endif
 
-<<<<<<< HEAD
 #if __has_include(<flutter_tts/FlutterTtsPlugin.h>)
 #import <flutter_tts/FlutterTtsPlugin.h>
 #else
 @import flutter_tts;
 #endif
 
-=======
->>>>>>> origin/main
 #if __has_include(<fluttertoast/FluttertoastPlugin.h>)
 #import <fluttertoast/FluttertoastPlugin.h>
 #else
@@ -51,30 +48,24 @@
 @import geolocator_apple;
 #endif
 
-<<<<<<< HEAD
 #if __has_include(<google_maps_flutter_ios/FLTGoogleMapsPlugin.h>)
 #import <google_maps_flutter_ios/FLTGoogleMapsPlugin.h>
 #else
 @import google_maps_flutter_ios;
 #endif
 
-=======
->>>>>>> origin/main
 #if __has_include(<google_sign_in_ios/FLTGoogleSignInPlugin.h>)
 #import <google_sign_in_ios/FLTGoogleSignInPlugin.h>
 #else
 @import google_sign_in_ios;
 #endif
 
-<<<<<<< HEAD
 #if __has_include(<in_app_purchase_storekit/InAppPurchasePlugin.h>)
 #import <in_app_purchase_storekit/InAppPurchasePlugin.h>
 #else
 @import in_app_purchase_storekit;
 #endif
 
-=======
->>>>>>> origin/main
 #if __has_include(<local_auth_darwin/FLALocalAuthPlugin.h>)
 #import <local_auth_darwin/FLALocalAuthPlugin.h>
 #else
@@ -105,15 +96,12 @@
 @import sign_in_with_apple;
 #endif
 
-<<<<<<< HEAD
 #if __has_include(<speech_to_text/SpeechToTextPlugin.h>)
 #import <speech_to_text/SpeechToTextPlugin.h>
 #else
 @import speech_to_text;
 #endif
 
-=======
->>>>>>> origin/main
 #if __has_include(<sqflite_darwin/SqflitePlugin.h>)
 #import <sqflite_darwin/SqflitePlugin.h>
 #else
@@ -150,7 +138,6 @@
   [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
   [FlutterInternetSpeedTestPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterInternetSpeedTestPlugin"]];
   [FlutterSecureStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterSecureStoragePlugin"]];
-<<<<<<< HEAD
   [FlutterTtsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterTtsPlugin"]];
   [FluttertoastPlugin registerWithRegistrar:[registry registrarForPlugin:@"FluttertoastPlugin"]];
   [GeocodingPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeocodingPlugin"]];
@@ -158,21 +145,12 @@
   [FLTGoogleMapsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleMapsPlugin"]];
   [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
   [InAppPurchasePlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppPurchasePlugin"]];
-=======
-  [FluttertoastPlugin registerWithRegistrar:[registry registrarForPlugin:@"FluttertoastPlugin"]];
-  [GeocodingPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeocodingPlugin"]];
-  [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
-  [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
->>>>>>> origin/main
   [FLALocalAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLALocalAuthPlugin"]];
   [LocationPlugin registerWithRegistrar:[registry registrarForPlugin:@"LocationPlugin"]];
   [PathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"PathProviderPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
   [SignInWithApplePlugin registerWithRegistrar:[registry registrarForPlugin:@"SignInWithApplePlugin"]];
-<<<<<<< HEAD
   [SpeechToTextPlugin registerWithRegistrar:[registry registrarForPlugin:@"SpeechToTextPlugin"]];
-=======
->>>>>>> origin/main
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [URLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"URLLauncherPlugin"]];
   [WifiIotPlugin registerWithRegistrar:[registry registrarForPlugin:@"WifiIotPlugin"]];
