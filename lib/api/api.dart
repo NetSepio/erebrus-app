@@ -173,8 +173,8 @@ class ApiController {
     Response res = await dio
         .get(baseUrl + ApiUrl().flowid + walletAddress)
         .catchError((e) {
-      log("getFlowId error");
-    });
+          log("getFlowId error");
+          });
     if (res.statusCode == 200) {
       log("Flow Data  ${res.data}");
       getAuthenticate(

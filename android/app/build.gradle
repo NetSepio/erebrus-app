@@ -28,7 +28,6 @@ if (flutterVersionName == null) {
    }
 android {
     namespace = "com.erebrus.app"
-    // namespace "com.esoft.reward"
     compileSdkVersion = 34
     ndkVersion = "27.0.12077973"
 

@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:wire/config/assets.dart';
-import 'package:wire/config/colors.dart';
-import 'package:wire/config/strings.dart';
-import 'package:wire/view/Onboarding/login_register.dart';
-import 'package:wire/view/setting/PrivacyPolicy.dart';
+import 'package:erebrus_app/config/assets.dart';
+import 'package:erebrus_app/config/colors.dart';
+import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/view/Onboarding/login_register.dart';
+import 'package:erebrus_app/view/settings/privacyPolicy.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);

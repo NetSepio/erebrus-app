@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wire/config/assets.dart';
-import 'package:wire/config/secure_storage.dart';
-import 'package:wire/view/bottombar/bottombar.dart';
-import 'package:wire/view/home/home_controller.dart';
+import 'package:erebrus_app/config/assets.dart';
+import 'package:erebrus_app/config/secure_storage.dart';
+import 'package:erebrus_app/view/bottombar/bottombar.dart';
+import 'package:erebrus_app/view/home/home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

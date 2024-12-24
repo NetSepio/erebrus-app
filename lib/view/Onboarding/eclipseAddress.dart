@@ -10,7 +10,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/solana.dart';
-import 'package:erebrus-app/config/common.dart';
+import 'package:erebrus_app/config/common.dart';
 
 class EclipseWalletGenerator {
   /// Generates an Eclipse wallet from a mnemonic phrase

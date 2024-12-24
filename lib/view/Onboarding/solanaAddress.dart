@@ -9,7 +9,7 @@ import 'package:sui/cryptography/signature.dart';
 import 'package:sui/sui_account.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
-import 'package:erebrus-app/config/common.dart';
+import 'package:erebrus_app/config/common.dart';
 
 class SolanaWalletGenerator {
   /// Generates a Solana wallet from a mnemonic phrase

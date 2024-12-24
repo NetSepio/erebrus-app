@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:erebrus-app/config/common.dart';
-import 'package:erebrus-app/config/theme.dart';
-import 'package:erebrus-app/controller/auth_controller.dart';
-import 'package:erebrus-app/view/Onboarding/verify_mnemonic_screen.dart';
+import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/theme.dart';
+import 'package:erebrus_app/controller/auth_controller.dart';
+import 'package:erebrus_app/view/Onboarding/verify_mnemonic_screen.dart';
 
 class GenerateSeedPhrase extends StatefulWidget {
   final bool view;

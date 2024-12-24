@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wire/config/colors.dart';
+import 'package:erebrus_app/config/colors.dart';
 
 class MyButton extends StatelessWidget {
   final Color customColor;

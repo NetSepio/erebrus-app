@@ -3,14 +3,14 @@ import 'package:get/get.dart';
 import 'package:location/location.dart';
 // import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:erebrus-app/Ai/aivoice.dart';
-import 'package:erebrus-app/config/common.dart';
-import 'package:erebrus-app/config/strings.dart';
-import 'package:erebrus-app/view/Onboarding/login_register.dart';
-import 'package:erebrus-app/view/profile/profile.dart';
-import 'package:erebrus-app/view/settings/privacyPolicy.dart';
-import 'package:erebrus-app/view/speedCheck/speedCheck.dart';
-import 'package:erebrus-app/view/subscription/subscriptionScreen.dart';
+import 'package:erebrus_app/ai/aivoice.dart';
+import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/view/Onboarding/login_register.dart';
+import 'package:erebrus_app/view/profile/profile.dart';
+import 'package:erebrus_app/view/settings/privacyPolicy.dart';
+import 'package:erebrus_app/view/speedCheck/speedCheck.dart';
+import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});

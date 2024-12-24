@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'package:aptos/aptos.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wire/config/common.dart';
-import 'package:wire/config/secure_storage.dart';
-import 'package:wire/config/theme.dart';
-import 'package:wire/view/home/home_controller.dart';
+import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/secure_storage.dart';
+import 'package:erebrus_app/config/theme.dart';
+import 'package:erebrus_app/view/home/home_controller.dart';
 
 class AuthCompleteScreen extends StatelessWidget {
   const AuthCompleteScreen({super.key});
@@ -111,7 +111,7 @@ class AuthCompleteScreen extends StatelessWidget {
                         final sender = AptosAccount.generateAccount(mnemonics);
                         log("Wallet Address $pvtKey");
                         log("Wallet Address hex ${sender.accountAddress.hex()}");
-                        var res = await homeController.getPerseto(
+                        var res = await homeController.getPASETO(
                             walletAddress: sender.address);
                         // Get.offAll(() => const HomeScreen());
                       },

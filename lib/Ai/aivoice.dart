@@ -6,7 +6,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:erebrus_app/view/setting/setting.dart';
+import 'package:erebrus_app/view/settings/settings.dart';
 
 class VoiceChatBot extends StatefulWidget {
   @override

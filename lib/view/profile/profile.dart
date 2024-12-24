@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wire/config/common.dart';
-import 'package:wire/config/secure_storage.dart';
-import 'package:wire/controller/profileContrller.dart';
-import 'package:wire/view/Onboarding/eclipAddress.dart';
-import 'package:wire/view/Onboarding/solanaAdd.dart';
-import 'package:wire/view/Onboarding/soonAddress.dart';
-import 'package:wire/view/profile/walletSelection.dart';
-import 'package:wire/view/subscription/subscriptionScreen.dart';
+import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/secure_storage.dart';
+import 'package:erebrus_app/controller/profileContrller.dart';
+import 'package:erebrus_app/view/Onboarding/eclipseAddress.dart';
+import 'package:erebrus_app/view/Onboarding/solanaAddress.dart';
+import 'package:erebrus_app/view/Onboarding/soonAddress.dart';
+import 'package:erebrus_app/view/profile/walletSelection.dart';
+import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
 
 class Profile extends StatefulWidget {
   final String title;
