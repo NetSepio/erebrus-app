@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -95,53 +97,98 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       //   ),
                       // ),
                       const SizedBox(height: 30),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.black,
-                            // backgroundColor: Colors.white,
-                            backgroundColor: blue,
-                          ),
-                          onPressed: () async {
-                            final GoogleSignIn googleSignIn = GoogleSignIn();
-                            final result = await googleSignIn.signIn();
-                            final ggAuth = await result!.authentication;
-                            print("idToken - ${ggAuth.idToken}");
-                            log("idToken - ${ggAuth.idToken}");
+                      // ElevatedButton(
+                      //     onPressed: () async {
+                      //       await ApiController().registerApple(
+                      //           email: "qa@gmail.com",
+                      //           appleId:
+                      //               "000097.93be26068af64c1b9ffce0e3601dcb47.14523333");
+                      //     },
+                      //     child: Text("data")),
+                      if (Platform.isIOS)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: SignInWithAppleButton(
+                            onPressed: () async {
+                              try {
+                                final credential =
+                                    await SignInWithApple.getAppleIDCredential(
+                                  scopes: [AppleIDAuthorizationScopes.email],
+                                );
 
-                            // await ApiController()
-                            //     .googleAuth(idToken: ggAuth.idToken.toString());
-                      await ApiController()
-                          .googleEmailLogin(email: result.email);
-                          },
-                          child: const SizedBox(
-                            height: 50,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image(
-                                  image: AssetImage(googleLogo),
-                                  height: 18.0,
-                                  width: 24,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 24, right: 8),
-                                  child: Text(
-                                    loginWithGoogle,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
+                                log("APPle credential ${credential}");
+                                log("APPle credential userIdentifier ${credential.userIdentifier}");
+                                if (credential.email != null) {
+                                  await ApiController().registerApple(
+                                      email: credential.email!,
+                                      appleId: credential.userIdentifier!);
+                                } else {
+                                  await ApiController().userDetailsAppleId(
+                                      appleId: credential.userIdentifier!);
+                                }
+                              } catch (e) {
+                                Fluttertoast.showToast(
+                                    msg: "Something want wrong");
+                                log("message----EEE---$e");
+                              }
+                            },
+                          ),
+                        ),
+                      if (Platform.isAndroid)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              // backgroundColor: Colors.white,
+                              backgroundColor: blue,
+                            ),
+                            onPressed: () async {
+                              final GoogleSignIn googleSignIn = GoogleSignIn();
+                              try {
+                                EasyLoading.show();
+                                final result = await googleSignIn.signIn();
+                                final ggAuth = await result!.authentication;
+                                print("idToken - ${ggAuth.idToken}");
+                                log("idToken - ${ggAuth.idToken}");
+
+                                // await ApiController()
+                                //     .googleAuth(idToken: ggAuth.idToken.toString());
+                                await ApiController()
+                                    .emailLogin(email: result.email);
+                              } catch (e) {
+                                EasyLoading.dismiss();
+                                log("Errorr--- ${e}");
+                              }
+                            },
+                            child: const SizedBox(
+                              height: 50,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image(
+                                    image: AssetImage(googleLogo),
+                                    height: 18.0,
+                                    width: 24,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 24, right: 8),
+                                    child: Text(
+                                      loginWithGoogle,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
 
                       const SizedBox(height: 20),
                       MyButton(

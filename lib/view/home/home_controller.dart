@@ -11,12 +11,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_ip_address/get_ip_address.dart';
 import 'package:wire/api/api.dart';
+import 'package:wire/config/common.dart';
 import 'package:wire/config/secure_storage.dart';
 import 'package:wire/model/AllNodeModel.dart';
 import 'package:wire/model/CheckSubModel.dart';
 import 'package:wire/model/RegisterClientModel.dart';
 import 'package:wire/model/erebrus/client_model.dart';
-import 'package:wire/view/Onboarding/generateSolanaAddress.dart';
 import 'package:wire/view/Onboarding/login_register.dart';
 import 'package:wire/view/profile/profile_model.dart';
 import 'package:wire/view/vpn/vpn_home.dart';
@@ -66,6 +66,8 @@ class HomeController extends GetxController {
       ProfileModel? result = await ApiController().getProfile();
       isLoading.value = false;
       profileModel = Rx<ProfileModel>(result);
+      if (result.payload != null && result.payload!.walletAddress != null)
+        box!.put("ApiWallet", result.payload!.walletAddress!);
       update();
     } catch (e) {
       isLoading.value = false;
@@ -84,16 +86,6 @@ class HomeController extends GetxController {
     }
   }
 
-  getSolanaAddress() async {
-    try {
-      String mnemonics = await storage.getStoredValue("mnemonic") ?? "";
-      log("mnemonics ---- ${mnemonics}");
-      var sd = await generateSolanaAddress(mnemonics);
-      log("Solana Address- $sd");
-      storage.writeStoredValues("solanaAddress", sd);
-    } catch (e) {}
-  }
-
   //.......
   Rx<AllNodeModel> allNodeModel = AllNodeModel().obs;
   Rx<RegisterClientModel> registerClientModel = RegisterClientModel().obs;
@@ -101,7 +93,7 @@ class HomeController extends GetxController {
   RxMap ipData = {}.obs;
   final wireguard = WireGuardFlutter.instance;
 
-  String initName = 'App';
+  String initName = 'Erebrus';
   String initAddress = "";
   String initPort = "51820";
   String initDnsServer = "1.1.1.1";
@@ -203,7 +195,7 @@ class HomeController extends GetxController {
       await wireguard.startVpn(
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
-        providerBundleIdentifier: 'com.griddownllc.tunnelvpn.VPNExtension',
+        providerBundleIdentifier: 'com.erebrus.app.VPNExtension',
         // providerBundleIdentifier: 'com.esoft.reward.WGExtension',
       );
       EasyLoading.dismiss();
@@ -239,21 +231,25 @@ class HomeController extends GetxController {
     log("initPublicKey -- $initPublicKey");
     log("presharedKey -- $presharedKey");
     EasyLoading.show();
-    registerClientModel.value = await ApiController().registerClient(
-        selectedPayload.value.id.toString(), initPublicKey, initPrivateKey);
-    if (registerClientModel.value.payload == null) {
-      Fluttertoast.showToast(
-          msg: "Something went wrong. Please try another region.");
-      return;
+    try {
+      registerClientModel.value = await ApiController().registerClient(
+          selectedPayload.value.id.toString(), initPublicKey, initPrivateKey);
+      if (registerClientModel.value.payload == null) {
+        Fluttertoast.showToast(
+            msg: "Something went wrong. Please try another region.");
+        return;
+      }
+      RegisterPayload vpnData = registerClientModel.value.payload!;
+      initAddress = vpnData.client!.address!.first;
+      initAllowedIp =
+          "${vpnData.client!.allowedIPs!.first}, ${vpnData.client!.allowedIPs![1]}";
+      initPublicKey = vpnData.serverPublicKey!;
+      initEndpoint = "${vpnData.endpoint}:51820";
+      presharedKey = vpnData.client!.presharedKey!;
+      update();
+      startVpn();
+    } catch (e) {
+      EasyLoading.dismiss();
     }
-    RegisterPayload vpnData = registerClientModel.value.payload!;
-    initAddress = vpnData.client!.address!.first;
-    initAllowedIp =
-        "${vpnData.client!.allowedIPs!.first}, ${vpnData.client!.allowedIPs![1]}";
-    initPublicKey = vpnData.serverPublicKey!;
-    initEndpoint = "${vpnData.endpoint}:51820";
-    presharedKey = vpnData.client!.presharedKey!;
-    update();
-    startVpn();
   }
 }

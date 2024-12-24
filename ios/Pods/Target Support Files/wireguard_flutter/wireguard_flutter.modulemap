@@ -1,0 +1,6 @@
+framework module wireguard_flutter {
+  umbrella header "wireguard_flutter-umbrella.h"
+
+  export *
+  module * { export * }
+}
