@@ -284,7 +284,11 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
   } else {
     for (id<GMUClusterItem> item in cluster.items) {
       GMSMarker *marker;
+<<<<<<< HEAD
       if ([item isKindOfClass:[GMSMarker class]]) {
+=======
+      if ([item class] == [GMSMarker class]) {
+>>>>>>> origin/main
         marker = (GMSMarker<GMUClusterItem> *)item;
         marker.map = _mapView;
       } else {

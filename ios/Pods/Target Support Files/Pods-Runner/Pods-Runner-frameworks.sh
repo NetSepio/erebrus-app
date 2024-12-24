@@ -182,7 +182,10 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/GoogleSignIn/GoogleSignIn.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Toast/Toast.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/Try/Try.framework"
+=======
+>>>>>>> origin/main
   install_framework "${BUILT_PRODUCTS_DIR}/WireGuardKit/WireGuardKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/connectivity_plus/connectivity_plus.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_internet_speed_test/flutter_internet_speed_test.framework"
@@ -190,12 +193,18 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/fluttertoast/fluttertoast.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geocoding_ios/geocoding_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geolocator_apple/geolocator_apple.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/in_app_purchase_storekit/in_app_purchase_storekit.framework"
+=======
+>>>>>>> origin/main
   install_framework "${BUILT_PRODUCTS_DIR}/local_auth_darwin/local_auth_darwin.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/location/location.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider_foundation/path_provider_foundation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/sign_in_with_apple/sign_in_with_apple.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/speech_to_text/speech_to_text.framework"
+=======
+>>>>>>> origin/main
   install_framework "${BUILT_PRODUCTS_DIR}/sqflite_darwin/sqflite_darwin.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/url_launcher_ios/url_launcher_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/wifi_iot/wifi_iot.framework"
@@ -209,7 +218,10 @@ if [[ "$CONFIGURATION" == "Profile" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/GoogleSignIn/GoogleSignIn.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Toast/Toast.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/Try/Try.framework"
+=======
+>>>>>>> origin/main
   install_framework "${BUILT_PRODUCTS_DIR}/WireGuardKit/WireGuardKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/connectivity_plus/connectivity_plus.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_internet_speed_test/flutter_internet_speed_test.framework"
@@ -217,12 +229,18 @@ if [[ "$CONFIGURATION" == "Profile" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/fluttertoast/fluttertoast.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geocoding_ios/geocoding_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geolocator_apple/geolocator_apple.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/in_app_purchase_storekit/in_app_purchase_storekit.framework"
+=======
+>>>>>>> origin/main
   install_framework "${BUILT_PRODUCTS_DIR}/local_auth_darwin/local_auth_darwin.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/location/location.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider_foundation/path_provider_foundation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/sign_in_with_apple/sign_in_with_apple.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/speech_to_text/speech_to_text.framework"
+=======
+>>>>>>> origin/main
   install_framework "${BUILT_PRODUCTS_DIR}/sqflite_darwin/sqflite_darwin.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/url_launcher_ios/url_launcher_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/wifi_iot/wifi_iot.framework"
@@ -236,7 +254,10 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/GoogleSignIn/GoogleSignIn.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Toast/Toast.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/Try/Try.framework"
+=======
+>>>>>>> origin/main
   install_framework "${BUILT_PRODUCTS_DIR}/WireGuardKit/WireGuardKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/connectivity_plus/connectivity_plus.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_internet_speed_test/flutter_internet_speed_test.framework"
@@ -244,12 +265,18 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/fluttertoast/fluttertoast.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geocoding_ios/geocoding_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geolocator_apple/geolocator_apple.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/in_app_purchase_storekit/in_app_purchase_storekit.framework"
+=======
+>>>>>>> origin/main
   install_framework "${BUILT_PRODUCTS_DIR}/local_auth_darwin/local_auth_darwin.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/location/location.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider_foundation/path_provider_foundation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/sign_in_with_apple/sign_in_with_apple.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/speech_to_text/speech_to_text.framework"
+=======
+>>>>>>> origin/main
   install_framework "${BUILT_PRODUCTS_DIR}/sqflite_darwin/sqflite_darwin.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/url_launcher_ios/url_launcher_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/wifi_iot/wifi_iot.framework"

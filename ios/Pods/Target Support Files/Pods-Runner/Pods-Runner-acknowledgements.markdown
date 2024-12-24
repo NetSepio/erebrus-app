@@ -619,6 +619,7 @@ This application makes use of the following third party libraries:
    limitations under the License.
 
 
+<<<<<<< HEAD
 ## Google-Maps-iOS-Utils
 
 Apache License
@@ -818,6 +819,8 @@ third-party archives.
 
 Copyright 2024 Google LLC
 
+=======
+>>>>>>> origin/main
 ## GoogleSignIn
 
 
@@ -1071,6 +1074,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+<<<<<<< HEAD
 ## Try
 
 Copyright (c) 2016, Weebly
@@ -1095,6 +1099,8 @@ THE SOFTWARE.m of source code must retain the above copyright notice, this list 
 
 
 
+=======
+>>>>>>> origin/main
 ## WireGuardKit
 
 Copyright © 2018-2023 WireGuard LLC. All Rights Reserved.
@@ -1206,6 +1212,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+<<<<<<< HEAD
 ## flutter_tts
 
 MIT License
@@ -1231,6 +1238,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+=======
+>>>>>>> origin/main
 ## fluttertoast
 
 MIT License
@@ -1304,6 +1313,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+<<<<<<< HEAD
 ## google_maps_flutter_ios
 
 Copyright 2013 The Flutter Authors. All rights reserved.
@@ -1333,6 +1343,8 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+=======
+>>>>>>> origin/main
 ## google_sign_in_ios
 
 Copyright 2013 The Flutter Authors. All rights reserved.
@@ -1362,6 +1374,7 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+<<<<<<< HEAD
 ## in_app_purchase_storekit
 
 Copyright 2013 The Flutter Authors. All rights reserved.
@@ -1391,6 +1404,8 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+=======
+>>>>>>> origin/main
 ## local_auth_darwin
 
 Copyright 2013 The Flutter Authors. All rights reserved.
@@ -1507,6 +1522,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.ˀ
 
+<<<<<<< HEAD
 ## speech_to_text
 
 BSD 3-Clause License
@@ -1539,6 +1555,8 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+=======
+>>>>>>> origin/main
 ## sqflite_darwin
 
 BSD 2-Clause License

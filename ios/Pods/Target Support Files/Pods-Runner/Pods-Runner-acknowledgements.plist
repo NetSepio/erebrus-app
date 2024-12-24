@@ -650,6 +650,7 @@
 		</dict>
 		<dict>
 			<key>FooterText</key>
+<<<<<<< HEAD
 			<string>Apache License
 Version 2.0, January 2004
 http://www.apache.org/licenses/
@@ -861,6 +862,8 @@ third-party archives.
 		</dict>
 		<dict>
 			<key>FooterText</key>
+=======
+>>>>>>> origin/main
 			<string>
                                  Apache License
                            Version 2.0, January 2004
@@ -1132,6 +1135,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
+<<<<<<< HEAD
 			<string>Copyright (c) 2016, Weebly
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1162,6 +1166,8 @@ THE SOFTWARE.m of source code must retain the above copyright notice, this list 
 		</dict>
 		<dict>
 			<key>FooterText</key>
+=======
+>>>>>>> origin/main
 			<string>Copyright © 2018-2023 WireGuard LLC. All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -1295,6 +1301,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
 			<key>FooterText</key>
 			<string>MIT License
 
+<<<<<<< HEAD
 Copyright (c) 2018 Daniel Lutton
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1324,6 +1331,8 @@ SOFTWARE.
 			<key>FooterText</key>
 			<string>MIT License
 
+=======
+>>>>>>> origin/main
 Copyright (c) 2020 Karthik Ponnam
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1438,6 +1447,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<key>License</key>
 			<string>BSD</string>
 			<key>Title</key>
+<<<<<<< HEAD
 			<string>google_maps_flutter_ios</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -1473,6 +1483,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<key>License</key>
 			<string>BSD</string>
 			<key>Title</key>
+=======
+>>>>>>> origin/main
 			<string>google_sign_in_ios</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -1508,6 +1520,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<key>License</key>
 			<string>BSD</string>
 			<key>Title</key>
+<<<<<<< HEAD
 			<string>in_app_purchase_storekit</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -1543,6 +1556,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<key>License</key>
 			<string>BSD</string>
 			<key>Title</key>
+=======
+>>>>>>> origin/main
 			<string>local_auth_darwin</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -1654,6 +1669,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		</dict>
 		<dict>
 			<key>FooterText</key>
+<<<<<<< HEAD
 			<string>BSD 3-Clause License
 
 Copyright (c) 2019, Corner Software Development Corp.
@@ -1690,6 +1706,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
+=======
+>>>>>>> origin/main
 			<string>BSD 2-Clause License
 
 Copyright (c) 2019, Alexandre Roux Tekartik

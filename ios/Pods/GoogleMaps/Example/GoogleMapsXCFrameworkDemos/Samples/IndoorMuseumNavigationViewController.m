@@ -86,9 +86,12 @@
 - (void)moveMarker {
   CLLocationCoordinate2D loc =
       CLLocationCoordinate2DMake([_exhibit[@"lat"] doubleValue], [_exhibit[@"lng"] doubleValue]);
+<<<<<<< HEAD
   [_mapView animateToLocation:loc];
   [_mapView animateToZoom:19];
 
+=======
+>>>>>>> origin/main
   if (_marker == nil) {
     _marker = [GMSMarker markerWithPosition:loc];
     _marker.map = _mapView;
@@ -96,6 +99,11 @@
     _marker.position = loc;
   }
   _marker.title = _exhibit[@"name"];
+<<<<<<< HEAD
+=======
+  [_mapView animateToLocation:loc];
+  [_mapView animateToZoom:19];
+>>>>>>> origin/main
 }
 
 - (void)exhibitSelected:(UISegmentedControl *)segmentedControl {

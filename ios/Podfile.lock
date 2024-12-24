@@ -22,21 +22,27 @@ PODS:
     - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
+<<<<<<< HEAD
   - Google-Maps-iOS-Utils (6.1.0):
     - GoogleMaps (~> 9.0)
   - google_maps_flutter_ios (0.0.1):
     - Flutter
     - Google-Maps-iOS-Utils (< 7.0, >= 5.0)
     - GoogleMaps (< 10.0, >= 8.4)
+=======
+>>>>>>> origin/main
   - google_sign_in_ios (0.0.1):
     - AppAuth (>= 1.7.4)
     - Flutter
     - FlutterMacOS
     - GoogleSignIn (~> 7.1)
     - GTMSessionFetcher (>= 3.4.0)
+<<<<<<< HEAD
   - GoogleMaps (9.2.0):
     - GoogleMaps/Maps (= 9.2.0)
   - GoogleMaps/Maps (9.2.0)
+=======
+>>>>>>> origin/main
   - GoogleSignIn (7.1.0):
     - AppAuth (< 2.0, >= 1.7.3)
     - GTMAppAuth (< 5.0, >= 4.1.1)
@@ -65,10 +71,13 @@ PODS:
   - ReachabilitySwift (5.2.4)
   - sign_in_with_apple (0.0.1):
     - Flutter
+<<<<<<< HEAD
   - speech_to_text (0.0.1):
     - Flutter
     - FlutterMacOS
     - Try
+=======
+>>>>>>> origin/main
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
@@ -94,7 +103,6 @@ DEPENDENCIES:
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
-  - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - GoogleMaps
   - in_app_purchase_storekit (from `.symlinks/plugins/in_app_purchase_storekit/darwin`)
@@ -103,7 +111,10 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
+<<<<<<< HEAD
   - speech_to_text (from `.symlinks/plugins/speech_to_text/darwin`)
+=======
+>>>>>>> origin/main
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - wifi_iot (from `.symlinks/plugins/wifi_iot/ios`)
@@ -114,14 +125,15 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
-    - Google-Maps-iOS-Utils
-    - GoogleMaps
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
     - ReachabilitySwift
     - Toast
+<<<<<<< HEAD
     - Try
+=======
+>>>>>>> origin/main
     - WireGuardKit
 
 EXTERNAL SOURCES:
@@ -141,8 +153,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geocoding_ios/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
-  google_maps_flutter_ios:
-    :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   in_app_purchase_storekit:
@@ -157,8 +167,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   sign_in_with_apple:
     :path: ".symlinks/plugins/sign_in_with_apple/ios"
+<<<<<<< HEAD
   speech_to_text:
     :path: ".symlinks/plugins/speech_to_text/darwin"
+=======
+>>>>>>> origin/main
   sqflite_darwin:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
   url_launcher_ios:
@@ -180,10 +193,14 @@ SPEC CHECKSUMS:
   fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
   geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
   geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
+<<<<<<< HEAD
   Google-Maps-iOS-Utils: 0a484b05ed21d88c9f9ebbacb007956edd508a96
   google_maps_flutter_ios: e31555a04d1986ab130f2b9f24b6cdc861acc6d3
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
   GoogleMaps: 634ec3ca99698b31ca2253d64f017217d70cfb38
+=======
+  google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
+>>>>>>> origin/main
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
@@ -194,7 +211,10 @@ SPEC CHECKSUMS:
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
+<<<<<<< HEAD
   speech_to_text: 627d3fd2194770b51abb324ba45c2d39398f24a8
+=======
+>>>>>>> origin/main
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
   Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
@@ -204,6 +224,10 @@ SPEC CHECKSUMS:
   wireguard_flutter: 1e75469eaf86ae553566b6847bce070e3b3c315b
   WireGuardKit: 8b9e7f28441b67aafe60d59c15b8c70bed5ab092
 
+<<<<<<< HEAD
 PODFILE CHECKSUM: 1b972ee73803128c570647c55d8d5c8ba91600e1
+=======
+PODFILE CHECKSUM: bc058c92f772bbf2abeeaea66da49cbc86a12cb7
+>>>>>>> origin/main
 
 COCOAPODS: 1.16.2

@@ -50,7 +50,11 @@ range of applications using the [Google Maps SDK for iOS][sdk].
 
 3. Select the
     [version](https://github.com/googlemaps/google-maps-ios-utils/releases)
+<<<<<<< HEAD
     of the Maps SDK for iOS Utility Library that you want to use. For new projects, we recommend specifying the latest version and using the "Up to next Major" option. See Release Notes for [this library](https://github.com/googlemaps/google-maps-ios-utils/releases) and the [Maps SDK for iOS](https://developers.google.com/maps/documentation/ios-sdk/release-notes) to select the correct version for you.
+=======
+    of the Maps SDK for iOS Utility Library that you want to use. For new projects, we recommend specifying the latest version and using the "Exact Version" option. See Release Notes for [this library](https://github.com/googlemaps/google-maps-ios-utils/releases) and the [Maps SDK for iOS](https://developers.google.com/maps/documentation/ios-sdk/release-notes) to select the correct version for you.
+>>>>>>> origin/main
 
     - (Recommended) Version 6.x supports the Maps SDK for iOS v9.x
     - Version 5.0 supports the Maps SDK for iOS v8.x
@@ -70,7 +74,11 @@ range of applications using the [Google Maps SDK for iOS][sdk].
 
   target 'TARGET_NAME' do
     pod 'GoogleMaps', '9.0.0'
+<<<<<<< HEAD
     pod 'Google-Maps-iOS-Utils', '6.1.0' # x-release-please-version
+=======
+    pod 'Google-Maps-iOS-Utils', '6.0.0'
+>>>>>>> origin/main
   end
   ```
 

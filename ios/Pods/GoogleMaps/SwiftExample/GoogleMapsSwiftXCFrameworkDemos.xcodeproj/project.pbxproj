@@ -58,6 +58,10 @@
 		74E88C427B498F911D32A44B /* australia.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFD3A6BE4BD4C012EF50AFD /* australia.png */; };
 		776382BEFFA4C43C5F9F38B6 /* h1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EE67692C7A590BCF85C3ED9 /* h1.png */; };
 		781F9CEB35235538D6F5634E /* step3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 825447853189D2D4563BB028 /* step3@2x.png */; };
+<<<<<<< HEAD
+=======
+		78D1E74704B5966731F0EAFD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813AA650D6B913CB76AAAB53 /* UIKit.framework */; };
+>>>>>>> origin/main
 		791E7FEACC10DFDA9E5512BD /* argentina.png in Resources */ = {isa = PBXBuildFile; fileRef = BEB38D778B61FCFDCD0BAF3E /* argentina.png */; };
 		82043308F53102E889C6B28F /* DataDrivenStylingEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF2332C983F2B61EE8D591A /* DataDrivenStylingEventsViewController.swift */; };
 		8672736AB1BB98F58F6C5ED9 /* botswana.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CB004432BC22DC920797C87 /* botswana.png */; };
@@ -66,7 +70,10 @@
 		96AC98FFADF710277E6F4309 /* boat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C6FC465538CF0231E3E32EF /* boat@2x.png */; };
 		9A11BCC3B4489D9E4B60BEA7 /* AnimatedUIViewMarkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FD42CF0008B034BF8B30F5 /* AnimatedUIViewMarkerViewController.swift */; };
 		9AA1A005AF4CC2512BD677CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7050C885E55BC73ABC66C1BA /* LaunchScreen.storyboard */; };
+<<<<<<< HEAD
 		9EC74440F1F7C7C6B7456F14 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813AA650D6B913CB76AAAB53 /* UIKit.framework */; };
+=======
+>>>>>>> origin/main
 		9EFFD4F29F6DBCB69FFF955F /* spitfire.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0078DD977DCD440A9B1847 /* spitfire.png */; };
 		9FEC78EBC378E57B626A0949 /* PolylinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA082F9AB6DF56657D760529 /* PolylinesViewController.swift */; };
 		A1C22569608372D07A4EA5FC /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B974B58EDD2B70A1FA0C107F /* CameraViewController.swift */; };
@@ -220,14 +227,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				9EC74440F1F7C7C6B7456F14 /* UIKit.framework in Frameworks */,
+=======
+				78D1E74704B5966731F0EAFD /* UIKit.framework in Frameworks */,
+>>>>>>> origin/main
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+<<<<<<< HEAD
 		49D5CD2CC2E5C5341C1AA1A8 /* Frameworks */ = {
+=======
+		1770C8310E66B2F5721EFB53 /* Frameworks */ = {
+>>>>>>> origin/main
 			isa = PBXGroup;
 			children = (
 				813AA650D6B913CB76AAAB53 /* UIKit.framework */,
@@ -375,7 +390,11 @@
 			isa = PBXGroup;
 			children = (
 				66BBCDCC5A47AE0211100656 /* Source */,
+<<<<<<< HEAD
 				49D5CD2CC2E5C5341C1AA1A8 /* Frameworks */,
+=======
+				1770C8310E66B2F5721EFB53 /* Frameworks */,
+>>>>>>> origin/main
 				C28851C9B618723E4F44AB23 /* Products */,
 			);
 			sourceTree = "<group>";
