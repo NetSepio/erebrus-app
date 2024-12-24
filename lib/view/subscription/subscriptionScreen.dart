@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wire/api/api.dart';
 import 'package:wire/config/assets.dart';
-import 'package:wire/model/CheckSubModel.dart';
+import 'package:wire/model/CheckSubscriptionModel.dart';
 import 'package:wire/view/inAppPurchase/inappP.dart';
 
 class SubscriptionScreen extends StatefulWidget {

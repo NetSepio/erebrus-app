@@ -241,7 +241,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = "/Users/mac/Documents/wireguard-apple-master/Sources/WireGuardKitGo";
+			buildWorkingDirectory = "/Users/shachindra/Projects/wireguard-apple";
 			dependencies = (
 			);
 			name = tun;
@@ -643,7 +643,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PATH = "${PATH}::/opt/homebrew/Cellar/go/1.23.2/libexec/bin";
+				PATH = "${PATH}::/opt/homebrew/bin/go";
 				PRODUCT_BUNDLE_IDENTIFIER = com.erebrus.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -881,7 +881,7 @@
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PATH = "${PATH}::/opt/homebrew/Cellar/go/1.23.2/libexec/bin";
+				PATH = "${PATH}::/opt/homebrew/bin/go";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -905,7 +905,7 @@
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PATH = "${PATH}::/opt/homebrew/Cellar/go/1.23.2/libexec/bin";
+				PATH = "${PATH}::/opt/homebrew/bin/go";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -929,7 +929,7 @@
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PATH = "${PATH}::/opt/homebrew/Cellar/go/1.23.2/libexec/bin";
+				PATH = "${PATH}::/opt/homebrew/bin/go";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Profile;
@@ -1061,7 +1061,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PATH = "${PATH}::/opt/homebrew/Cellar/go/1.23.2/libexec/bin";
+				PATH = "${PATH}::/opt/homebrew/bin/go";
 				PRODUCT_BUNDLE_IDENTIFIER = com.erebrus.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1095,7 +1095,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PATH = "${PATH}::/opt/homebrew/Cellar/go/1.23.2/libexec/bin";
+				PATH = "${PATH}::/opt/homebrew/bin/go";
 				PRODUCT_BUNDLE_IDENTIFIER = com.erebrus.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

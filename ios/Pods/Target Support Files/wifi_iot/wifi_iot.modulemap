@@ -1,6 +1,0 @@
-framework module wifi_iot {
-  umbrella header "wifi_iot-umbrella.h"
-
-  export *
-  module * { export * }
-}

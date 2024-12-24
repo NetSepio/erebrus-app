@@ -1,6 +1,0 @@
-framework module flutter_internet_speed_test {
-  umbrella header "flutter_internet_speed_test-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -36,34 +36,10 @@
 @import fluttertoast;
 #endif
 
-#if __has_include(<geocoding_ios/GeocodingPlugin.h>)
-#import <geocoding_ios/GeocodingPlugin.h>
-#else
-@import geocoding_ios;
-#endif
-
-#if __has_include(<geolocator_apple/GeolocatorPlugin.h>)
-#import <geolocator_apple/GeolocatorPlugin.h>
-#else
-@import geolocator_apple;
-#endif
-
-#if __has_include(<google_maps_flutter_ios/FLTGoogleMapsPlugin.h>)
-#import <google_maps_flutter_ios/FLTGoogleMapsPlugin.h>
-#else
-@import google_maps_flutter_ios;
-#endif
-
 #if __has_include(<google_sign_in_ios/FLTGoogleSignInPlugin.h>)
 #import <google_sign_in_ios/FLTGoogleSignInPlugin.h>
 #else
 @import google_sign_in_ios;
-#endif
-
-#if __has_include(<in_app_purchase_storekit/InAppPurchasePlugin.h>)
-#import <in_app_purchase_storekit/InAppPurchasePlugin.h>
-#else
-@import in_app_purchase_storekit;
 #endif
 
 #if __has_include(<local_auth_darwin/FLALocalAuthPlugin.h>)
@@ -140,11 +116,7 @@
   [FlutterSecureStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterSecureStoragePlugin"]];
   [FlutterTtsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterTtsPlugin"]];
   [FluttertoastPlugin registerWithRegistrar:[registry registrarForPlugin:@"FluttertoastPlugin"]];
-  [GeocodingPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeocodingPlugin"]];
-  [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
-  [FLTGoogleMapsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleMapsPlugin"]];
   [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
-  [InAppPurchasePlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppPurchasePlugin"]];
   [FLALocalAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLALocalAuthPlugin"]];
   [LocationPlugin registerWithRegistrar:[registry registrarForPlugin:@"LocationPlugin"]];
   [PathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"PathProviderPlugin"]];

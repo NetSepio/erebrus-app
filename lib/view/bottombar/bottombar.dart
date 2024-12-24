@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:wire/Ai/aivoice.dart';
-import 'package:wire/view/dwifi/dmap.dart';
-import 'package:wire/view/subscription/subscriptionScreen.dart';
-import 'package:wire/view/vpn/vpn_home.dart';
+import 'package:erebrus_app/ai/aivoice.dart';
+import 'package:erebrus_app/view/dwifi/dmap.dart';
+import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
+import 'package:erebrus_app/view/vpn/vpn_home.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});

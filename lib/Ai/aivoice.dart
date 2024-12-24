@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:wire/view/setting/setting.dart';
+import 'package:erebrus_app/view/setting/setting.dart';
 
 class VoiceChatBot extends StatefulWidget {
   @override
@@ -18,8 +19,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
   final TextEditingController _textController = TextEditingController();
   final List<Map<String, String>> _messages = [];
   bool _isListening = false;
-  String _apiKey =
-      "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";
+  String _apiKey = dotenv.get("OPENAI_CHATGPT_TOKEN");
 
   @override
   void dispose() {

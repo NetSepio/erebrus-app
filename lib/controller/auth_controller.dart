@@ -4,8 +4,8 @@ import 'dart:developer';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wire/config/secure_storage.dart';
-import 'package:wire/web3dart/web3dart.dart';
+import 'package:erebrus_app/config/secure_storage.dart';
+import 'package:erebrus_app/web3dart/web3dart.dart';
 
 class AuthController extends GetxController {
   final storage = SecureStorage();

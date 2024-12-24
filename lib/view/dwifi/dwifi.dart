@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wifi_iot/wifi_iot.dart';
-import 'package:wire/config/assets.dart';
-import 'package:wire/model/DWifiModel.dart';
+import 'package:erebrus_app/config/assets.dart';
+import 'package:erebrus_app/model/DWiFiNodesModel.dart';
 
 class DWifiScreen extends StatefulWidget {
   final DWifiListData wifiData;
