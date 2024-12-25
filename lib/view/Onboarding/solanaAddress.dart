@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:aptos/aptos.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
+import 'package:erebrus_app/config/common.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/solana.dart';
 import 'package:sui/cryptography/signature.dart';
 import 'package:sui/sui_account.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
-import 'package:erebrus_app/config/common.dart';
 
 class SolanaWalletGenerator {
   /// Generates a Solana wallet from a mnemonic phrase
@@ -53,25 +53,27 @@ class SolanaWalletGenerator {
 // Example usage:
 Future getSolanaAddress(mnemonic) async {
   // Get wallet from mnemonic
-  if (box!.containsKey("solanaAdd") == false || box!.get("solanaAdd") == null) {
+  if (box!.containsKey("solanaAddress") == false ||
+      box!.get("solanaAddress") == null) {
     final wallet = await SolanaWalletGenerator.getWalletFromMnemonic(mnemonic);
     log('solana Public Key: ${wallet['publicKey']}');
     log('solana Private Key: ${wallet['privateKey']}');
-    box!.put("solanaAdd", wallet['publicKey'].toString());
+    box!.put("solanaAddress", wallet['publicKey'].toString());
   }
 }
 
 SuiAccount? ed25519;
 suiWal(mnemonics) async {
-  if (box!.containsKey("suiAdd") == false || box!.get("suiAdd") == null) {
+  if (box!.containsKey("suiAddress") == false ||
+      box!.get("suiAddress") == null) {
     ed25519 =
         await SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Ed25519);
     // final secp256k1 =
     //     SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Secp256k1);
     // final secp256r1 =
     //     SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Secp256r1);
-    log("suiAdd--${ed25519!.getAddress().toString()}");
-    box!.put("suiAdd", ed25519!.getAddress().toString());
+    log("suiAddress--${ed25519!.getAddress().toString()}");
+    box!.put("suiAddress", ed25519!.getAddress().toString());
   }
 }
 
@@ -81,11 +83,12 @@ Future evmAptos(mnemonic) async {
   final seed = bip39.mnemonicToSeed(mnemonic);
   // await getEvmWallet(mnemonic);
 
-  if (box!.containsKey("evmAdd") == false || box!.get("evmAdd") == null) {
+  if (box!.containsKey("aptosAddress") == false ||
+      box!.get("aptosAddress") == null) {
     final evmPrivateKey =
         EthPrivateKey.fromHex(bytesToHex(seed.sublist(0, 32)));
     evmWalletAddress = evmPrivateKey.address.hex;
-    box!.put("evmAdd", evmWalletAddress.toString());
+    box!.put("aptosAddress", evmWalletAddress.toString());
     print("EVM Wallet Address: $evmWalletAddress");
   }
 

@@ -8,9 +8,9 @@ import 'dart:developer';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
+import 'package:erebrus_app/config/common.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/solana.dart';
-import 'package:erebrus_app/config/common.dart';
 
 class EclipseWalletGenerator {
   /// Generates an Eclipse wallet from a mnemonic phrase
@@ -65,11 +65,12 @@ class EclipseWalletGenerator {
 // Example usage:
 Future getEclipseAddress(mnemonic) async {
   // Get Eclipse wallet from mnemonic
-  if (box!.containsKey("EclipseAdd") == false || box!.get("EclipseAdd") == null) {
+  if (box!.containsKey("EclipseAddress") == false ||
+      box!.get("EclipseAddress") == null) {
     final wallet = await EclipseWalletGenerator.getWalletFromMnemonic(mnemonic);
     log('Eclip Public Key: ${wallet['publicKey']}');
     log('Eclip Private Key: ${wallet['privateKey']}');
-    box!.put("EclipseAdd", wallet['publicKey']);
+    box!.put("EclipseAddress", wallet['publicKey']);
     // Validate an address
     final isValid = EclipseWalletGenerator.isValidAddress(wallet['publicKey']!);
     log('Is valid address: $isValid');

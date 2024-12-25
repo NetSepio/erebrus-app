@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
@@ -8,6 +6,8 @@ import 'package:erebrus_app/view/Onboarding/solanaAddress.dart';
 import 'package:erebrus_app/view/Onboarding/soonAddress.dart';
 import 'package:erebrus_app/view/profile/walletSelection.dart';
 import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Profile extends StatefulWidget {
   final String title;
@@ -20,7 +20,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  RxString solanaAdd = "".obs;
+  RxString solanaAddress = "".obs;
   final storage = SecureStorage();
   ProfileController profileController = Get.find();
 
@@ -84,8 +84,8 @@ class _ProfileState extends State<Profile> {
                 //       ),
                 //     ],
                 //   ),
-                // if (solanaAdd.value.isNotEmpty) SizedBox(height: 20),
-                // if (solanaAdd.value.isNotEmpty)
+                // if (solanaAddress.value.isNotEmpty) SizedBox(height: 20),
+                // if (solanaAddress.value.isNotEmpty)
                 //   Row(
                 //     children: [
                 //       Image.asset(
@@ -98,7 +98,7 @@ class _ProfileState extends State<Profile> {
                 //               readOnly: true,
                 //               maxLines: 2,
                 //               controller: TextEditingController(
-                //                   text: solanaAdd.value.toString()),
+                //                   text: solanaAddress.value.toString()),
                 //               decoration: InputDecoration(
                 //                 labelText: "Solana Wallet",
                 //                 filled: true,
@@ -191,12 +191,12 @@ class _ProfileState extends State<Profile> {
                         ),
                       )
                     : SizedBox()),
-                if (box!.get("solanaAdd") == null)
+                if (box!.get("solanaAddress") == null)
                   Expanded(
                       child: SubscriptionScreen(
                     showAppbar: false,
                   )),
-                if (box!.get("solanaAdd") != null)
+                if (box!.get("solanaAddress") != null)
                   Column(
                     children: [
                       SizedBox(height: 20),
