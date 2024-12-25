@@ -8,16 +8,16 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:wire/api/api.dart';
-import 'package:wire/components/widgets.dart';
-import 'package:wire/config/assets.dart';
-import 'package:wire/config/colors.dart';
-import 'package:wire/config/common.dart';
-import 'package:wire/config/strings.dart';
-import 'package:wire/view/Onboarding/generate_phrase_screen.dart';
-import 'package:wire/view/Onboarding/import_account_screen.dart';
-import 'package:wire/view/home/home.dart';
-import 'package:wire/view/profile/profile_model.dart';
+import 'package:erebrus_app/api/api.dart';
+import 'package:erebrus_app/components/widgets.dart';
+import 'package:erebrus_app/config/assets.dart';
+import 'package:erebrus_app/config/colors.dart';
+import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/view/Onboarding/generate_mnemonic_screen.dart';
+import 'package:erebrus_app/view/Onboarding/import_account_screen.dart';
+import 'package:erebrus_app/view/home/home.dart';
+import 'package:erebrus_app/view/profile/profile_model.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
   const LoginOrRegisterPage({super.key});

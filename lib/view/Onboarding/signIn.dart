@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:wire/api/api.dart';
-import 'package:wire/components/widgets.dart';
+import 'package:erebrus_app/api/api.dart';
+import 'package:erebrus_app/components/widgets.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:wire/api/api.dart';
-import 'package:wire/config/assets.dart';
-import 'package:wire/model/CheckSubModel.dart';
-import 'package:wire/view/inAppPurchase/inappP.dart';
+import 'package:erebrus_app/api/api.dart';
+import 'package:erebrus_app/config/assets.dart';
+import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
+import 'package:erebrus_app/view/inAppPurchase/inappP.dart';
+
+import '../../config/assets.dart';
+import '../inAppPurchase/inappP.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   final bool showAppbar;
@@ -15,7 +18,7 @@ class SubscriptionScreen extends StatefulWidget {
 }
 
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
-  CheckSubModel? checkSub;
+  CheckSubscriptionModel? checkSub;
   RxBool isLoading = true.obs;
 
   @override

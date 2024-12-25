@@ -6,7 +6,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:wire/view/setting/setting.dart';
+import 'package:erebrus_app/view/settings/settings.dart';
 
 class VoiceChatBot extends StatefulWidget {
   @override
@@ -53,18 +53,22 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
         final data = jsonDecode(response.body);
         final reply = data["choices"][0]["message"]["content"];
         setState(() {
-          _messages.add({"role": "assistant", "content": reply});
+          _messages
+              .add({"role": "assistant", "content": reply}); // Use "assistant"
         });
         _speak(reply);
       } else {
         setState(() {
-          _messages
-              .add({"role": "assistant", "content": "Error: ${response.body}"});
+          _messages.add({
+            "role": "assistant",
+            "content": "Error: ${response.body}"
+          }); // Use "assistant"
         });
       }
     } catch (e) {
       setState(() {
-        _messages.add({"role": "assistant", "content": "Error: $e"});
+        _messages.add(
+            {"role": "assistant", "content": "Error: $e"}); // Use "assistant"
       });
     }
   }
@@ -103,9 +107,9 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
             _sendToOpenAI(recognizedText);
           }
         },
-        listenFor: Duration(seconds: 10),
-        pauseFor: Duration(seconds: 2),
-        cancelOnError: true,
+        listenFor: Duration(seconds: 10), // Stop listening after 10 seconds
+        pauseFor: Duration(seconds: 2), // Pause detection timeout
+        cancelOnError: true, // Cancel on error
       );
     }
   }

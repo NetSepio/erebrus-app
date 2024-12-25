@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
-import 'package:wire/view/inAppPurchase/package_model.dart';
+import 'package:erebrus_app/view/inAppPurchase/package_model.dart';
 
 class SubscriptionPackageController extends GetxController {
   RxList<PackageModel> packages = <PackageModel>[].obs;

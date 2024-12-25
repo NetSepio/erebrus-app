@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wire/config/common.dart';
+import 'package:erebrus_app/config/common.dart';
 
 class WalletDropdown extends StatefulWidget {
   @override
@@ -10,11 +10,11 @@ class _WalletDropdownState extends State<WalletDropdown> {
   String? selectedWallet; // Stores the selected wallet key (e.g., wallet name)
 
   Map<String, String> networkList = {
-    if (box!.get("solanaAdd") != null) "Solana": box!.get("solanaAdd"),
-    // if (box!.get("aptosAdd") != null) "Aptos": box!.get("aptosAdd"),
-    // if (box!.get("suiAdd") != null) "Sui": box!.get("suiAdd"),
-    // if (box!.get("evmAdd") != null) "Peaq": box!.get("evmAdd"),
-    if (box!.get("EclipseAdd") != null) "Eclipse": box!.get("EclipseAdd"),
+    if (box!.get("solanaAddress") != null) "Solana": box!.get("solanaAddress"),
+    // if (box!.get("aptosAddress") != null) "Aptos": box!.get("aptosAddress"),
+    // if (box!.get("suiAddress") != null) "Sui": box!.get("suiAddress"),
+    // if (box!.get("peaqAddress") != null) "Peaq": box!.get("peaqAddress"),
+    if (box!.get("EclipseAddress") != null) "Eclipse": box!.get("EclipseAddress"),
     if (box!.get("SoonAddress") != null) "Soon": box!.get("SoonAddress"),
   };
   @override

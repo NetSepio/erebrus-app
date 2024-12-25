@@ -3,20 +3,21 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
+import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' as ge;
 import 'package:get/route_manager.dart';
-import 'package:wire/config/api_const.dart';
-import 'package:wire/config/common.dart';
-import 'package:wire/model/AllNodeModel.dart';
-import 'package:wire/model/CheckSubModel.dart';
-import 'package:wire/model/RegisterClientModel.dart';
-import 'package:wire/model/erebrus/client_model.dart';
-import 'package:wire/view/bottombar/bottombar.dart';
-import 'package:wire/view/home/home.dart';
-import 'package:wire/view/profile/profile_model.dart';
+import 'package:erebrus_app/config/api_const.dart';
+import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/model/DVPNNodesModel.dart';
+
+import 'package:erebrus_app/model/RegisterVPNClientModel.dart';
+import 'package:erebrus_app/model/erebrus/client_model.dart';
+import 'package:erebrus_app/view/bottombar/bottombar.dart';
+import 'package:erebrus_app/view/home/home.dart';
+import 'package:erebrus_app/view/profile/profile_model.dart';
 
 final dio = Dio();
 
@@ -154,17 +155,17 @@ class ApiController {
     }
   }
 
-  Future<CheckSubModel> checkSubscription() async {
+  Future<CheckSubscriptionModel> checkSubscription() async {
     try {
       Response res = await dio.get(
         "https://gateway.erebrus.io/api/v1.0/subscription",
         options: header,
       );
       log("checkSubscription -  ${res.data}");
-      return await CheckSubModel.fromJson(res.data);
+      return await CheckSubscriptionModel.fromJson(res.data);
     } on DioException catch (e) {
       log("checkSubscription error-- ${e.response}");
-      return await CheckSubModel.fromJson(e.response!.data);
+      return await CheckSubscriptionModel.fromJson(e.response!.data);
     }
   }
 
@@ -172,8 +173,8 @@ class ApiController {
     Response res = await dio
         .get(baseUrl + ApiUrl().flowid + walletAddress)
         .catchError((e) {
-      log("getFlowId error");
-    });
+          log("getFlowId error");
+          });
     if (res.statusCode == 200) {
       log("Flow Data  ${res.data}");
       getAuthenticate(
@@ -250,7 +251,7 @@ class ApiController {
     }
   }
 
-  Future<AllNodeModel> getAllNode() async {
+  Future<DVPNNodesModel> getAllNode() async {
     try {
       log(header.headers.toString());
       Response res = await dio.get(
@@ -259,7 +260,7 @@ class ApiController {
 
       if (res.statusCode == 200) {
         log('All Node  ---------------- ${res.data}');
-        AllNodeModel allNodeModel = AllNodeModel.fromJson(res.data);
+        DVPNNodesModel allNodeModel = DVPNNodesModel.fromJson(res.data);
         return allNodeModel;
       } else {
         var errorMessage = res.data['message'];
@@ -269,7 +270,7 @@ class ApiController {
       // Get.snackbar('Error', 'An error occurred',
       //     colorText: Colors.white, backgroundColor: Colors.red);
       log('Error: $e');
-      return AllNodeModel();
+      return DVPNNodesModel();
     }
   }
 

@@ -8,9 +8,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:wire/model/DWifiModel.dart';
-import 'package:wire/view/dwifi/dwifi.dart';
-import 'package:wire/view/setting/setting.dart';
+import 'package:erebrus_app/model/DWiFiNodesModel.dart';
+import 'package:erebrus_app/view/dwifi/dwifi.dart';
+import 'package:erebrus_app/view/settings/settings.dart';
 
 class MapSample extends StatefulWidget {
   const MapSample({super.key});
@@ -24,7 +24,7 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  DWifiModel dWifiModel = DWifiModel();
+  DWiFiNodesModel dWifiModel = DWiFiNodesModel();
   late Position _currentPosition;
   CameraPosition? _initialCameraPosition;
   // = const CameraPosition(
@@ -79,7 +79,7 @@ class MapSampleState extends State<MapSample> {
       final response = await Dio().get(url);
       if (response.statusCode == 200) {
         _getCurrentLocation();
-        var s = DWifiModel.fromJson(response.data);
+        var s = DWiFiNodesModel.fromJson(response.data);
         for (var i = 0; i < s.data!.length; i++) {
           try {
             List<Location> locations =

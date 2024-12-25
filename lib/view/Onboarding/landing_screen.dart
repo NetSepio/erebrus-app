@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wire/config/colors.dart';
-import 'package:wire/config/common.dart';
+import 'package:erebrus_app/config/colors.dart';
+import 'package:erebrus_app/config/common.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});

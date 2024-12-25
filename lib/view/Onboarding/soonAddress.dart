@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:solana/solana.dart';
-import 'package:wire/config/common.dart';
+import 'package:erebrus_app/config/common.dart';
 
 class WalletGenerator {
   // Generate a new random mnemonic

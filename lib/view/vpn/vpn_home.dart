@@ -9,20 +9,20 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:wire/api/api.dart';
-import 'package:wire/config/api_const.dart';
-import 'package:wire/config/colors.dart';
-import 'package:wire/config/common.dart';
-import 'package:wire/config/secure_storage.dart';
-import 'package:wire/controller/profileContrller.dart';
-import 'package:wire/model/AllNodeModel.dart';
-import 'package:wire/model/CheckSubModel.dart';
-import 'package:wire/view/Onboarding/eclipAddress.dart';
-import 'package:wire/view/Onboarding/solanaAdd.dart';
-import 'package:wire/view/Onboarding/soonAddress.dart';
-import 'package:wire/view/home/home_controller.dart';
-import 'package:wire/view/profile/profile.dart';
-import 'package:wire/view/setting/setting.dart';
+import 'package:erebrus_app/api/api.dart';
+import 'package:erebrus_app/config/api_const.dart';
+import 'package:erebrus_app/config/colors.dart';
+import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/secure_storage.dart';
+import 'package:erebrus_app/controller/profileContrller.dart';
+import 'package:erebrus_app/model/DVPNNodesModel.dart';
+import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
+import 'package:erebrus_app/view/Onboarding/eclipseAddress.dart';
+import 'package:erebrus_app/view/Onboarding/solanaAddress.dart';
+import 'package:erebrus_app/view/Onboarding/soonAddress.dart';
+import 'package:erebrus_app/view/home/home_controller.dart';
+import 'package:erebrus_app/view/profile/profile.dart';
+import 'package:erebrus_app/view/settings/settings.dart';
 import 'package:wireguard_flutter/wireguard_flutter.dart';
 
 RxBool vpnActivate = false.obs;
@@ -66,12 +66,12 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
         }
       }
     });
-    // Timer(
-    //   Duration(seconds: 2),
-    //   () {
+    Timer(
+      Duration(seconds: 2),
+      () {
         // showDummyNft.value = true;
-      // },
-    // );
+      },
+    );
     homeController.generateKeyPair();
 
     // apiCall();
@@ -148,7 +148,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
 
   subsTry() async {
     bool firs = await box!.containsKey("FirstTime");
-    CheckSubModel? checkSub = await ApiController().checkSubscription();
+    CheckSubscriptionModel? checkSub = await ApiController().checkSubscription();
     if (checkSub.subscription == null) {
       if (!firs) {
         box!.put("FirstTime", true);
@@ -202,7 +202,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
 
   @override
   void didChangeDependencies() {
-    // log("-------  ------ didChangeDependencies");
+    log("-------  ------ didChangeDependencies");
     homeController.generateKeyPair();
     super.didChangeDependencies();
   }
@@ -734,7 +734,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
               }
               var collectionName = data['current_token_data']
                   ['current_collection']["collection_name"];
-              // log("NFF))) " + data.toString());
+              log("NFF))) " + data.toString());
               return collectionName.toString().contains("NETSEPIO") ||
                       collectionName.toString().contains("EREBRUS")
                   ? Column(

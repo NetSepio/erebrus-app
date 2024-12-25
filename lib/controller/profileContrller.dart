@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:wire/api/api.dart';
-import 'package:wire/view/profile/profile_model.dart';
+import 'package:erebrus_app/api/api.dart';
+import 'package:erebrus_app/view/profile/profile_model.dart';
 
 class ProfileController extends GetxController {
   Rx<ProfileModel> profileModel = ProfileModel().obs;
