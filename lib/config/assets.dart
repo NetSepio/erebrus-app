@@ -8,7 +8,7 @@ const appBackground = "assets/bg.png";
 const subscriptionLogo = "assets/no_sub.png";
 const earthBackground = "assets/earth.png";
 const erebrusLogoWordMark = "assets/Erebrus_logo_wordmark.png";
-const solanaLogo = "assets/solo.png";
+const solanaLogo = "assets/solana.png";
 const evmLogo = "assets/evm.png";
 
 const settingIcon = "assets/images/Settings.png";

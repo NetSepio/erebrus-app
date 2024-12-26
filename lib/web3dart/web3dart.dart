@@ -31,7 +31,7 @@ class Web3 {
 
   static Map<String, dynamic> get getCurrentNetworkData {
     return {
-      'rpc_url': dotenv.env["Ethereum_Mainnet"],
+      'rpc_url': dotenv.env["ETHEREUM_MAINNET_RPC"],
       'network_id': 1,
       'logo_path': 'assets/images/ethereum_logo.png',
       'symbol': 'ETH',

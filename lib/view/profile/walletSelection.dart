@@ -15,7 +15,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
     // if (box!.get("suiAddress") != null) "Sui": box!.get("suiAddress"),
     // if (box!.get("peaqAddress") != null) "Peaq": box!.get("peaqAddress"),
     if (box!.get("EclipseAddress") != null) "Eclipse": box!.get("EclipseAddress"),
-    if (box!.get("SoonAddress") != null) "Soon": box!.get("SoonAddress"),
+    // if (box!.get("SoonAddress") != null) "Soon": box!.get("SoonAddress"),
   };
   @override
   void initState() {
@@ -63,11 +63,11 @@ class _WalletDropdownState extends State<WalletDropdown> {
                 walletName == "Sui"
                     ? "assets/sui.png"
                     : walletName == "Solana"
-                        ? "assets/solo.png"
+                        ? "assets/solana.png"
                         : walletName == "Peaq"
                             ? "assets/peaq.png"
                             : walletName == "Aptos"
-                                ? "assets/app.png"
+                                ? "assets/aptos.png"
                                 : walletName == "Eclipse"
                                     ? "assets/download.png"
                                     : "assets/soon.png",
