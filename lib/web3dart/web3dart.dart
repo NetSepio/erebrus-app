@@ -42,7 +42,7 @@ class Web3 {
     String seed = bip39.mnemonicToSeedHex(mnemonic);
     bip32.BIP32 root =
         bip32.BIP32.fromSeed(Uint8List.fromList(HEX.decode(seed)));
-    bip32.BIP32 child = root.derivePath("m/44'/60'/0'/0/$childIndex");
+    bip32.BIP32 child = root.derivePath("m/44'/60'/0'/0'/$childIndex");
     String privateKey = HEX.encode(child.privateKey!.toList());
     return privateKey;
   }

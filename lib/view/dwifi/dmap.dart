@@ -74,7 +74,7 @@ class MapSampleState extends State<MapSample> {
   Future fetchData() async {
     await Permission.locationWhenInUse.request();
     await Permission.location.request();
-    const url = 'https://dev.gateway.erebrus.io/api/v1.0/nodedwifi/all';
+    const url = 'https://dev.gateway.erebrus.io/api/v1.0/nodedwifi/all'; // TODO: Use .env
     try {
       final response = await Dio().get(url);
       if (response.statusCode == 200) {
