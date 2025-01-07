@@ -1,10 +1,7 @@
-const String baseUrl = 'https://gateway.netsepio.com/api/v1.0';
-// const String baseUrl = 'https://gateway.erebrus.com/api/v1.0';
-const String baseUrl2 = "https://indexer.mainnet.aptoslabs.com/v1/graphql";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-// const String baseUrl = 'https://gateway.dev.netsepio.com/api/v1.0';
-// const String baseUrl2 =
-//     "https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql";
+String baseUrl = dotenv.get("EREBRUS_GATWAY");
+String baseUrl2 = dotenv.get("GRAPHQL_URL");
 
 class ApiUrl {
   String googleAuth = "/account/auth-google";

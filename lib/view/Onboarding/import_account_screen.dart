@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:aptos/aptos.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
 import 'package:erebrus_app/controller/auth_controller.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ImportAccountScreen extends StatelessWidget {
   const ImportAccountScreen({super.key});
@@ -83,16 +83,17 @@ class ImportAccountScreen extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                       onPressed: () async {
-                        controller.privateKeyFromMnemonic(
+                        await controller.privateKeyFromMnemonic(
                             newMnemonic:
                                 controller.importAccountphrase.text.trim());
                         String mnemonics =
                             await storage.getStoredValue("mnemonic") ?? "";
-                        var pvtKey = await storage.getStoredValue('pvtKey');
+                        String accountAddress =
+                            await storage.getStoredValue("accountAddress") ??
+                                "";
                         final sender = AptosAccount.generateAccount(mnemonics);
-
-                        log("Wallet Address $pvtKey");
-                        log("Wallet Address hex ${sender.accountAddress.hex()}");
+                        // log("Wallet Address -=- ${sender.address}");
+                        // log("Wallet Address -=- ${accountAddress}");
                         var res = await homeController.getPASETO(
                             walletAddress: sender.address);
                       },

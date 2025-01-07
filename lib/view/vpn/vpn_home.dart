@@ -17,9 +17,7 @@ import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
 import 'package:erebrus_app/model/DVPNNodesModel.dart';
 import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
-import 'package:erebrus_app/view/Onboarding/eclipseAddress.dart';
-import 'package:erebrus_app/view/Onboarding/solanaAddress.dart';
-import 'package:erebrus_app/view/Onboarding/soonAddress.dart';
+import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
 import 'package:erebrus_app/view/settings/settings.dart';
@@ -93,7 +91,6 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     await suiWal(mnemonics);
     await getEclipseAddress(mnemonics);
     await getSoonAddress(mnemonics);
-    await evmAptos(mnemonics);
     setState(() {});
 
     await Future.delayed(Duration(milliseconds: 50));

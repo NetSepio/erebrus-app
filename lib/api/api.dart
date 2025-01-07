@@ -3,21 +3,21 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
-import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart' as ge;
-import 'package:get/route_manager.dart';
 import 'package:erebrus_app/config/api_const.dart';
 import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
 import 'package:erebrus_app/model/DVPNNodesModel.dart';
-
 import 'package:erebrus_app/model/RegisterVPNClientModel.dart';
 import 'package:erebrus_app/model/erebrus/client_model.dart';
 import 'package:erebrus_app/view/bottombar/bottombar.dart';
 import 'package:erebrus_app/view/home/home.dart';
 import 'package:erebrus_app/view/profile/profile_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart' as ge;
+import 'package:get/route_manager.dart';
 
 final dio = Dio();
 
@@ -42,7 +42,6 @@ class ApiController {
   registerApple({required String email, required String appleId}) async {
     try {
       Map data = {'email': email, "appleId": appleId};
-      log("message---data----${data}");
       await dio
           .post(baseUrl + ApiUrl().registerApple, data: data)
           .then((value) {
@@ -117,13 +116,12 @@ class ApiController {
   }
 
   Future<ProfileModel> getProfile() async {
-    log(header.headers.toString());
+    // log(header.headers.toString());
     try {
-      Response res = await dio.get(
-          "https://gateway.netsepio.com/api/v1.0/profile",
+      Response res = await dio.get(dotenv.get("EREBRUS_GATWAY") + "/profile",
           options: header);
 
-      log("profile -  ${res.data}");
+      // log("profile -  ${res.data}");
       if (res.statusCode == 200) {
         ProfileModel profileModel = ProfileModel.fromJson(res.data);
         if (profileModel.payload != null &&
@@ -147,7 +145,7 @@ class ApiController {
       return await Future.error("error");
     });
 
-    log("trialSubscription -  ${res.data}");
+    // log("trialSubscription -  ${res.data}");
     if (res.statusCode == 200) {
       try {
         Fluttertoast.showToast(msg: res.data["status"].toString());
@@ -161,7 +159,7 @@ class ApiController {
         "https://gateway.erebrus.io/api/v1.0/subscription",
         options: header,
       );
-      log("checkSubscription -  ${res.data}");
+      // log("checkSubscription -  ${res.data}");
       return await CheckSubscriptionModel.fromJson(res.data);
     } on DioException catch (e) {
       log("checkSubscription error-- ${e.response}");
@@ -173,10 +171,10 @@ class ApiController {
     Response res = await dio
         .get(baseUrl + ApiUrl().flowid + walletAddress)
         .catchError((e) {
-          log("getFlowId error");
-          });
+      log("getFlowId error");
+    });
     if (res.statusCode == 200) {
-      log("Flow Data  ${res.data}");
+      // log("Flow Data  ${res.data}");
       getAuthenticate(
           flowid: res.data["payload"]["flowId"].toString(),
           walletAddress: walletAddress);
@@ -190,14 +188,14 @@ class ApiController {
       "flowId": flowid,
       "walletAddress": walletAddress,
     };
-    log("Auth data ----- ${jsonEncode(data)}");
+    // log("Auth data ----- ${jsonEncode(data)}");
     try {
       Response res =
           await dio.post(baseUrl + ApiUrl().authenticate, data: data);
 
-      log("profile - =-0-=-= ${res.data}");
+      // log("profile - =-0-=-= ${res.data}");
       if (res.statusCode == 200) {
-        log("Flow Data  ${res.data}");
+        // log("Flow Data  ${res.data}");
         box!.put("token", res.data["payload"]["token"]);
         Get.offAll(() => const BottomBar());
       }
@@ -220,7 +218,7 @@ class ApiController {
     required String collectionId,
   }) async {
     try {
-      log(header.headers.toString());
+      // log(header.headers.toString());
       final key = generateRandomKey(32);
       print(key);
       Map data = {
@@ -228,15 +226,16 @@ class ApiController {
         "collectionId": collectionId,
         "publickey": privateKey,
       };
-      log("API Param  $selectedString -- $data");
+      // log("API Param  $selectedString -- $data");
       Response res = await dio.post(
-        'https://gateway.netsepio.com/api/v1.0/erebrus/client/${selectedString.toLowerCase()}',
+        dotenv.get("EREBRUS_GATWAY") +
+            '/erebrus/client/${selectedString.toLowerCase()}',
         options: header,
         data: data,
       );
 
       if (res.statusCode == 200) {
-        log('VPN Data get---------------- ${res.data}');
+        // log('VPN Data get---------------- ${res.data}');
         ErebrusClientModel profileModel = ErebrusClientModel.fromJson(res.data);
         return profileModel.payload!;
       } else {
@@ -253,13 +252,13 @@ class ApiController {
 
   Future<DVPNNodesModel> getAllNode() async {
     try {
-      log(header.headers.toString());
+      // log(header.headers.toString());
       Response res = await dio.get(
           "https://gateway.erebrus.io/api/v1.0/nodes/active",
           options: header);
 
       if (res.statusCode == 200) {
-        log('All Node  ---------------- ${res.data}');
+        // log('All Node  ---------------- ${res.data}');
         DVPNNodesModel allNodeModel = DVPNNodesModel.fromJson(res.data);
         return allNodeModel;
       } else {
@@ -277,7 +276,7 @@ class ApiController {
   Future<RegisterClientModel> registerClient(
       nodeId, publickey, presharedKey) async {
     try {
-      log(header.headers.toString());
+      // log(header.headers.toString());
       Response res = await dio.post(
         "https://gateway.erebrus.io/api/v1.0/erebrus/client/$nodeId",
         data: {
@@ -289,7 +288,7 @@ class ApiController {
       );
 
       if (res.statusCode == 200) {
-        log('RegisterClient  ---------------- ${res.data}');
+        // log('RegisterClient   ${res.data}');
         RegisterClientModel registerClientModel =
             RegisterClientModel.fromJson(res.data);
         return registerClientModel;
@@ -308,11 +307,10 @@ class ApiController {
   }
 
   deleteVpn({required String uuid}) async {
-    log(header.headers.toString());
     try {
       Response res = await dio
           .delete(
-        "https://gateway.netsepio.com/api/v1.0/erebrus/client/$uuid",
+        dotenv.get("EREBRUS_GATWAY") + "/erebrus/client/$uuid",
         options: header,
       )
           .catchError((e) {
@@ -328,9 +326,8 @@ class ApiController {
   }
 
   deleteVpn2({required String uuid, required String region}) async {
-    log(header.headers.toString());
     try {
-      var url="https://gateway.netsepio.com/api/v1.0/erebrus/client/$region/$uuid";
+      var url = dotenv.get("EREBRUS_GATWAY") + "/erebrus/client/$region/$uuid";
       Response res = await dio.delete(
         url,
         options: header,

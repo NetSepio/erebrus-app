@@ -1,9 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:location/location.dart';
-// import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:erebrus_app/ai/aivoice.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/view/Onboarding/login_register.dart';
@@ -11,6 +5,11 @@ import 'package:erebrus_app/view/profile/profile.dart';
 import 'package:erebrus_app/view/settings/privacyPolicy.dart';
 import 'package:erebrus_app/view/speedCheck/speedCheck.dart';
 import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:location/location.dart';
+// import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -140,15 +139,14 @@ class _SettingPageState extends State<SettingPage> {
                       actions: [
                         TextButton(
                           onPressed: () {
-                            Navigator.pop(context); // Close the dialog
+                            Navigator.pop(context);
                           },
                           child: const Text(cancelTxt),
                         ),
                         TextButton(
-                          onPressed: () {
-                            // Implement your delete account logic here
-                            Navigator.pop(context); // Close the dialog
-                            // After deleting the account, you can navigate to the login page or perform any other action
+                          onPressed: () async {
+                            await box!.clear();
+                            Get.offAll(() => const LoginOrRegisterPage());
                           },
                           child: const Text(
                             deleteTxt,

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:erebrus_app/config/common.dart';
+import 'package:flutter/material.dart';
 
 class WalletDropdown extends StatefulWidget {
   @override
@@ -11,10 +11,8 @@ class _WalletDropdownState extends State<WalletDropdown> {
 
   Map<String, String> networkList = {
     if (box!.get("solanaAddress") != null) "Solana": box!.get("solanaAddress"),
-    // if (box!.get("aptosAddress") != null) "Aptos": box!.get("aptosAddress"),
-    // if (box!.get("suiAddress") != null) "Sui": box!.get("suiAddress"),
-    // if (box!.get("peaqAddress") != null) "Peaq": box!.get("peaqAddress"),
-    if (box!.get("EclipseAddress") != null) "Eclipse": box!.get("EclipseAddress"),
+    if (box!.get("EclipseAddress") != null)
+      "Eclipse": box!.get("EclipseAddress"),
     // if (box!.get("SoonAddress") != null) "Soon": box!.get("SoonAddress"),
   };
   @override
@@ -26,6 +24,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
 
   @override
   Widget build(BuildContext context) {
+    // log(box!.get("solanaAddress"));
     return Container(
       height: 80,
       decoration: BoxDecoration(

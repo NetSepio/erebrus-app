@@ -40,7 +40,7 @@ class HomeController extends GetxController {
     "AU": "Australia",
     "JP": "Japan",
     "CA": "Canada",
-    "DE": "Denmark",
+    "DE": "Germany",
     "GB": "United Kingdom",
   };
 
@@ -108,7 +108,7 @@ class HomeController extends GetxController {
     try {
       var ipAddress = IpAddress(type: RequestType.json);
       ipData.value = await ipAddress.getIpAddress();
-      log("Ip Update --${ipData.values}");
+      // log("Ip Update --${ipData.values}");
       update();
     } on IpAddressException catch (exception) {
       print(exception.message);

@@ -1,9 +1,7 @@
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
-import 'package:erebrus_app/view/Onboarding/eclipseAddress.dart';
-import 'package:erebrus_app/view/Onboarding/solanaAddress.dart';
-import 'package:erebrus_app/view/Onboarding/soonAddress.dart';
+import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
 import 'package:erebrus_app/view/profile/walletSelection.dart';
 import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +28,6 @@ class _ProfileState extends State<Profile> {
     await suiWal(mnemonics);
     await getEclipseAddress(mnemonics);
     await getSoonAddress(mnemonics);
-    await evmAptos(mnemonics);
     setState(() {});
   }
 
@@ -56,123 +53,6 @@ class _ProfileState extends State<Profile> {
           child: Container(
             child: Column(
               children: [
-                // if (ed25519 != null)
-                //   Row(
-                //     children: [
-                //       Image.asset(
-                //         "assets/sui.png",
-                //         width: 35,
-                //       ),
-                //       SizedBox(width: 10),
-                //       Expanded(
-                //         child: TextField(
-                //           readOnly: true,
-                //           maxLines: 3,
-                //           controller: TextEditingController(
-                //               text: ed25519!.getAddress().toString()),
-                //           decoration: InputDecoration(
-                //             labelText: "Sui Wallet",
-                //             filled: true,
-                //             fillColor: Colors.black,
-                //             border: OutlineInputBorder(
-                //               borderSide: BorderSide(
-                //                 width: 1,
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // if (solanaAddress.value.isNotEmpty) SizedBox(height: 20),
-                // if (solanaAddress.value.isNotEmpty)
-                //   Row(
-                //     children: [
-                //       Image.asset(
-                //         "assets/solo.png",
-                //         width: 40,
-                //       ),
-                //       SizedBox(width: 5),
-                //       Obx(() => Expanded(
-                //             child: TextField(
-                //               readOnly: true,
-                //               maxLines: 2,
-                //               controller: TextEditingController(
-                //                   text: solanaAddress.value.toString()),
-                //               decoration: InputDecoration(
-                //                 labelText: "Solana Wallet",
-                //                 filled: true,
-                //                 fillColor: Colors.black,
-                //                 border: OutlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                     width: 1,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           )),
-                //     ],
-                //   ),
-                // SizedBox(height: 20),
-                // if (evmWalletAddress != null)
-                //   Row(
-                //     children: [
-                //       Image.asset(
-                //         "assets/evm.png",
-                //         width: 30,
-                //       ),
-                //       SizedBox(width: 15),
-                //       Expanded(
-                //         child: TextField(
-                //           readOnly: true,
-                //           maxLines: 2,
-                //           controller: TextEditingController(
-                //               text: evmWalletAddress.toString()),
-                //           decoration: InputDecoration(
-                //             labelText: "EVM Address",
-                //             filled: true,
-                //             fillColor: Colors.black,
-                //             border: OutlineInputBorder(
-                //               borderSide: BorderSide(
-                //                 width: 1,
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // SizedBox(height: 20),
-                // if (aptosWalletAddress != null)
-                //   Row(
-                //     children: [
-                //       Image.asset(
-                //         "assets/app.png",
-                //         width: 40,
-                //         height: 40,
-                //       ),
-                //       SizedBox(width: 5),
-                //       Expanded(
-                //         child: TextField(
-                //           readOnly: true,
-                //           maxLines: 2,
-                //           controller: TextEditingController(
-                //               text: aptosWalletAddress.toString()),
-                //           decoration: const InputDecoration(
-                //             labelText: "APTOS Wallet",
-                //             filled: true,
-                //             fillColor: Colors.black38,
-                //             border: OutlineInputBorder(
-                //               borderSide: BorderSide(
-                //                 width: 1,
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // const SizedBox(height: 20),
                 Obx(() => (profileController.profileModel.value.payload !=
                             null &&
                         profileController.profileModel.value.payload!.email !=

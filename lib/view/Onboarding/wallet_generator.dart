@@ -2,11 +2,11 @@ import 'dart:typed_data';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
-import 'package:solana/solana.dart';
 import 'package:erebrus_app/config/common.dart';
+import 'package:solana/solana.dart';
 
 class WalletGenerator {
-  // Generate a new random mnemonic
+
   static String generateMnemonic() {
     return bip39.generateMnemonic();
   }
@@ -42,5 +42,34 @@ getSoonAddress(mnemonic) async {
     var soon = await WalletGenerator.getAddressFromMnemonic(mnemonic);
     box!.put("SoonAddress", soon.toString());
     print("----=-===-===-=$soon");
+  }
+}
+
+Future getEclipseAddress(mnemonic) async {
+  if (box!.containsKey("EclipseAddress") == false ||
+      box!.get("EclipseAddress") == null) {
+    final wallet = await WalletGenerator.getAddressFromMnemonic(mnemonic);
+
+    box!.put("EclipseAddress", wallet);
+  }
+}
+
+Future getSolanaAddress(mnemonic) async {
+  if (box!.containsKey("solanaAddress") == false ||
+      box!.get("solanaAddress") == null) {
+    final wallet = await WalletGenerator.getAddressFromMnemonic(mnemonic);
+
+    box!.put("solanaAddress", wallet);
+  }
+}
+
+// SuiAccount? ed25519;
+suiWal(mnemonics) async {
+  if (box!.containsKey("suiAdd") == false || box!.get("suiAdd") == null) {
+    var wallet = await WalletGenerator.getAddressFromMnemonic(mnemonics);
+    // final secp256k1 =
+    //     SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Secp256k1);
+    // log("suiAdd--${ed25519!.getAddress().toString()}");
+    box!.put("suiAdd", wallet);
   }
 }

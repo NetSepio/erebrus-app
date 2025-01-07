@@ -1,13 +1,11 @@
+import 'package:erebrus_app/api/api.dart';
+import 'package:erebrus_app/config/assets.dart';
+import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:erebrus_app/api/api.dart';
-import 'package:erebrus_app/config/assets.dart';
-import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
-import 'package:erebrus_app/view/inAppPurchase/inappP.dart';
-
-import '../../config/assets.dart';
-import '../inAppPurchase/inappP.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   final bool showAppbar;
@@ -77,85 +75,85 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               : Column(
                   children: [
                     SizedBox(width: Get.width),
-                    // if (checkSub == null ||
-                    //     checkSub!.subscription == null &&
-                    //         isLoading.value == false)
-                    Column(
-                      children: [
-                        Image.asset(
-                          subscriptionLogo,
-                          height: 200,
-                        ),
-                        const SizedBox(height: 30),
-                        Text(
-                          "Access premium VPN and enhanced security.",
-                          // subscribeSubTxt,
-                          style: TextStyle(),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xff0162FF)),
-                          onPressed: () async {
-                            Get.to(() => InAppPurchasePage());
-                            // await ApiController().trialSubscription();
-                            // checkSubscription();
-                          },
-                          child: const Text(
-                            " Subscribe Erebrus Pro Plan ",
-                            // " ${freeTrial} ",
-                            style: TextStyle(color: Colors.white),
+                    if (checkSub == null ||
+                        checkSub!.subscription == null &&
+                            isLoading.value == false)
+                      Column(
+                        children: [
+                          Image.asset(
+                            subscriptionLogo,
+                            height: 200,
                           ),
-                        )
-                      ],
-                    )
-                    // else
-                    //   Card(
-                    //     child: Column(
-                    //       children: [
-                    //         const SizedBox(height: 20),
-                    //         const Text(
-                    //           SubscriptionTxt,
-                    //           style: TextStyle(
-                    //             fontSize: 20,
-                    //           ),
-                    //         ),
-                    //         ListTile(
-                    //           title: const Text("Status"),
-                    //           trailing: Text(
-                    //               checkSub!.status.toString().toUpperCase()),
-                    //           dense: true,
-                    //         ),
-                    //         ListTile(
-                    //           title: const Text("Start Time",
-                    //               style: TextStyle(color: Colors.green)),
-                    //           trailing: Text(checkSub!.subscription!.startTime
-                    //               .toString()
-                    //               .split(" ")[0]),
-                    //           dense: true,
-                    //         ),
-                    //         ListTile(
-                    //           title: const Text(
-                    //             "End Time",
-                    //             style: TextStyle(color: Colors.red),
-                    //           ),
-                    //           trailing: Text(checkSub!.subscription!.endTime
-                    //               .toString()
-                    //               .split(" ")[0]),
-                    //           dense: true,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // SizedBox(height: 30),
-                    // if (checkSub!.status.toString() == "expired")
-                    //   ElevatedButton(
-                    //       onPressed: () {
-                    //         launchUrl(
-                    //             Uri.parse("https://erebrus.io/subscription"));
-                    //       },
-                    //       child: Text("Renew Subscription")),
+                          const SizedBox(height: 30),
+                          Text(
+                            "Access premium VPN and enhanced security.",
+                            // subscribeSubTxt,
+                            style: TextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff0162FF)),
+                            onPressed: () async {
+                              // Get.to(() => InAppPurchasePage());
+                              await ApiController().trialSubscription();
+                              checkSubscription();
+                            },
+                            child: Text(
+                              // " Subscribe Erebrus Pro Plan ",
+                              " ${freeTrial} ",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      )
+                    else
+                      Card(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 20),
+                            const Text(
+                              SubscriptionTxt,
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                            ListTile(
+                              title: const Text("Status"),
+                              trailing: Text(
+                                  checkSub!.status.toString().toUpperCase()),
+                              dense: true,
+                            ),
+                            ListTile(
+                              title: const Text("Start Time",
+                                  style: TextStyle(color: Colors.green)),
+                              trailing: Text(checkSub!.subscription!.startTime
+                                  .toString()
+                                  .split(" ")[0]),
+                              dense: true,
+                            ),
+                            ListTile(
+                              title: const Text(
+                                "End Time",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              trailing: Text(checkSub!.subscription!.endTime
+                                  .toString()
+                                  .split(" ")[0]),
+                              dense: true,
+                            ),
+                          ],
+                        ),
+                      ),
+                    SizedBox(height: 30),
+                    if (checkSub!.status.toString() == "expired")
+                      ElevatedButton(
+                          onPressed: () {
+                            launchUrl(
+                                Uri.parse("https://erebrus.io/subscription"));
+                          },
+                          child: Text("Renew Subscription")),
                   ],
                 ),
         ),
