@@ -33,7 +33,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
 
   var nftDta;
   getNfts() async {
-    var res = await Dio().get(dotenv.get("NFT_API") +
+    var res = await Dio().get(dotenv.get("SOLANA_NFT_API") +
         // "/8bDudaBScd3qSiuE2VujZ5Pr29ruaLg25MhgPMRCjv5d/tokens"
         "/${box!.get("selectedWalletAddress")}/tokens");
     nftDta = res.data;

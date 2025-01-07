@@ -38,7 +38,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   var nftDta;
   getNfts() async {
     var res = await Dio().get(
-        dotenv.get("NFT_API") + "/${box!.get("selectedWalletAddress")}/tokens");
+        dotenv.get("SOLANA_NFT_API") + "/${box!.get("selectedWalletAddress")}/tokens");
     nftDta = res.data;
     setState(() {});
   }
