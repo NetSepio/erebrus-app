@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
@@ -21,6 +22,7 @@ class _ProfileState extends State<Profile> {
   RxString solanaAddress = "".obs;
   final storage = SecureStorage();
   ProfileController profileController = Get.find();
+  var nftDta;
 
   apiCall() async {
     var mnemonics = await profileController.mnemonics.value;
@@ -30,6 +32,7 @@ class _ProfileState extends State<Profile> {
     await getSoonAddress(mnemonics);
     setState(() {});
   }
+
 
   @override
   void initState() {
@@ -86,10 +89,14 @@ class _ProfileState extends State<Profile> {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 20),
-                      WalletDropdown(),
+                      WalletDropdown(
+                        fromProfileScreen: widget.title == "Profile",
+                      ),
                     ],
                   ),
-              ],
+                SizedBox(height: 10),
+               
+                ],
             ),
           ),
         ),

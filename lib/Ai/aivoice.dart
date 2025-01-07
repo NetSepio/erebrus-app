@@ -56,7 +56,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
           _messages
               .add({"role": "assistant", "content": reply}); // Use "assistant"
         });
-        _speak(reply);
+        // _speak(reply);
       } else {
         setState(() {
           _messages.add({
@@ -74,9 +74,9 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
   }
 
   Future<void> _speak(String text) async {
-    await _flutterTts.setLanguage("en-US");
-    await _flutterTts.setSpeechRate(0.5);
-    await _flutterTts.speak(text);
+    // await _flutterTts.setLanguage("en-US");
+    // await _flutterTts.setSpeechRate(0.5);
+    // await _flutterTts.speak(text);
   }
 
   void _startListening() async {

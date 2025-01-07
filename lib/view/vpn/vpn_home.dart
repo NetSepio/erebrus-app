@@ -4,23 +4,23 @@ import 'dart:io';
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/config/api_const.dart';
 import 'package:erebrus_app/config/colors.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
-import 'package:erebrus_app/model/DVPNNodesModel.dart';
 import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
+import 'package:erebrus_app/model/DVPNNodesModel.dart';
 import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
 import 'package:erebrus_app/view/settings/settings.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:wireguard_flutter/wireguard_flutter.dart';
 
 RxBool vpnActivate = false.obs;
@@ -145,7 +145,8 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
 
   subsTry() async {
     bool firs = await box!.containsKey("FirstTime");
-    CheckSubscriptionModel? checkSub = await ApiController().checkSubscription();
+    CheckSubscriptionModel? checkSub =
+        await ApiController().checkSubscription();
     if (checkSub.subscription == null) {
       if (!firs) {
         box!.put("FirstTime", true);
@@ -199,7 +200,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
 
   @override
   void didChangeDependencies() {
-    log("-------  ------ didChangeDependencies");
+    // log("-------  ------ didChangeDependencies");
     homeController.generateKeyPair();
     super.didChangeDependencies();
   }
@@ -308,7 +309,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                       homeController.selectedCountry!.value =
                                           value!;
 
-                                      homeController.selectedCity =
+                                      homeController.selectedChain =
                                           homeController
                                               .countryMap![homeController
                                                   .selectedCountry!.value]!
@@ -321,7 +322,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                                       .selectedCountry!.value]!
                                               .firstWhere((node) =>
                                                   node.chainName ==
-                                                  homeController.selectedCity);
+                                                  homeController.selectedChain);
                                     });
                                   },
                                 )
@@ -338,12 +339,12 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                 labelText: 'Select Node',
                                 contentPadding:
                                     EdgeInsets.symmetric(horizontal: 10)),
-                            value: homeController.selectedCity != null
+                            value: homeController.selectedChain != null
                                 ? homeController.countryMap![
                                         homeController.selectedCountry!.value]!
                                     .firstWhere((node) =>
                                         node.chainName ==
-                                        homeController.selectedCity)
+                                        homeController.selectedChain)
                                 : null,
                             hint: const Text('Select Node'),
                             items: homeController.countryMap![
@@ -351,23 +352,34 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                 .map((node) {
                               return DropdownMenuItem<AllNPayload>(
                                 value: node,
-                                child: Text(
-                                  node.id!.substring(0, 5) +
-                                      " ... " +
-                                      node.id!.substring(node.id!.length - 5),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      node.id!.substring(0, 5) +
+                                          " ... " +
+                                          node.id!
+                                              .substring(node.id!.length - 5) +
+                                          "    ",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    Text(
+                                      "${node.chainName}",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
                                 ),
                               );
                             }).toList(),
                             onChanged: (AllNPayload? value) {
                               setState(() {
-                                homeController.selectedCity = value!.chainName;
+                                homeController.selectedChain = value!.chainName;
                                 homeController.selectedPayload.value = value;
-                                log(homeController
-                                    .selectedPayload.value.ipinfocountry
-                                    .toString());
                               });
                             },
                           )
