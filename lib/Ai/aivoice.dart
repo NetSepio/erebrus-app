@@ -56,7 +56,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
           _messages
               .add({"role": "assistant", "content": reply}); // Use "assistant"
         });
-        _speak(reply);
+        // _speak(reply);
       } else {
         setState(() {
           _messages.add({
