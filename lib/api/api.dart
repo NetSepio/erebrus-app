@@ -168,7 +168,7 @@ class ApiController {
 
   Future getFlowId({required String walletAddress}) async {
     Response res = await dio
-        .get(baseUrl + ApiUrl().flowid + walletAddress)
+        .get(baseUrl + ApiUrl().flowid + walletAddress + "&chain=sol")
         .catchError((e) {
       log("getFlowId error");
     });

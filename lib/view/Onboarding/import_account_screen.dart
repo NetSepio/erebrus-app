@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:aptos/aptos.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
@@ -91,11 +90,9 @@ class ImportAccountScreen extends StatelessWidget {
                         String accountAddress =
                             await storage.getStoredValue("accountAddress") ??
                                 "";
-                        final sender = AptosAccount.generateAccount(mnemonics);
-                        // log("Wallet Address -=- ${sender.address}");
-                        // log("Wallet Address -=- ${accountAddress}");
+                        log("Wallet Address -=- ${accountAddress}");
                         var res = await homeController.getPASETO(
-                            walletAddress: sender.address);
+                            walletAddress: accountAddress);
                       },
                       child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12),

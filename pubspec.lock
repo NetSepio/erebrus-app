@@ -9,14 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  aptos:
-    dependency: "direct main"
-    description:
-      name: aptos
-      sha256: "929273cb94a3e77124152d37e9d2c7661dc307e144203f3adfa344f9cb23eaf1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.6"
   archive:
     dependency: transitive
     description:
