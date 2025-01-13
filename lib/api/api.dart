@@ -123,7 +123,7 @@ class ApiController {
           "https://gateway.netsepio.com/api/v1.0/profile",
           options: header);
 
-      log("profile -  ${res.data}");
+      // log("profile -  ${res.data}");
       if (res.statusCode == 200) {
         ProfileModel profileModel = ProfileModel.fromJson(res.data);
         if (profileModel.payload != null &&
@@ -161,7 +161,7 @@ class ApiController {
         "https://gateway.erebrus.io/api/v1.0/subscription",
         options: header,
       );
-      log("checkSubscription -  ${res.data}");
+      // log("checkSubscription -  ${res.data}");
       return await CheckSubscriptionModel.fromJson(res.data);
     } on DioException catch (e) {
       log("checkSubscription error-- ${e.response}");

@@ -206,7 +206,9 @@ class _ProfileState extends State<Profile> {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 20),
-                      WalletDropdown(),
+                      WalletDropdown(
+                        fromProfileScreen: widget.title == "Profile",
+                      ),
                     ],
                   ),
               ],
