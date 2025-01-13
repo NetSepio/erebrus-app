@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:erebrus_app/view/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:erebrus_app/view/settings/settings.dart';
 
 class VoiceChatBot extends StatefulWidget {
   @override
@@ -165,8 +165,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
       body: Column(
         children: [
           if (_messages.isEmpty)
-            SizedBox(
-              height: Get.height * .7,
+            Expanded(
               child: Center(
                 child: Image.asset(
                   "assets/ai.png",
@@ -186,7 +185,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: Row(
               children: [
                 Expanded(
@@ -197,6 +196,12 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      suffix: InkWell(
+                          onTap: () {
+                            _sendToOpenAI(_textController.text);
+                            _textController.clear();
+                          },
+                          child: Icon(Icons.send)),
                     ),
                     onSubmitted: (value) {
                       _sendToOpenAI(value);

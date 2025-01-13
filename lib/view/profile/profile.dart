@@ -22,7 +22,7 @@ class _ProfileState extends State<Profile> {
   RxString solanaAddress = "".obs;
   final storage = SecureStorage();
   ProfileController profileController = Get.find();
-  var nftDta;
+
 
   apiCall() async {
     var mnemonics = await profileController.mnemonics.value;

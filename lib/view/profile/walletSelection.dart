@@ -69,6 +69,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
                 selectedWallet = newValue;
                 box!.put("selectedWalletAddress", networkList[newValue!]);
                 box!.put("selectedWalletName", newValue);
+                if (box!.get("selectedWalletName") == "Solana") getNfts();
               });
             },
             items: networkList.entries.map((entry) {
