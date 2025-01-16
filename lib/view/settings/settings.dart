@@ -200,10 +200,9 @@ class _SettingPageState extends State<SettingPage> {
                           child: const Text(cancelTxt),
                         ),
                         TextButton(
-                          onPressed: () {
-                            // Implement your delete account logic here
-                            Navigator.pop(context); // Close the dialog
-                            // After deleting the account, you can navigate to the login page or perform any other action
+                          onPressed: () async {
+                            await box!.clear();
+                            Get.offAll(() => const LoginOrRegisterPage());
                           },
                           child: const Text(
                             deleteTxt,

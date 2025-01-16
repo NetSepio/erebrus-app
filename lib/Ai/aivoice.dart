@@ -4,8 +4,10 @@ import 'package:erebrus_app/view/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class VoiceChatBot extends StatefulWidget {
@@ -82,6 +84,12 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
 
   void _startListening() async {
     // Initialize Speech-to-Text
+    await Permission.microphone.request().then((a) {
+      if (a.isDenied) {
+        Fluttertoast.showToast(msg: "Allow Microphone Permission");
+        return;
+      }
+    });
     bool available = await _speech.initialize(
       onStatus: (status) {
         print("Speech status: $status");
@@ -109,7 +117,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
           }
         },
         listenFor: Duration(seconds: 10), // Stop listening after 10 seconds
-        pauseFor: Duration(seconds: 2), // Pause detection timeout
+        pauseFor: Duration(seconds: 8), // Pause detection timeout
         cancelOnError: true, // Cancel on error
       );
     }
@@ -215,12 +223,22 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      suffix: InkWell(
-                          onTap: () {
-                            _sendToOpenAI(_textController.text);
-                            _textController.clear();
-                          },
-                          child: Icon(Icons.send)),
+                      suffixIcon: InkWell(
+                        onTap: _isListening ? null : _startListening,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            backgroundColor:
+                                _isListening ? Colors.grey : Colors.blue,
+                            radius: 14,
+                            child: Icon(
+                              Icons.mic,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     onSubmitted: (value) {
                       _sendToOpenAI(value);
@@ -229,14 +247,12 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
                   ),
                 ),
                 SizedBox(width: 10),
-                GestureDetector(
-                  onTap: _isListening ? null : _startListening,
-                  child: CircleAvatar(
-                    backgroundColor: _isListening ? Colors.grey : Colors.blue,
-                    radius: 25,
-                    child: Icon(Icons.mic, color: Colors.white),
-                  ),
-                ),
+                InkWell(
+                    onTap: () {
+                      _sendToOpenAI(_textController.text);
+                      _textController.clear();
+                    },
+                    child: Icon(Icons.send, size: 22)),
               ],
             ),
           ),
