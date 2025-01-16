@@ -176,7 +176,7 @@ class ApiController {
           log("getFlowId error");
           });
     if (res.statusCode == 200) {
-      log("Flow Data  ${res.data}");
+      // log("Flow Data  ${res.data}");
       getAuthenticate(
           flowid: res.data["payload"]["flowId"].toString(),
           walletAddress: walletAddress);
@@ -190,12 +190,12 @@ class ApiController {
       "flowId": flowid,
       "walletAddress": walletAddress,
     };
-    log("Auth data ----- ${jsonEncode(data)}");
+    // log("Auth data ----- ${jsonEncode(data)}");
     try {
       Response res =
           await dio.post(baseUrl + ApiUrl().authenticate, data: data);
 
-      log("profile - =-0-=-= ${res.data}");
+      // log("profile - =-0-=-= ${res.data}");
       if (res.statusCode == 200) {
         log("Flow Data  ${res.data}");
         box!.put("token", res.data["payload"]["token"]);
@@ -236,7 +236,7 @@ class ApiController {
       );
 
       if (res.statusCode == 200) {
-        log('VPN Data get---------------- ${res.data}');
+        // log('VPN Data get---------------- ${res.data}');
         ErebrusClientModel profileModel = ErebrusClientModel.fromJson(res.data);
         return profileModel.payload!;
       } else {
@@ -259,7 +259,7 @@ class ApiController {
           options: header);
 
       if (res.statusCode == 200) {
-        log('All Node  ---------------- ${res.data}');
+        // log('All Node  ---------------- ${res.data}');
         DVPNNodesModel allNodeModel = DVPNNodesModel.fromJson(res.data);
         return allNodeModel;
       } else {
@@ -289,7 +289,7 @@ class ApiController {
       );
 
       if (res.statusCode == 200) {
-        log('RegisterClient  ---------------- ${res.data}');
+        // log('RegisterClient  ---------------- ${res.data}');
         RegisterClientModel registerClientModel =
             RegisterClientModel.fromJson(res.data);
         return registerClientModel;
@@ -337,7 +337,7 @@ class ApiController {
       );
 
       if (res.statusCode == 200) {
-        log('VPN Data delete----------------');
+        // log('VPN Data delete----------------');
       }
     } on DioException catch (e) {
       log('VPN Data delete ERROR  --------------${e.response}');

@@ -33,7 +33,7 @@
 		<key>OnDemandEnabled</key>
 		<false/>
 		<key>ProviderBundleIdentifier</key>
-		<string>com.esoft.reward.WGExtension</string>
+		<string>com.erebrus.app.WGExtension</string>
 		<key>ProviderConfiguration</key>
 		<dict>
 			<key>ServerAddress</key>

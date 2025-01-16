@@ -1,16 +1,16 @@
+import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/view/Onboarding/login_register.dart';
+import 'package:erebrus_app/view/dwifi/dmap.dart';
+import 'package:erebrus_app/view/profile/profile.dart';
+import 'package:erebrus_app/view/settings/privacyPolicy.dart';
+import 'package:erebrus_app/view/speedCheck/speedCheck.dart';
+import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 // import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:erebrus_app/ai/aivoice.dart';
-import 'package:erebrus_app/config/common.dart';
-import 'package:erebrus_app/config/strings.dart';
-import 'package:erebrus_app/view/Onboarding/login_register.dart';
-import 'package:erebrus_app/view/profile/profile.dart';
-import 'package:erebrus_app/view/settings/privacyPolicy.dart';
-import 'package:erebrus_app/view/speedCheck/speedCheck.dart';
-import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -42,6 +42,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: const Text('Settings'),
         centerTitle: true,
       ),
@@ -60,8 +61,19 @@ class _SettingPageState extends State<SettingPage> {
                 child: ListTile(
                   title: const Text(profileTxt),
                   subtitle: const Text(profileSubTxt),
-                  trailing:
-                      const Icon(Icons.person, size: 20, color: Colors.green),
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.purple.shade800,
+                        Colors.purple.shade300,
+                      ]),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child:
+                        const Icon(Icons.person, size: 20, color: Colors.white),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
                   onTap: () => Get.to(() => Profile(
                         title: profileTxt,
                         showBackArrow: true,
@@ -72,9 +84,41 @@ class _SettingPageState extends State<SettingPage> {
                 child: ListTile(
                   title: const Text(speedTestTxt),
                   subtitle: const Text(speedTestSubTxt),
-                  trailing:
-                      const Icon(Icons.speed, size: 20, color: Colors.green),
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.blue.shade800,
+                        Colors.blue.shade300,
+                      ], end: Alignment.bottomRight),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child:
+                        const Icon(Icons.speed, size: 20, color: Colors.white),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
                   onTap: () => Get.to(() => const SpeedCheck()),
+                ),
+              ),
+
+              Card(
+                child: ListTile(
+                  title: const Text("Discover WIFI"),
+                  subtitle: const Text("Find nearby WIFI"),
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.green.shade800,
+                        Colors.green.shade300,
+                      ], end: Alignment.bottomRight),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child: const Icon(Icons.wifi_find_rounded,
+                        size: 20, color: Colors.white),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
+                  onTap: () => Get.to(() => const MapSample()),
                 ),
               ),
               Card(
@@ -82,8 +126,19 @@ class _SettingPageState extends State<SettingPage> {
                   title: const Text("Subscription"),
                   subtitle:
                       const Text("Access premium VPN and enhanced security"),
-                  // trailing:
-                  //     const Icon(Icons.subscriptions, size: 20, color: Colors.green),
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.deepOrange.shade800,
+                        Colors.deepOrange.shade300,
+                      ], end: Alignment.bottomRight),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child: const Icon(Icons.subscriptions_outlined,
+                        size: 20, color: Colors.white),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
                   onTap: () {
                     Get.to(() => SubscriptionScreen());
                   },

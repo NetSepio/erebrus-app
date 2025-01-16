@@ -381,7 +381,6 @@ class HomeController extends GetxController {
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
         providerBundleIdentifier: 'com.erebrus.app.VPNExtension',
-        // providerBundleIdentifier: 'com.esoft.reward.WGExtension',
       );
       EasyLoading.dismiss();
       vpnActivate.value = true;

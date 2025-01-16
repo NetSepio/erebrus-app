@@ -13,11 +13,12 @@ class VoiceChatBot extends StatefulWidget {
   _VoiceChatBotState createState() => _VoiceChatBotState();
 }
 
+final List<Map<String, String>> messages = [];
+
 class _VoiceChatBotState extends State<VoiceChatBot> {
   final stt.SpeechToText _speech = stt.SpeechToText();
   final FlutterTts _flutterTts = FlutterTts();
   final TextEditingController _textController = TextEditingController();
-  final List<Map<String, String>> _messages = [];
   bool _isListening = false;
   String _apiKey = dotenv.get("OPENAI_CHATGPT_TOKEN");
 
@@ -31,7 +32,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
 
   Future<void> _sendToOpenAI(String query) async {
     setState(() {
-      _messages.add({"role": "user", "content": query});
+      messages.add({"role": "user", "content": query});
     });
 
     final url = Uri.parse("https://api.openai.com/v1/chat/completions");
@@ -41,7 +42,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
     };
     final body = jsonEncode({
       "model": "gpt-3.5-turbo",
-      "messages": _messages
+      "messages": messages
           .map((m) => {"role": m["role"], "content": m["content"]})
           .toList(),
       "max_tokens": 150,
@@ -53,13 +54,13 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
         final data = jsonDecode(response.body);
         final reply = data["choices"][0]["message"]["content"];
         setState(() {
-          _messages
+          messages
               .add({"role": "assistant", "content": reply}); // Use "assistant"
         });
         // _speak(reply);
       } else {
         setState(() {
-          _messages.add({
+          messages.add({
             "role": "assistant",
             "content": "Error: ${response.body}"
           }); // Use "assistant"
@@ -67,16 +68,16 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
       }
     } catch (e) {
       setState(() {
-        _messages.add(
+        messages.add(
             {"role": "assistant", "content": "Error: $e"}); // Use "assistant"
       });
     }
   }
 
   Future<void> _speak(String text) async {
-    await _flutterTts.setLanguage("en-US");
-    await _flutterTts.setSpeechRate(0.5);
-    await _flutterTts.speak(text);
+    // await _flutterTts.setLanguage("en-US");
+    // await _flutterTts.setSpeechRate(0.5);
+    // await _flutterTts.speak(text);
   }
 
   void _startListening() async {
@@ -164,22 +165,39 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
       ),
       body: Column(
         children: [
-          if (_messages.isEmpty)
+          if (messages.isEmpty)
             Expanded(
               child: Center(
                 child: Image.asset(
-                  "assets/ai.png",
-                  height: 200,
+                  "assets/Erebrus_AI_Cyrene.png",
+                  height: Get.height * .3,
                 ),
+              ),
+            ),
+          if (messages.isEmpty)
+            Text(
+              "Cyrene",
+              style: TextStyle(color: Colors.grey, fontSize: 26),
+            ),
+          if (messages.isNotEmpty)
+            Card(
+              margin: EdgeInsets.all(10),
+              child: ListTile(
+                title: Text("Start New Chat"),
+                trailing: Icon(Icons.edit_note_outlined),
+                dense: true,
+                onTap: () {
+                  messages.clear();
+                  setState(() {});
+                },
               ),
             ),
           Expanded(
             child: ListView.builder(
               reverse: true,
-              shrinkWrap: true,
-              itemCount: _messages.length,
+              itemCount: messages.length,
               itemBuilder: (context, index) {
-                final message = _messages[_messages.length - 1 - index];
+                final message = messages[messages.length - 1 - index];
                 return _buildMessageBubble(
                     message["content"]!, message["role"] == "user");
               },
@@ -222,7 +240,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
               ],
             ),
           ),
-          // SizedBox(height: 10),
+          SizedBox(height: 10),
         ],
       ),
     );
