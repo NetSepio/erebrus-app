@@ -1,13 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/components/widgets.dart';
 import 'package:erebrus_app/config/assets.dart';
@@ -18,6 +11,13 @@ import 'package:erebrus_app/view/Onboarding/generate_mnemonic_screen.dart';
 import 'package:erebrus_app/view/Onboarding/import_account_screen.dart';
 import 'package:erebrus_app/view/home/home.dart';
 import 'package:erebrus_app/view/profile/profile_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
   const LoginOrRegisterPage({super.key});
@@ -72,9 +72,9 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       ),
                       const Text(
                         preferAc,
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                        style: TextStyle(fontSize: 12, color: Colors.white),
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 60),
                       // Padding(
                       //   padding: const EdgeInsets.all(15.0),
                       //   child: SignInWithAppleButton(
@@ -141,7 +141,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.black,
                               // backgroundColor: Colors.white,
-                              backgroundColor: blue,
+                              backgroundColor: black,
                             ),
                             onPressed: () async {
                               final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -191,22 +191,32 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                         ),
 
                       const SizedBox(height: 20),
-                      MyButton(
-                        customColor: blue,
-                        text: importAccount,
-                        onTap: () {
-                          Get.to(() => const ImportAccountScreen());
-                        },
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: MyButton(
+                                customColor: Color.fromARGB(255, 18, 9, 43),
+                                text: importAccount,
+                                onTap: () {
+                                  Get.to(() => const ImportAccountScreen());
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: MyButton(
+                                customColor: Colors.black,
+                                text: generateSeedPhrase,
+                                onTap: () {
+                                  Get.to(() => const GenerateSeedPhrase());
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 20),
-                      MyButton(
-                        customColor: blue,
-                        text: generateSeedPhrase,
-                        onTap: () {
-                          Get.to(() => const GenerateSeedPhrase());
-                        },
-                      ),
-                      const SizedBox(height: 120),
+                      const SizedBox(height: 160),
                     ],
                   ),
                 ),

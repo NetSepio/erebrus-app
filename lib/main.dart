@@ -1,3 +1,8 @@
+import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/controller/profileContrller.dart';
+import 'package:erebrus_app/view/Onboarding/onboardingScreen.dart';
+import 'package:erebrus_app/view/home/home.dart';
+import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -5,12 +10,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:erebrus_app/config/common.dart';
-import 'package:erebrus_app/controller/profileContrller.dart';
-import 'package:erebrus_app/view/Onboarding/onboardingScreen.dart';
-import 'package:erebrus_app/view/home/home.dart';
-import 'package:erebrus_app/view/home/home_controller.dart';
 
+ThemeMode themeMode = ThemeMode.system;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();

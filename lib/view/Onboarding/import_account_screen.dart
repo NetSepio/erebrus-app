@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:aptos/aptos.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
 import 'package:erebrus_app/controller/auth_controller.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 
 class ImportAccountScreen extends StatelessWidget {
   const ImportAccountScreen({super.key});
@@ -82,7 +83,12 @@ class ImportAccountScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff192E96),
+                        foregroundColor: Colors.white,
+                      ),
                       onPressed: () async {
+                        EasyLoading.show();
                         controller.privateKeyFromMnemonic(
                             newMnemonic:
                                 controller.importAccountphrase.text.trim());

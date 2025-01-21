@@ -1,11 +1,12 @@
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/view/Onboarding/login_register.dart';
+import 'package:erebrus_app/view/browser/webbroweser.dart';
 import 'package:erebrus_app/view/dwifi/dmap.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
+import 'package:erebrus_app/view/settings/newSubscriptionScreen.dart';
 import 'package:erebrus_app/view/settings/privacyPolicy.dart';
 import 'package:erebrus_app/view/speedCheck/speedCheck.dart';
-import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
@@ -140,10 +141,34 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   trailing: Icon(Icons.arrow_forward_ios, size: 20),
                   onTap: () {
-                    Get.to(() => SubscriptionScreen());
+                    // Get.to(() => SubscriptionScreen());
+                    Get.to(() => ProFeaturesScreen());
                   },
                 ),
               ),
+              Card(
+                child: ListTile(
+                  title: const Text("Private search"),
+                  subtitle: Text(
+                      "Private surfing with the free Incognito Internet Browser."),
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.blueAccent.shade700,
+                        Colors.blue.shade300,
+                      ], end: Alignment.bottomRight),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child: const Icon(Icons.web, size: 20, color: Colors.white),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
+                  onTap: () {
+                    Get.to(() => InAppWebViewScreen());
+                  },
+                ),
+              ),
+
               Divider(
                 height: 50,
                 color: Colors.grey.shade300,
@@ -194,8 +219,9 @@ class _SettingPageState extends State<SettingPage> {
                       content: const Text(deleteAccountSubTxt),
                       actions: [
                         TextButton(
-                          onPressed: () {
-                            Navigator.pop(context); // Close the dialog
+                          onPressed: () async {
+                            await box!.clear();
+                            Get.offAll(() => const LoginOrRegisterPage());
                           },
                           child: const Text(cancelTxt),
                         ),

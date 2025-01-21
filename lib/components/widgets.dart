@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:erebrus_app/config/colors.dart';
+import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
   final Color customColor;
@@ -21,17 +21,18 @@ class MyButton extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 50,
-        margin: const EdgeInsets.symmetric(horizontal: 25),
+        margin: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
-            color: customColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.blue.shade900,
-                blurRadius: 20,
-                spreadRadius: 0.1,
-              ),
-            ]),
+          borderRadius: BorderRadius.circular(40),
+          color: customColor,
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.blue.shade900,
+          //     blurRadius: 20,
+          //     spreadRadius: 0.1,
+          //   ),
+          // ]
+        ),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +47,7 @@ class MyButton extends StatelessWidget {
                 text,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
               ),

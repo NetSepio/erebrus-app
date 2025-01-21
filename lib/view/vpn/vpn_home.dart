@@ -211,9 +211,9 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Colors.black,
         elevation: 0,
         centerTitle: true,
         title: Obx(
@@ -245,16 +245,17 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
       ),
       body: Stack(
         children: [
-          Positioned(
-              top: 50,
-              child: Opacity(
-                  opacity: .1,
-                  child: Image.asset(
-                    'assets/background.png',
-                    fit: BoxFit.fill,
-                    color: Colors.white,
-                    height: MediaQuery.of(context).size.height / 1.5,
-                  ))),
+          // Positioned(
+          //     top: 50,
+          //     child: Opacity(
+          //       opacity: .1,
+          //       child: Image.asset(
+          //         'assets/background.png',
+          //         fit: BoxFit.fill,
+          //         color: Colors.white,
+          //         height: MediaQuery.of(context).size.height / 1.5,
+          //       ),
+          //     )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(

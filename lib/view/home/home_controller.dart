@@ -263,10 +263,12 @@ class HomeController extends GetxController {
   Future getPASETO({required String walletAddress}) async {
     try {
       var res = await ApiController().getFlowId(walletAddress: walletAddress);
+      EasyLoading.dismiss();
       isLoading.value = false;
       update();
       return await res;
     } catch (e) {
+      EasyLoading.dismiss();
       isLoading.value = false;
     }
   }
