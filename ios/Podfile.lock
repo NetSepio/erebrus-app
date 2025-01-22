@@ -9,6 +9,13 @@ PODS:
     - Flutter
     - ReachabilitySwift
   - Flutter (1.0.0)
+  - flutter_inappwebview_ios (0.0.1):
+    - Flutter
+    - flutter_inappwebview_ios/Core (= 0.0.1)
+    - OrderedSet (~> 6.0.3)
+  - flutter_inappwebview_ios/Core (0.0.1):
+    - Flutter
+    - OrderedSet (~> 6.0.3)
   - flutter_internet_speed_test (1.0.0):
     - Flutter
   - flutter_secure_storage (6.0.0):
@@ -57,6 +64,7 @@ PODS:
     - FlutterMacOS
   - location (0.0.1):
     - Flutter
+  - OrderedSet (6.0.3)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -76,6 +84,9 @@ PODS:
   - Try (2.1.1)
   - url_launcher_ios (0.0.1):
     - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - wifi_iot (0.0.1):
     - Flutter
   - wifi_scan (0.0.1):
@@ -88,6 +99,7 @@ PODS:
 DEPENDENCIES:
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - Flutter (from `Flutter`)
+  - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_internet_speed_test (from `.symlinks/plugins/flutter_internet_speed_test/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
@@ -106,6 +118,7 @@ DEPENDENCIES:
   - speech_to_text (from `.symlinks/plugins/speech_to_text/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
   - wifi_iot (from `.symlinks/plugins/wifi_iot/ios`)
   - wifi_scan (from `.symlinks/plugins/wifi_scan/ios`)
   - wireguard_flutter (from `.symlinks/plugins/wireguard_flutter/darwin`)
@@ -119,6 +132,7 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
+    - OrderedSet
     - ReachabilitySwift
     - Toast
     - Try
@@ -129,6 +143,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   Flutter:
     :path: Flutter
+  flutter_inappwebview_ios:
+    :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
   flutter_internet_speed_test:
     :path: ".symlinks/plugins/flutter_internet_speed_test/ios"
   flutter_secure_storage:
@@ -163,6 +179,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
   wifi_iot:
     :path: ".symlinks/plugins/wifi_iot/ios"
   wifi_scan:
@@ -174,6 +192,7 @@ SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_inappwebview_ios: 6f63631e2c62a7c350263b13fa5427aedefe81d4
   flutter_internet_speed_test: 0fa50cf67c71323b8c61227e88b3a0f2478fbdef
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   flutter_tts: 0f492aab6accf87059b72354fcb4ba934304771d
@@ -190,6 +209,7 @@ SPEC CHECKSUMS:
   in_app_purchase_storekit: 8c3b0b3eb1b0f04efbff401c3de6266d4258d433
   local_auth_darwin: 66e40372f1c29f383a314c738c7446e2f7fdadc3
   location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
+  OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
@@ -199,6 +219,7 @@ SPEC CHECKSUMS:
   Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  webview_flutter_wkwebview: 0982481e3d9c78fd5c6f62a002fcd24fc791f1e4
   wifi_iot: b5aafd6f9b52f8a357383a1deabab45f31cd602d
   wifi_scan: 6d20b3b4f59bbad1ddcf3e241560f3acd62f6cbe
   wireguard_flutter: 1e75469eaf86ae553566b6847bce070e3b3c315b

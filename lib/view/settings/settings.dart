@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/view/Onboarding/login_register.dart';
@@ -122,6 +124,7 @@ class _SettingPageState extends State<SettingPage> {
                   onTap: () => Get.to(() => const MapSample()),
                 ),
               ),
+              if(Platform.isIOS)
               Card(
                 child: ListTile(
                   title: const Text("Subscription"),

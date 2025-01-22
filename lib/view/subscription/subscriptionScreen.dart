@@ -4,12 +4,10 @@ import 'package:erebrus_app/config/assets.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
-import 'package:erebrus_app/view/inAppPurchase/inappP.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   final bool showAppbar;
@@ -235,9 +233,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     SizedBox(height: 30),
                     if (checkSub!.status.toString() == "expired")
                       ElevatedButton(
-                          onPressed: () {
-                            launchUrl(
-                                Uri.parse("https://erebrus.io/subscription"));
+                          onPressed: () async {
+                            await ApiController().trialSubscription();
+                            checkSubscription();
+                            // launchUrl(
+                            //     Uri.parse("https://erebrus.io/subscription"));
                           },
                           child: Text("Renew Subscription")),
                   ],

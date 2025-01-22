@@ -12,12 +12,12 @@
 		<key>VPNExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>55</integer>
+			<integer>61</integer>
 		</dict>
 		<key>tun.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>56</integer>
+			<integer>62</integer>
 		</dict>
 	</dict>
 </dict>

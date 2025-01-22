@@ -18,7 +18,11 @@ class _BottomBarState extends State<BottomBar> {
     const VpnHomeScreen(),
     // const MapSample(),
     VoiceChatBot(),
-    Profile(title: "EREBRUS", showBackArrow: false),
+    Profile(
+      title: "EREBRUS",
+      showBackArrow: false,
+      showSubscription: true,
+    ),
 
     // const SubscriptionScreen(),
   ];

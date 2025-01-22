@@ -5,6 +5,7 @@ import 'package:erebrus_app/view/Onboarding/eclipseAddress.dart';
 import 'package:erebrus_app/view/Onboarding/solanaAddress.dart';
 import 'package:erebrus_app/view/Onboarding/soonAddress.dart';
 import 'package:erebrus_app/view/profile/walletSelection.dart';
+import 'package:erebrus_app/view/settings/settings.dart';
 import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,8 +13,13 @@ import 'package:get/get.dart';
 class Profile extends StatefulWidget {
   final String title;
   final bool showBackArrow;
+  final bool showSubscription;
 
-  const Profile({super.key, required this.title, required this.showBackArrow});
+  const Profile(
+      {super.key,
+      required this.title,
+      required this.showBackArrow,
+      this.showSubscription = false});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -49,6 +55,18 @@ class _ProfileState extends State<Profile> {
           backgroundColor: Colors.black,
           title: Text(widget.title),
           centerTitle: true,
+          actions: [
+            if (widget.showSubscription)
+              InkWell(
+                onTap: () {
+                  Get.to(() => const SettingPage());
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.settings),
+                ),
+              )
+          ],
           automaticallyImplyLeading: widget.showBackArrow ? true : false,
         ),
         body: Padding(
@@ -211,6 +229,8 @@ class _ProfileState extends State<Profile> {
                       ),
                     ],
                   ),
+                if (widget.showSubscription)
+                  Expanded(child: SubscriptionScreen()),
               ],
             ),
           ),

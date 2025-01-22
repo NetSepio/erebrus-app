@@ -1,4 +1,9 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 class ProFeaturesScreen extends StatelessWidget {
   const ProFeaturesScreen({Key? key}) : super(key: key);
@@ -215,15 +220,142 @@ class SubscriptionOption extends StatelessWidget {
   }
 }
 
-class FreeTrialButton extends StatelessWidget {
+class FreeTrialButton extends StatefulWidget {
   const FreeTrialButton({Key? key}) : super(key: key);
+
+  @override
+  State<FreeTrialButton> createState() => _FreeTrialButtonState();
+}
+
+class _FreeTrialButtonState extends State<FreeTrialButton> {
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  bool _available = false;
+  List<ProductDetails> _products = [];
+  List<PurchaseDetails> _purchases = [];
+  final String _productID = 'erebrus_plus'; // Your product ID
+  late final StreamSubscription<List<PurchaseDetails>> _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initStoreInfo();
+  }
+
+  Future<void> initStoreInfo() async {
+    final bool isAvailable = await _inAppPurchase.isAvailable();
+    setState(() {
+      _available = isAvailable;
+    });
+
+    if (!isAvailable) {
+      return;
+    }
+
+    const Set<String> ids = {'erebrus_plus'};
+    final ProductDetailsResponse response =
+        await _inAppPurchase.queryProductDetails(ids);
+
+    if (response.error != null || response.productDetails.isEmpty) {
+      log('Error fetching product details 1: ${response.error}');
+      Fluttertoast.showToast(
+          msg: "Error fetching product details 1: ${response.error}");
+      // Handle error or no products found
+      return;
+    }
+    if (response.notFoundIDs.isNotEmpty) {
+      log('Product IDs not found 3: ${response.notFoundIDs}');
+      Fluttertoast.showToast(
+          msg: 'Product IDs not found 3: ${response.notFoundIDs}');
+    }
+
+    if (response.productDetails.isEmpty) {
+      log('No products found');
+    } else {
+      log('Products fetched successfully');
+    }
+
+    setState(() {
+      _products = response.productDetails;
+    });
+  }
+
+  void _listenToPurchaseUpdates() {
+    _inAppPurchase.purchaseStream.listen((purchaseDetailsList) {
+      _handlePurchaseUpdates(purchaseDetailsList);
+    }, onDone: () {
+      log("Featching done");
+      // Handle stream closing if necessary
+    }, onError: (error) {
+      log("Featching Error ---${error}");
+      // Handle error
+    });
+  }
+
+  void _handlePurchaseUpdates(List<PurchaseDetails> purchaseDetailsList) {
+    for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
+      if (purchaseDetails.status == PurchaseStatus.purchased) {
+        _deliverProduct(purchaseDetails);
+      } else if (purchaseDetails.status == PurchaseStatus.error) {
+        // Handle error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Purchase failed: ${purchaseDetails.error}')),
+        );
+      }
+
+      if (purchaseDetails.pendingCompletePurchase) {
+        _inAppPurchase.completePurchase(purchaseDetails);
+      }
+    }
+    setState(() {
+      _purchases = purchaseDetailsList;
+    });
+  }
+
+  void _deliverProduct(PurchaseDetails purchaseDetails) {
+    // Unlock content or features for the user
+    if (purchaseDetails.productID == _productID) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('Purchase successful: ${purchaseDetails.productID}')),
+      );
+    }
+  }
+
+  void _buyProduct(ProductDetails product) {
+    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
+    _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
+  }
+
+  void _restorePurchases() {
+    _inAppPurchase.restorePurchases();
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () async {
+            try {
+              _subscription = await _inAppPurchase.purchaseStream
+                  .listen((purchaseDetailsList) async {
+                _handlePurchaseUpdates(purchaseDetailsList);
+              });
+            } catch (e) {}
+            _listenToPurchaseUpdates();
+            if (_products.isEmpty) {
+              Fluttertoast.showToast(msg: "Product Not Found");
+              return;
+            }
+            _buyProduct(_products.first);
+            // Get.to(() => InAppPurchasePage());
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xff0162FF),
             padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
