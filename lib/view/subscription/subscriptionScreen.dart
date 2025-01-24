@@ -25,7 +25,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     "2PxZ4tUKtT622TvbKWQ2bUtacaHATtQrmCkYcFuzxy5S",
     "FgS1q7Q4m1PF6v4PKYsQq6MfLZMxhucDkJdWwRqm7xwQ",
     "AwwNvkZisYzgquqiE2RUieiHtgJt5LsGVHUqzTDxJnSx",
-    "CCW7TUdn5XZmcPVc2fNDrELZmpReefLPSk31cZ935nFx"
+    "CCW7TUdn5XZmcPVc2fNDrELZmpReefLPSk31cZ935nFx",
+    "Ff8oJVwY2NcLPxbyj6Hofddy5hG5CXatwmvNMS8JBNtd"
   ];
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       setState(() {});
       EasyLoading.dismiss();
     } catch (e) {
+      isLoading.value = false;
       EasyLoading.dismiss();
     }
   }
@@ -231,15 +233,15 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         ),
                       ),
                     SizedBox(height: 30),
-                    if (checkSub!.status.toString() == "expired")
-                      ElevatedButton(
-                          onPressed: () async {
-                            await ApiController().trialSubscription();
-                            checkSubscription();
-                            // launchUrl(
-                            //     Uri.parse("https://erebrus.io/subscription"));
-                          },
-                          child: Text("Renew Subscription")),
+                    // if (checkSub!.status.toString() == "expired")
+                    ElevatedButton(
+                        onPressed: () async {
+                          await ApiController().trialSubscription();
+                          checkSubscription();
+                          // launchUrl(
+                          //     Uri.parse("https://erebrus.io/subscription"));
+                        },
+                        child: Text("Renew Subscription")),
                   ],
                 ),
         ),
