@@ -37,7 +37,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   var nftDta;
   getNfts() async {
     var res = await Dio().get(dotenv.get("SOLANA_NFT_API") +
-        "/${box!.get("selectedWalletAddress")}/tokens");
+            "/${box!.get("selectedWalletAddress")}/tokens"
+        // "/8bDudaBScd3qSiuE2VujZ5Pr29ruaLg25MhgPMRCjv5d/tokens"
+        );
     nftDta = res.data;
     setState(() {});
   }
@@ -233,15 +235,15 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         ),
                       ),
                     SizedBox(height: 30),
-                    // if (checkSub!.status.toString() == "expired")
-                    ElevatedButton(
-                        onPressed: () async {
-                          await ApiController().trialSubscription();
-                          checkSubscription();
-                          // launchUrl(
-                          //     Uri.parse("https://erebrus.io/subscription"));
-                        },
-                        child: Text("Renew Subscription")),
+                    if (checkSub!.status.toString() == "expired")
+                      ElevatedButton(
+                          onPressed: () async {
+                            await ApiController().trialSubscription();
+                            checkSubscription();
+                            // launchUrl(
+                            //     Uri.parse("https://erebrus.io/subscription"));
+                          },
+                          child: Text("Renew Subscription")),
                   ],
                 ),
         ),
