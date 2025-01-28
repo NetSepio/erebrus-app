@@ -26,7 +26,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     "FgS1q7Q4m1PF6v4PKYsQq6MfLZMxhucDkJdWwRqm7xwQ",
     "AwwNvkZisYzgquqiE2RUieiHtgJt5LsGVHUqzTDxJnSx",
     "CCW7TUdn5XZmcPVc2fNDrELZmpReefLPSk31cZ935nFx",
-    "Ff8oJVwY2NcLPxbyj6Hofddy5hG5CXatwmvNMS8JBNtd"
+    "3rh6GDULkk4FfsnHV9RiEGhHGoi58CRDLXM2SmqACfZm"
   ];
   @override
   void initState() {
@@ -37,8 +37,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   var nftDta;
   getNfts() async {
     var res = await Dio().get(dotenv.get("SOLANA_NFT_API") +
-            "/${box!.get("selectedWalletAddress")}/tokens"
-        // "/8bDudaBScd3qSiuE2VujZ5Pr29ruaLg25MhgPMRCjv5d/tokens"
+        "/${box!.get("selectedWalletAddress")}/tokens"
         );
     nftDta = res.data;
     setState(() {});
