@@ -1,5 +1,6 @@
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/main.dart';
 import 'package:erebrus_app/view/Onboarding/login_register.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
 import 'package:erebrus_app/view/settings/privacyPolicy.dart';
@@ -157,10 +158,10 @@ class _SettingPageState extends State<SettingPage> {
                 },
               ),
               const SizedBox(height: 30),
-              // if (packageInfo != null)
-              //   Center(
-              //       child: Text(
-              //           "V. ${packageInfo!.version.toString()}+${packageInfo!.buildNumber}"))
+              if (packageInfo != null)
+                Center(
+                    child: Text(
+                        "V. ${packageInfo!.version.toString()}+${packageInfo!.buildNumber}"))
             ],
           ),
         ),
