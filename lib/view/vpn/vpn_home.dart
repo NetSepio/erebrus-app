@@ -12,7 +12,8 @@ import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
 import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
 import 'package:erebrus_app/model/DVPNNodesModel.dart';
-import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
+import 'package:erebrus_app/view/Onboarding/eclipseAddress.dart';
+import 'package:erebrus_app/view/Onboarding/solanaAddress.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
 import 'package:erebrus_app/view/settings/settings.dart';
@@ -32,9 +33,10 @@ class VpnHomeScreen extends StatefulWidget {
   State<VpnHomeScreen> createState() => _VpnHomeScreenState();
 }
 
+ProfileController profileController = Get.find();
+
 class _VpnHomeScreenState extends State<VpnHomeScreen> {
   HomeController homeController = Get.find();
-  ProfileController profileController = Get.find();
   RxBool showDummyNft = false.obs;
   final storage = SecureStorage();
 
@@ -88,9 +90,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     profileController.mnemonics.value = mnemonics;
     await profileController.getProfile();
     await getSolanaAddress(mnemonics);
-    await suiWal(mnemonics);
     await getEclipseAddress(mnemonics);
-    await getSoonAddress(mnemonics);
     setState(() {});
 
     await Future.delayed(Duration(milliseconds: 50));
@@ -200,7 +200,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
 
   @override
   void didChangeDependencies() {
-    // log("-------  ------ didChangeDependencies");
+    log("-------  ------ didChangeDependencies");
     homeController.generateKeyPair();
     super.didChangeDependencies();
   }
@@ -208,9 +208,9 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Colors.black,
         elevation: 0,
         centerTitle: true,
         title: Obx(
@@ -242,16 +242,17 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
       ),
       body: Stack(
         children: [
-          Positioned(
-              top: 50,
-              child: Opacity(
-                  opacity: .1,
-                  child: Image.asset(
-                    'assets/background.png',
-                    fit: BoxFit.fill,
-                    color: Colors.white,
-                    height: MediaQuery.of(context).size.height / 1.5,
-                  ))),
+          // Positioned(
+          //     top: 50,
+          //     child: Opacity(
+          //       opacity: .1,
+          //       child: Image.asset(
+          //         'assets/background.png',
+          //         fit: BoxFit.fill,
+          //         color: Colors.white,
+          //         height: MediaQuery.of(context).size.height / 1.5,
+          //       ),
+          //     )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
@@ -309,7 +310,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                       homeController.selectedCountry!.value =
                                           value!;
 
-                                      homeController.selectedChain =
+                                      homeController.selectedCity =
                                           homeController
                                               .countryMap![homeController
                                                   .selectedCountry!.value]!
@@ -322,7 +323,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                                       .selectedCountry!.value]!
                                               .firstWhere((node) =>
                                                   node.chainName ==
-                                                  homeController.selectedChain);
+                                                  homeController.selectedCity);
                                     });
                                   },
                                 )
@@ -339,12 +340,12 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                 labelText: 'Select Node',
                                 contentPadding:
                                     EdgeInsets.symmetric(horizontal: 10)),
-                            value: homeController.selectedChain != null
+                            value: homeController.selectedCity != null
                                 ? homeController.countryMap![
                                         homeController.selectedCountry!.value]!
                                     .firstWhere((node) =>
                                         node.chainName ==
-                                        homeController.selectedChain)
+                                        homeController.selectedCity)
                                 : null,
                             hint: const Text('Select Node'),
                             items: homeController.countryMap![
@@ -378,8 +379,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                             }).toList(),
                             onChanged: (AllNPayload? value) {
                               setState(() {
-                                homeController.selectedChain = value!.chainName;
+                                homeController.selectedCity = value!.chainName;
                                 homeController.selectedPayload.value = value;
+                                log(homeController
+                                    .selectedPayload.value.ipinfocountry
+                                    .toString());
                               });
                             },
                           )
@@ -531,76 +535,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                       box!.get("selectedWalletAddress").toString() != "" &&
                       box!.get("selectedWalletAddress").toString() != "null")
                     nftsShow(),
-                  // const SizedBox(height: 15),
-                  // Obx(
-                  //   () => homeController.checkSub.value.subscription != null
-                  //       ? InkWell(
-                  //           onTap: () {
-                  //             homeController.collectionId = null;
-                  //             homeController.selectedNFT.value = 0;
-                  //             setState(() {});
-                  //           },
-                  //           child: Card(
-                  //             color: homeController.collectionId == null
-                  //                 ? Colors.blueGrey.shade900
-                  //                 : const Color(0xff1B1A1F),
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 const Padding(
-                  //                   padding: EdgeInsets.only(left: 15, top: 20),
-                  //                   child: Text(
-                  //                     "Trial Subscription",
-                  //                     style: TextStyle(
-                  //                       fontSize: 22,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 ListTile(
-                  //                   title: Row(
-                  //                     children: [
-                  //                       Text(
-                  //                         homeController.checkSub.value.status
-                  //                             .toString()
-                  //                             .toUpperCase(),
-                  //                         style: TextStyle(
-                  //                             color: homeController.checkSub
-                  //                                         .value.status!
-                  //                                         .toLowerCase() ==
-                  //                                     "active"
-                  //                                 ? Colors.green
-                  //                                 : Colors.red,
-                  //                             fontSize: 18),
-                  //                       ),
-                  //                       Text(
-                  //                         homeController.checkSub.value.status!
-                  //                                     .toLowerCase() ==
-                  //                                 "active"
-                  //                             ? " Till "
-                  //                             : " ON ",
-                  //                         style: const TextStyle(fontSize: 18),
-                  //                       ),
-                  //                       Text(
-                  //                         homeController.checkSub.value
-                  //                             .subscription!.endTime
-                  //                             .toString()
-                  //                             .split(" ")[0],
-                  //                         style: const TextStyle(fontSize: 18),
-                  //                       ),
-                  //                     ],
-                  //                   ),
-                  //                   dense: true,
-                  //                 ),
-                  //                 const SizedBox(
-                  //                   height: 20,
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         )
-                  //       : const SizedBox(),
-                  // ),
-
+                 
                   SizedBox(height: 20),
                   Obx(() => showDummyNft.value
                       ? Card(

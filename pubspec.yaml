@@ -81,6 +81,8 @@ dependencies:
   geocoding: ^3.0.0
   geolocator: ^13.0.2
   in_app_purchase: ^3.2.0
+  link_text: ^0.2.1
+  salomon_bottom_bar: ^3.3.2
   # crypto: ^3.0.6
   # hex: ^0.2.0
   # pointycastle: ^3.7.3

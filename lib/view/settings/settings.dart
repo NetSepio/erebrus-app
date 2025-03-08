@@ -61,10 +61,8 @@ class _SettingPageState extends State<SettingPage> {
                   subtitle: const Text(profileSubTxt),
                   trailing:
                       const Icon(Icons.person, size: 20, color: Colors.green),
-                  onTap: () => Get.to(() => Profile(
-                        title: profileTxt,
-                        showBackArrow: true,
-                      )),
+                  onTap: () => Get.to(
+                      () => Profile(title: profileTxt, showBackArrow: true)),
                 ),
               ),
               Card(

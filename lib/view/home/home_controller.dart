@@ -28,11 +28,11 @@ class HomeController extends GetxController {
   Rx<ProfileModel>? profileModel;
   RxBool isLoading = true.obs;
   RxString? selectedCountry = "".obs;
-  String? selectedChain;
+  String? selectedCity;
   Map<String, List<AllNPayload>>? countryMap;
   final storage = SecureStorage();
   Rx<AllNPayload> selectedPayload = AllNPayload().obs;
-  Map<String, String> countryCodes = {
+ Map<String, String> countryCodes = {
     "AF": "Afghanistan",
     "AL": "Albania",
     "DZ": "Algeria",
@@ -240,7 +240,7 @@ class HomeController extends GetxController {
     if (selectedPayload.value.region == null) {
       selectedPayload.value = allNodeModel.value.payload![0];
       selectedCountry!.value = countryMap.keys.first;
-      selectedChain =
+      selectedCity =
           countryMap[selectedPayload.value.region]!.first.chainName.toString();
     }
     return countryMap;
@@ -263,10 +263,12 @@ class HomeController extends GetxController {
   Future getPASETO({required String walletAddress}) async {
     try {
       var res = await ApiController().getFlowId(walletAddress: walletAddress);
+      EasyLoading.dismiss();
       isLoading.value = false;
       update();
       return await res;
     } catch (e) {
+      EasyLoading.dismiss();
       isLoading.value = false;
     }
   }
@@ -293,7 +295,7 @@ class HomeController extends GetxController {
     try {
       var ipAddress = IpAddress(type: RequestType.json);
       ipData.value = await ipAddress.getIpAddress();
-      // log("Ip Update --${ipData.values}");
+      log("Ip Update --${ipData.values}");
       update();
     } on IpAddressException catch (exception) {
       print(exception.message);
@@ -381,7 +383,6 @@ class HomeController extends GetxController {
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
         providerBundleIdentifier: 'com.erebrus.app.VPNExtension',
-        // providerBundleIdentifier: 'com.esoft.reward.WGExtension',
       );
       EasyLoading.dismiss();
       vpnActivate.value = true;

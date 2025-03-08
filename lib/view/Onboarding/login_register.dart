@@ -1,13 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/components/widgets.dart';
 import 'package:erebrus_app/config/assets.dart';
@@ -18,6 +11,13 @@ import 'package:erebrus_app/view/Onboarding/generate_mnemonic_screen.dart';
 import 'package:erebrus_app/view/Onboarding/import_account_screen.dart';
 import 'package:erebrus_app/view/home/home.dart';
 import 'package:erebrus_app/view/profile/profile_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
   const LoginOrRegisterPage({super.key});
@@ -75,36 +75,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                         style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                       const SizedBox(height: 30),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(15.0),
-                      //   child: SignInWithAppleButton(
-                      //     onPressed: () async {
-                      //       await ApiController().googleEmailLogin(
-                      //           email: "sahilr96649@gmail.com");
-                      //       // final credential =
-                      //       //     await SignInWithApple.getAppleIDCredential(
-                      //       //   scopes: [
-                      //       //     AppleIDAuthorizationScopes.email,
-                      //       //   ],
-                      //       // );
-
-                      //       // print("--=---=-===--=-=-=-");
-                      //       // print(credential);
-
-                      //       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-                      //       // after they have been validated with Apple (see `Integration` section for more information on how to do this)
-                      //     },
-                      //   ),
-                      // ),
                       const SizedBox(height: 30),
-                      // ElevatedButton(
-                      //     onPressed: () async {
-                      //       await ApiController().registerApple(
-                      //           email: "qa@gmail.com",
-                      //           appleId:
-                      //               "000097.93be26068af64c1b9ffce0e3601dcb47.14523333");
-                      //     },
-                      //     child: Text("data")),
                       if (Platform.isIOS)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -118,14 +89,18 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
                                 log("APPle credential ${credential}");
                                 log("APPle credential userIdentifier ${credential.userIdentifier}");
-                                if (credential.email != null) {
-                                  await ApiController().registerApple(
-                                      email: credential.email!,
-                                      appleId: credential.userIdentifier!);
-                                } else {
-                                  await ApiController().userDetailsAppleId(
-                                      appleId: credential.userIdentifier!);
-                                }
+                                // if (credential.email != null) {
+                                await ApiController().googleAppleLogin(
+                                    email: credential.email ?? "",
+                                    authType: "apple",
+                                    appleId: credential.userIdentifier!);
+                                // await ApiController().registerApple(
+                                //     email: credential.email!,
+                                //     appleId: credential.userIdentifier!);
+                                // } else {
+                                //   await ApiController().userDetailsAppleId(
+                                //       appleId: credential.userIdentifier!);
+                                // }
                               } catch (e) {
                                 Fluttertoast.showToast(
                                     msg: "Something want wrong");
@@ -154,8 +129,8 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
                                 // await ApiController()
                                 //     .googleAuth(idToken: ggAuth.idToken.toString());
-                                await ApiController()
-                                    .emailLogin(email: result.email);
+                                await ApiController().googleAppleLogin(
+                                    email: result.email, authType: "google");
                               } catch (e) {
                                 EasyLoading.dismiss();
                                 log("Errorr--- ${e}");
@@ -189,7 +164,6 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                             ),
                           ),
                         ),
-
                       const SizedBox(height: 20),
                       MyButton(
                         customColor: blue,
