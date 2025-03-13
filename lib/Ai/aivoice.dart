@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/view/settings/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:link_text/link_text.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
@@ -22,7 +23,6 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
   final FlutterTts _flutterTts = FlutterTts();
   final TextEditingController _textController = TextEditingController();
   bool _isListening = false;
-  String _apiKey = dotenv.get("OPENAI_CHATGPT_TOKEN");
 
   @override
   void dispose() {
@@ -32,58 +32,44 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
     super.dispose();
   }
 
-  Future<void> _sendToOpenAI(String query) async {
+  Future<void> _sendToCyreneAI(String query) async {
     setState(() {
       messages.add({"role": "user", "content": query});
+      messages.add({"role": "assistant", "content": "Thinking..."});
     });
 
-    final url = Uri.parse("https://api.openai.com/v1/chat/completions");
-    final headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $_apiKey",
-    };
+    final url = Uri.parse(
+        "https://us01.cyreneai.com/b450db11-332b-0fc2-a144-92824a34f699/message");
+    final headers = {"Content-Type": "application/json"};
     final body = jsonEncode({
-      "model": "gpt-3.5-turbo",
-      "messages": messages
-          .map((m) => {"role": m["role"], "content": m["content"]})
-          .toList(),
-      "max_tokens": 150,
+      "text": query,
+      "userId": "${box!.get("uid") ?? ""}",
+      "userName": "${box!.get("name") ?? ""}"
     });
 
     try {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        final reply = data["choices"][0]["message"]["content"];
+        final reply = data[0]["text"];
         setState(() {
-          messages
-              .add({"role": "assistant", "content": reply}); // Use "assistant"
+          messages.removeLast();
+          messages.add({"role": "assistant", "content": reply});
         });
-        // _speak(reply);
       } else {
         setState(() {
-          messages.add({
-            "role": "assistant",
-            "content": "Error: ${response.body}"
-          }); // Use "assistant"
+          messages
+              .add({"role": "assistant", "content": "Error: ${response.body}"});
         });
       }
     } catch (e) {
       setState(() {
-        messages.add(
-            {"role": "assistant", "content": "Error: $e"}); // Use "assistant"
+        messages.add({"role": "assistant", "content": "Error: $e"});
       });
     }
   }
 
-  Future<void> _speak(String text) async {
-    // await _flutterTts.setLanguage("en-US");
-    // await _flutterTts.setSpeechRate(0.5);
-    // await _flutterTts.speak(text);
-  }
-
   void _startListening() async {
-    // Initialize Speech-to-Text
     await Permission.microphone.request().then((a) {
       if (a.isDenied) {
         Fluttertoast.showToast(msg: "Allow Microphone Permission");
@@ -92,13 +78,11 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
     });
     bool available = await _speech.initialize(
       onStatus: (status) {
-        print("Speech status: $status");
         if (status == "notListening") {
           setState(() => _isListening = false);
         }
       },
       onError: (error) {
-        print("Speech error: $error");
         setState(() => _isListening = false);
       },
     );
@@ -113,19 +97,14 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
               _isListening = false;
               _textController.text = recognizedText;
             });
-            _sendToOpenAI(recognizedText);
+            _sendToCyreneAI(recognizedText);
           }
         },
-        listenFor: Duration(seconds: 10), // Stop listening after 10 seconds
-        pauseFor: Duration(seconds: 8), // Pause detection timeout
-        cancelOnError: true, // Cancel on error
+        listenFor: Duration(seconds: 10),
+        pauseFor: Duration(seconds: 8),
+        cancelOnError: true,
       );
     }
-  }
-
-  void _stopListening() {
-    _speech.stop();
-    setState(() => _isListening = false);
   }
 
   Widget _buildMessageBubble(String message, bool isUser) {
@@ -138,9 +117,10 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
           color: isUser ? Colors.blue : Colors.grey[300],
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text(
+        child: LinkText(
           message,
-          style: TextStyle(color: isUser ? Colors.white : Colors.black),
+          textStyle: TextStyle(color: isUser ? Colors.white : Colors.black),
+          linkStyle: TextStyle(color: Colors.blue),
         ),
       ),
     );
@@ -151,13 +131,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
-          "Your Assistant",
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontWeight: FontWeight.w600),
-        ),
+        title: Text("Your Assistant"),
         centerTitle: true,
         actions: [
           InkWell(
@@ -175,17 +149,18 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
         children: [
           if (messages.isEmpty)
             Expanded(
-              child: Center(
-                child: Image.asset(
-                  "assets/Erebrus_AI_Cyrene.png",
-                  height: Get.height * .3,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/Erebrus_AI_Cyrene.png",
+                      height: Get.height * .25),
+                  SizedBox(height: 15),
+                  Text(
+                    "Cyrene",
+                    style: TextStyle(color: Colors.grey, fontSize: 26),
+                  ),
+                ],
               ),
-            ),
-          if (messages.isEmpty)
-            Text(
-              "Cyrene",
-              style: TextStyle(color: Colors.grey, fontSize: 26),
             ),
           if (messages.isNotEmpty)
             Card(
@@ -200,17 +175,18 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
                 },
               ),
             ),
-          Expanded(
-            child: ListView.builder(
-              reverse: true,
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                final message = messages[messages.length - 1 - index];
-                return _buildMessageBubble(
-                    message["content"]!, message["role"] == "user");
-              },
+          if (messages.isNotEmpty)
+            Expanded(
+              child: ListView.builder(
+                reverse: true,
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  final message = messages[messages.length - 1 - index];
+                  return _buildMessageBubble(
+                      message["content"]!, message["role"] == "user");
+                },
+              ),
             ),
-          ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: Row(
@@ -226,22 +202,19 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
                       suffixIcon: InkWell(
                         onTap: _isListening ? null : _startListening,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: CircleAvatar(
                             backgroundColor:
                                 _isListening ? Colors.grey : Colors.blue,
                             radius: 14,
-                            child: Icon(
-                              Icons.mic,
-                              color: Colors.white,
-                              size: 16,
-                            ),
+                            child:
+                                Icon(Icons.mic, color: Colors.white, size: 16),
                           ),
                         ),
                       ),
                     ),
                     onSubmitted: (value) {
-                      _sendToOpenAI(value);
+                      _sendToCyreneAI(value);
                       _textController.clear();
                     },
                   ),
@@ -249,7 +222,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
                 SizedBox(width: 10),
                 InkWell(
                     onTap: () {
-                      _sendToOpenAI(_textController.text);
+                      _sendToCyreneAI(_textController.text);
                       _textController.clear();
                     },
                     child: Icon(Icons.send, size: 22)),

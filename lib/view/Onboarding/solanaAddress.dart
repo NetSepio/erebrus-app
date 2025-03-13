@@ -53,50 +53,57 @@ class SolanaWalletGenerator {
 // Example usage:
 Future getSolanaAddress(mnemonic) async {
   // Get wallet from mnemonic
-  if (box!.containsKey("solanaAddress") == false ||
-      box!.get("solanaAddress") == null) {
-    final wallet = await SolanaWalletGenerator.getWalletFromMnemonic(mnemonic);
-    log('solana Public Key: ${wallet['publicKey']}');
-    log('solana Private Key: ${wallet['privateKey']}');
-    box!.put("solanaAddress", wallet['publicKey'].toString());
-  }
+  try {
+    if (box!.containsKey("solanaAddress") == false ||
+        box!.get("solanaAddress") == null) {
+      final wallet =
+          await SolanaWalletGenerator.getWalletFromMnemonic(mnemonic);
+      log('solana Public Key: ${wallet['publicKey']}');
+      log('solana Private Key: ${wallet['privateKey']}');
+      box!.put("solanaAddress", wallet['publicKey'].toString());
+    }
+  } catch (e) {}
 }
 
 SuiAccount? ed25519;
 suiWal(mnemonics) async {
-  if (box!.containsKey("suiAddress") == false ||
-      box!.get("suiAddress") == null) {
-    ed25519 =
-        await SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Ed25519);
-    // final secp256k1 =
-    //     SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Secp256k1);
-    // final secp256r1 =
-    //     SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Secp256r1);
-    log("suiAddress--${ed25519!.getAddress().toString()}");
-    box!.put("suiAddress", ed25519!.getAddress().toString());
-  }
+  try {
+    if (box!.containsKey("suiAddress") == false ||
+        box!.get("suiAddress") == null) {
+      ed25519 =
+          await SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Ed25519);
+      // final secp256k1 =
+      //     SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Secp256k1);
+      // final secp256r1 =
+      //     SuiAccount.fromMnemonics(mnemonics, SignatureScheme.Secp256r1);
+      log("suiAddress--${ed25519!.getAddress().toString()}");
+      box!.put("suiAddress", ed25519!.getAddress().toString());
+    }
+  } catch (e) {}
 }
 
 var aptosWalletAddress;
 var evmWalletAddress;
 Future evmAptos(mnemonic) async {
-  final seed = bip39.mnemonicToSeed(mnemonic);
-  // await getEvmWallet(mnemonic);
+  try {
+    final seed = bip39.mnemonicToSeed(mnemonic);
+    // await getEvmWallet(mnemonic);
 
-  if (box!.containsKey("aptosAddress") == false ||
-      box!.get("aptosAddress") == null) {
-    final evmPrivateKey =
-        EthPrivateKey.fromHex(bytesToHex(seed.sublist(0, 32)));
-    evmWalletAddress = evmPrivateKey.address.hex;
-    box!.put("aptosAddress", evmWalletAddress.toString());
-    print("EVM Wallet Address: $evmWalletAddress");
-  }
+    if (box!.containsKey("aptosAddress") == false ||
+        box!.get("aptosAddress") == null) {
+      final evmPrivateKey =
+          EthPrivateKey.fromHex(bytesToHex(seed.sublist(0, 32)));
+      evmWalletAddress = evmPrivateKey.address.hex;
+      box!.put("aptosAddress", evmWalletAddress.toString());
+      print("EVM Wallet Address: $evmWalletAddress");
+    }
 
-  // Derive Aptos Wallet Address
-  if (box!.containsKey("aptosAdd") == false || box!.get("aptosAdd") == null) {
-    final aptosPrivateKey = AptosAccount.generateAccount(mnemonic);
-    aptosWalletAddress = aptosPrivateKey.accountAddress;
-    box!.put("aptosAdd", aptosWalletAddress.toString());
-    print("Aptos Wallet Address: $aptosWalletAddress");
-  }
+    // Derive Aptos Wallet Address
+    if (box!.containsKey("aptosAdd") == false || box!.get("aptosAdd") == null) {
+      final aptosPrivateKey = AptosAccount.generateAccount(mnemonic);
+      aptosWalletAddress = aptosPrivateKey.accountAddress;
+      box!.put("aptosAdd", aptosWalletAddress.toString());
+      print("Aptos Wallet Address: $aptosWalletAddress");
+    }
+  } catch (e) {}
 }

@@ -1,23 +1,21 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
-import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart' as ge;
-import 'package:get/route_manager.dart';
 import 'package:erebrus_app/config/api_const.dart';
 import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
 import 'package:erebrus_app/model/DVPNNodesModel.dart';
-
 import 'package:erebrus_app/model/RegisterVPNClientModel.dart';
 import 'package:erebrus_app/model/erebrus/client_model.dart';
 import 'package:erebrus_app/view/bottombar/bottombar.dart';
 import 'package:erebrus_app/view/home/home.dart';
 import 'package:erebrus_app/view/profile/profile_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart' as ge;
+import 'package:get/route_manager.dart';
 
 final dio = Dio();
 
@@ -28,59 +26,81 @@ class ApiController {
     "Authorization":
         "Bearer ${box!.containsKey("token") ? box!.get("token") : ""}"
   });
-  googleAuth({String? idToken}) async {
-    await dio.post(baseUrl + ApiUrl().googleAuth,
-        data: {'idToken': idToken}).then((value) {
-      box!.put("token", value.data["payload"]["token"]);
-      box!.put("uid", value.data["payload"]["userId"]);
-      Get.offAll(() => const HomeScreen());
-    }).catchError((e) {
-      log("Google login error");
-    });
-  }
+  // googleAuth({String? idToken}) async {
+  //   await dio.post(baseUrl + ApiUrl().googleAuth,
+  //       data: {'idToken': idToken}).then((value) {
+  //     box!.put("token", value.data["payload"]["token"]);
+  //     box!.put("uid", value.data["payload"]["userId"]);
+  //     Get.offAll(() => const HomeScreen());
+  //   }).catchError((e) {
+  //     log("Google login error");
+  //   });
+  // }
 
-  registerApple({required String email, required String appleId}) async {
-    try {
-      Map data = {'email': email, "appleId": appleId};
-      log("message---data----${data}");
-      await dio
-          .post(baseUrl + ApiUrl().registerApple, data: data)
-          .then((value) {
-        box!.put("email", email);
-        emailLogin(email: email);
-      });
-      log("Apple Register login Successfully");
-      EasyLoading.dismiss();
-    } on DioException catch (e) {
-      EasyLoading.dismiss();
-      if (e.response!.statusCode == 400) {
-        emailLogin(email: email);
-      }
-      log("Apple Register login error--- ${e.response}");
-    }
-  }
+  // registerApple({required String email, required String appleId}) async {
+  //   try {
+  //     Map data = {'email': email, "appleId": appleId};
+  //     log("message---data----${data}");
+  //     await dio
+  //         .post(baseUrl + ApiUrl().registerApple, data: data)
+  //         .then((value) {
+  //       box!.put("email", email);
+  //       emailLogin(email: email);
+  //     });
+  //     log("Apple Register login Successfully");
+  //     EasyLoading.dismiss();
+  //   } on DioException catch (e) {
+  //     EasyLoading.dismiss();
+  //     if (e.response!.statusCode == 400) {
+  //       emailLogin(email: email);
+  //     }
+  //     log("Apple Register login error--- ${e.response}");
+  //   }
+  // }
 
-  userDetailsAppleId({required String appleId}) async {
-    try {
-      await dio.post(baseUrl + ApiUrl().userDetailsAppleId,
-          data: {"appleId": appleId}).then((value) {
-        if (value.data["payload"]["emailId"] != null) {
-          emailLogin(email: value.data["payload"]["emailId"]);
-        }
-      });
-      log("Apple Register login error");
-      EasyLoading.dismiss();
-    } on DioException catch (e) {
-      EasyLoading.dismiss();
-      Fluttertoast.showToast(msg: e.response!.data["error"].toString());
-      log("Apple Register login error--- ${e.response}");
-    }
-  }
+  // userDetailsAppleId({required String appleId}) async {
+  //   try {
+  //     await dio.post(baseUrl + ApiUrl().userDetailsAppleId,
+  //         data: {"appleId": appleId}).then((value) {
+  //       if (value.data["payload"]["emailId"] != null) {
+  //         emailLogin(email: value.data["payload"]["emailId"]);
+  //       }
+  //     });
+  //     log("Apple Register login error");
+  //     EasyLoading.dismiss();
+  //   } on DioException catch (e) {
+  //     EasyLoading.dismiss();
+  //     Fluttertoast.showToast(msg: e.response!.data["error"].toString());
+  //     log("Apple Register login error--- ${e.response}");
+  //   }
+  // }
 
-  emailLogin({String? email}) async {
+  // emailLogin({String? email}) async {
+  //   try {
+  //     await dio.post(baseUrl + ApiUrl().googleEmailLogin,
+  //         data: {'email': email}).then((value) {
+  //       box!.put("email", email);
+  //       box!.put("token", value.data["payload"]["token"]);
+  //       box!.put("uid", value.data["payload"]["userId"]);
+  //       EasyLoading.dismiss();
+  //       Get.offAll(() => const HomeScreen());
+  //     });
+  //   } on DioException catch (e) {
+  //     EasyLoading.dismiss();
+  //     log("---- email Google login error  ${e.response}");
+  //   }
+  // }
+
+  googleAppleLogin(
+      {required String email,
+      required String authType,
+      String? appleId}) async {
     try {
-      await dio.post(baseUrl + ApiUrl().googleEmailLogin,
-          data: {'email': email}).then((value) {
+      await dio.post(baseUrl + ApiUrl().googleAppleLogin, data: {
+        'email': email,
+        "authType": authType,
+        "appleId": appleId
+      }).then((value) {
         box!.put("email", email);
         box!.put("token", value.data["payload"]["token"]);
         box!.put("uid", value.data["payload"]["userId"]);
@@ -123,12 +143,20 @@ class ApiController {
           "https://gateway.netsepio.com/api/v1.0/profile",
           options: header);
 
-      // log("profile -  ${res.data}");
+      log("profile -  ${res.data}");
       if (res.statusCode == 200) {
         ProfileModel profileModel = ProfileModel.fromJson(res.data);
         if (profileModel.payload != null &&
             profileModel.payload!.walletAddress != null)
           box!.put("ApiWallet", profileModel.payload!.walletAddress!);
+        if (profileModel.payload!.google != null)
+          box!.put("google", profileModel.payload!.google);
+        if (profileModel.payload!.apple != null)
+          box!.put("apple", profileModel.payload!.apple);
+        if (profileModel.payload!.chainName != null)
+          box!.put("chainName", profileModel.payload!.chainName);
+        if (profileModel.payload!.name != null)
+          box!.put("name", profileModel.payload!.name);
         return profileModel;
       }
     } on DioException catch (e) {
@@ -173,8 +201,8 @@ class ApiController {
     Response res = await dio
         .get(baseUrl + ApiUrl().flowid + walletAddress)
         .catchError((e) {
-          log("getFlowId error");
-          });
+      log("getFlowId error");
+    });
     if (res.statusCode == 200) {
       // log("Flow Data  ${res.data}");
       getAuthenticate(
@@ -330,7 +358,8 @@ class ApiController {
   deleteVpn2({required String uuid, required String region}) async {
     log(header.headers.toString());
     try {
-      var url="https://gateway.netsepio.com/api/v1.0/erebrus/client/$region/$uuid";
+      var url =
+          "https://gateway.netsepio.com/api/v1.0/erebrus/client/$region/$uuid";
       Response res = await dio.delete(
         url,
         options: header,

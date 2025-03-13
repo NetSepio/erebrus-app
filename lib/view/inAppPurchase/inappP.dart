@@ -5,18 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-class InAppPurchasePage extends StatefulWidget {
+class FreeTrialButton extends StatefulWidget {
+  const FreeTrialButton({Key? key}) : super(key: key);
+
   @override
-  _InAppPurchasePageState createState() => _InAppPurchasePageState();
+  State<FreeTrialButton> createState() => _FreeTrialButtonState();
 }
 
-class _InAppPurchasePageState extends State<InAppPurchasePage> {
+class _FreeTrialButtonState extends State<FreeTrialButton> {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   bool _available = false;
   List<ProductDetails> _products = [];
   List<PurchaseDetails> _purchases = [];
-  final String _productID = 'erebrus_plus'; // Your product ID
-  late final StreamSubscription<List<PurchaseDetails>> _subscription;
+  final Set<String> _productIDs = {
+    'first_month',
+    'three_month'
+  }; // Updated product IDs
+  late StreamSubscription<List<PurchaseDetails>> _subscription;
 
   @override
   void initState() {
@@ -25,7 +30,6 @@ class _InAppPurchasePageState extends State<InAppPurchasePage> {
     _subscription = _inAppPurchase.purchaseStream.listen((purchaseDetailsList) {
       _handlePurchaseUpdates(purchaseDetailsList);
     });
-    _listenToPurchaseUpdates();
   }
 
   Future<void> initStoreInfo() async {
@@ -35,46 +39,34 @@ class _InAppPurchasePageState extends State<InAppPurchasePage> {
     });
 
     if (!isAvailable) {
+      log('Store not available');
       return;
     }
 
-    const Set<String> ids = {'erebrus_plus'};
     final ProductDetailsResponse response =
-        await _inAppPurchase.queryProductDetails(ids);
+        await _inAppPurchase.queryProductDetails(_productIDs);
 
-    if (response.error != null || response.productDetails.isEmpty) {
-      log('Error fetching product details 1: ${response.error}');
+    if (response.error != null) {
+      log('Error fetching product details: ${response.error}');
       Fluttertoast.showToast(
-          msg: "Error fetching product details 1: ${response.error}");
-      // Handle error or no products found
+          msg: "Error fetching product details: ${response.error}");
       return;
     }
+
     if (response.notFoundIDs.isNotEmpty) {
-      log('Product IDs not found 3: ${response.notFoundIDs}');
+      log('Product IDs not found: ${response.notFoundIDs}');
       Fluttertoast.showToast(
-          msg: 'Product IDs not found 3: ${response.notFoundIDs}');
+          msg: 'Product IDs not found: ${response.notFoundIDs}');
     }
 
     if (response.productDetails.isEmpty) {
       log('No products found');
     } else {
-      log('Products fetched successfully');
+      log('Products fetched successfully: ${response.productDetails}');
     }
 
     setState(() {
       _products = response.productDetails;
-    });
-  }
-
-  void _listenToPurchaseUpdates() {
-    _inAppPurchase.purchaseStream.listen((purchaseDetailsList) {
-      _handlePurchaseUpdates(purchaseDetailsList);
-    }, onDone: () {
-      log("Featching done");
-      // Handle stream closing if necessary
-    }, onError: (error) {
-      log("Featching Error ---${error}");
-      // Handle error
     });
   }
 
@@ -83,7 +75,6 @@ class _InAppPurchasePageState extends State<InAppPurchasePage> {
       if (purchaseDetails.status == PurchaseStatus.purchased) {
         _deliverProduct(purchaseDetails);
       } else if (purchaseDetails.status == PurchaseStatus.error) {
-        // Handle error
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Purchase failed: ${purchaseDetails.error}')),
         );
@@ -99,8 +90,7 @@ class _InAppPurchasePageState extends State<InAppPurchasePage> {
   }
 
   void _deliverProduct(PurchaseDetails purchaseDetails) {
-    // Unlock content or features for the user
-    if (purchaseDetails.productID == _productID) {
+    if (_productIDs.contains(purchaseDetails.productID)) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text('Purchase successful: ${purchaseDetails.productID}')),
@@ -110,7 +100,7 @@ class _InAppPurchasePageState extends State<InAppPurchasePage> {
 
   void _buyProduct(ProductDetails product) {
     final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
-    _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
+    _inAppPurchase.buyConsumable(purchaseParam: purchaseParam);
   }
 
   void _restorePurchases() {
@@ -125,45 +115,35 @@ class _InAppPurchasePageState extends State<InAppPurchasePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Select Your Subscription')),
-      body: _available
-          ? Column(
-              children: [
-                if (_products.isEmpty)
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Icon(Icons.shopping_cart, size: 80, color: Colors.grey),
-                        Text(
-                          'No products available',
-                          style: TextStyle(fontSize: 16,
-                          //  color: Colors.grey
-                           ),
-                        ),
-                      ],
-                    ),
+    return Column(
+      children: [
+        if (_products.isNotEmpty)
+          ..._products.map((product) {
+            return InkWell(
+              onTap: () => _buyProduct(product),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                margin: EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.blueAccent.shade700,
+                      Colors.deepPurpleAccent.shade700,
+                    ],
                   ),
-                if (_products.isNotEmpty)
-                  ..._products.map((product) {
-                    return ListTile(
-                      title: Text(product.title),
-                      subtitle: Text(product.price),
-                      trailing: ElevatedButton(
-                        onPressed: () => _buyProduct(product),
-                        child: Text('Buy'),
-                      ),
-                    );
-                  }).toList(),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _restorePurchases,
-                  child: Text('Restore Purchases'),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ],
-            )
-          : Center(child: Text('Store not available')),
+                child: Text(
+                  'BUY ${product.title} - ${product.price}',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+            );
+          }).toList(),
+        const SizedBox(height: 10),
+      ],
     );
   }
 }

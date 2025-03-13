@@ -10,8 +10,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:upgrader/upgrader.dart';
 
 ThemeMode themeMode = ThemeMode.system;
+
+PackageInfo? packageInfo;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -21,6 +25,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  packageInfo = await PackageInfo.fromPlatform();
   runApp(const MyApp());
 }
 
@@ -41,11 +46,18 @@ class _MyAppState extends State<MyApp> {
         builder: FToastBuilder(),
       ),
       debugShowCheckedModeBanner: false,
-      home: box!.containsKey("token")
-          ? box!.get("token") != ""
-              ? const HomeScreen()
-              : const OnboardingScreen()
-          : const OnboardingScreen(),
+      home: UpgradeAlert(
+        dialogStyle: UpgradeDialogStyle.cupertino,
+        
+        upgrader: Upgrader(
+          durationUntilAlertAgain: Duration(minutes: 10),
+        ),
+        child: box!.containsKey("token")
+            ? box!.get("token") != ""
+                ? const HomeScreen()
+                : const OnboardingScreen()
+            : const OnboardingScreen(),
+      ),
       theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
           primaryColor: Colors.green.shade900),

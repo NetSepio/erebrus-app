@@ -1,5 +1,6 @@
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
+import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
 import 'package:erebrus_app/view/Onboarding/eclipseAddress.dart';
 import 'package:erebrus_app/view/Onboarding/solanaAddress.dart';
@@ -8,6 +9,8 @@ import 'package:erebrus_app/view/profile/walletSelection.dart';
 import 'package:erebrus_app/view/settings/settings.dart';
 import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatefulWidget {
@@ -31,12 +34,15 @@ class _ProfileState extends State<Profile> {
   ProfileController profileController = Get.find();
 
   apiCall() async {
-    var mnemonics = await profileController.mnemonics.value;
-    await getSolanaAddress(mnemonics);
-    await suiWal(mnemonics);
-    await getEclipseAddress(mnemonics);
-    await getSoonAddress(mnemonics);
-    await evmAptos(mnemonics);
+    try {
+      await profileController.getProfile();
+      var mnemonics = await profileController.mnemonics.value;
+      await getSolanaAddress(mnemonics);
+      await suiWal(mnemonics);
+      await getEclipseAddress(mnemonics);
+      await getSoonAddress(mnemonics);
+      await evmAptos(mnemonics);
+    } catch (e) {}
     setState(() {});
   }
 
@@ -74,163 +80,179 @@ class _ProfileState extends State<Profile> {
           child: Container(
             child: Column(
               children: [
-                // if (ed25519 != null)
-                //   Row(
-                //     children: [
-                //       Image.asset(
-                //         "assets/sui.png",
-                //         width: 35,
-                //       ),
-                //       SizedBox(width: 10),
-                //       Expanded(
-                //         child: TextField(
-                //           readOnly: true,
-                //           maxLines: 3,
-                //           controller: TextEditingController(
-                //               text: ed25519!.getAddress().toString()),
-                //           decoration: InputDecoration(
-                //             labelText: "Sui Wallet",
-                //             filled: true,
-                //             fillColor: Colors.black,
-                //             border: OutlineInputBorder(
-                //               borderSide: BorderSide(
-                //                 width: 1,
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // if (solanaAddress.value.isNotEmpty) SizedBox(height: 20),
-                // if (solanaAddress.value.isNotEmpty)
-                //   Row(
-                //     children: [
-                //       Image.asset(
-                //         "assets/solo.png",
-                //         width: 40,
-                //       ),
-                //       SizedBox(width: 5),
-                //       Obx(() => Expanded(
-                //             child: TextField(
-                //               readOnly: true,
-                //               maxLines: 2,
-                //               controller: TextEditingController(
-                //                   text: solanaAddress.value.toString()),
-                //               decoration: InputDecoration(
-                //                 labelText: "Solana Wallet",
-                //                 filled: true,
-                //                 fillColor: Colors.black,
-                //                 border: OutlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                     width: 1,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           )),
-                //     ],
-                //   ),
-                // SizedBox(height: 20),
-                // if (evmWalletAddress != null)
-                //   Row(
-                //     children: [
-                //       Image.asset(
-                //         "assets/evm.png",
-                //         width: 30,
-                //       ),
-                //       SizedBox(width: 15),
-                //       Expanded(
-                //         child: TextField(
-                //           readOnly: true,
-                //           maxLines: 2,
-                //           controller: TextEditingController(
-                //               text: evmWalletAddress.toString()),
-                //           decoration: InputDecoration(
-                //             labelText: "EVM Address",
-                //             filled: true,
-                //             fillColor: Colors.black,
-                //             border: OutlineInputBorder(
-                //               borderSide: BorderSide(
-                //                 width: 1,
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // SizedBox(height: 20),
-                // if (aptosWalletAddress != null)
-                //   Row(
-                //     children: [
-                //       Image.asset(
-                //         "assets/app.png",
-                //         width: 40,
-                //         height: 40,
-                //       ),
-                //       SizedBox(width: 5),
-                //       Expanded(
-                //         child: TextField(
-                //           readOnly: true,
-                //           maxLines: 2,
-                //           controller: TextEditingController(
-                //               text: aptosWalletAddress.toString()),
-                //           decoration: const InputDecoration(
-                //             labelText: "APTOS Wallet",
-                //             filled: true,
-                //             fillColor: Colors.black38,
-                //             border: OutlineInputBorder(
-                //               borderSide: BorderSide(
-                //                 width: 1,
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // const SizedBox(height: 20),
-                Obx(() => (profileController.profileModel.value.payload !=
-                            null &&
-                        profileController.profileModel.value.payload!.email !=
-                            null)
-                    ? TextField(
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          labelText: profileController
-                              .profileModel.value.payload!.email
-                              .toString(),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1,
+                if (widget.title == "EREBRUS" || widget.title == profileTxt)
+                  Obx(() => (profileController.profileModel.value.payload !=
+                              null &&
+                          profileController.profileModel.value.payload!.name !=
+                              null &&
+                          profileController
+                              .profileModel.value.payload!.name!.isNotEmpty)
+                      ? Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextField(
+                            readOnly: true,
+                            onTap: null,
+                            controller: TextEditingController(
+                                text: profileController
+                                    .profileModel.value.payload!.name
+                                    .toString()),
+                            decoration: InputDecoration(
+                              labelText: "Name",
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1,
+                                ),
+                              ),
                             ),
                           ),
+                        )
+                      : SizedBox()),
+                if (widget.title == "EREBRUS" || widget.title == profileTxt)
+                  Obx(() => (profileController.profileModel.value.payload !=
+                              null &&
+                          profileController.profileModel.value.payload!.email !=
+                              null &&
+                          profileController
+                              .profileModel.value.payload!.email!.isNotEmpty)
+                      ? Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextField(
+                            readOnly: true,
+                            onTap: null,
+                            controller: TextEditingController(
+                                text: profileController
+                                    .profileModel.value.payload!.email
+                                    .toString()),
+                            decoration: InputDecoration(
+                              labelText: "Email",
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox()),
+                if (widget.title == "EREBRUS" || widget.title == profileTxt)
+                  Obx(() => (profileController.profileModel.value.payload !=
+                              null &&
+                          profileController.profileModel.value.payload!.apple !=
+                              null &&
+                          profileController
+                              .profileModel.value.payload!.apple!.isNotEmpty)
+                      ? Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextField(
+                            readOnly: true,
+                            onTap: null,
+                            controller: TextEditingController(
+                                text: profileController
+                                    .profileModel.value.payload!.apple
+                                    .toString()),
+                            decoration: InputDecoration(
+                              labelText: "Apple",
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox()),
+                if (widget.title == "EREBRUS" || widget.title == profileTxt)
+                  Obx(() =>
+                      (profileController.profileModel.value.payload != null &&
+                              profileController
+                                      .profileModel.value.payload!.google !=
+                                  null &&
+                              profileController.profileModel.value.payload!
+                                  .google!.isNotEmpty)
+                          ? Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: TextField(
+                                readOnly: true,
+                                onTap: null,
+                                controller: TextEditingController(
+                                    text: profileController
+                                        .profileModel.value.payload!.google
+                                        .toString()),
+                                decoration: InputDecoration(
+                                  labelText: "Google",
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SizedBox()),
+                if (widget.title == "EREBRUS" || widget.title == profileTxt)
+                  Obx(() =>
+                      (profileController.profileModel.value.payload != null &&
+                              profileController.profileModel.value.payload!
+                                      .walletAddress !=
+                                  null)
+                          ? Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: TextField(
+                                readOnly: true,
+                                onTap: null,
+                                maxLines: 4,
+                                minLines: 1,
+                                controller: TextEditingController(
+                                  text: profileController
+                                      .profileModel.value.payload!.walletAddress
+                                      .toString(),
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: "Wallet Address",
+                                  suffixIcon: InkWell(
+                                      onTap: () async {
+                                        await Clipboard.setData(ClipboardData(
+                                            text: profileController.profileModel
+                                                .value.payload!.walletAddress
+                                                .toString()));
+                                        Fluttertoast.showToast(msg: "Copied");
+                                      },
+                                      child: Icon(Icons.copy)),
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SizedBox()),
+                if (widget.title != profileTxt)
+                  if (box!.get("solanaAddress") == null &&
+                      widget.showSubscription == false)
+                    Expanded(
+                        child: SubscriptionScreen(
+                      showAppbar: false,
+                    )),
+                if (widget.title != profileTxt)
+                  if (box!.get("solanaAddress") != null)
+                    Column(
+                      children: [
+                        SizedBox(height: 20),
+                        Text(
+                          "Your Web3 Wallet",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                      )
-                    : SizedBox()),
-                if (box!.get("solanaAddress") == null)
-                  Expanded(
-                      child: SubscriptionScreen(
-                    showAppbar: false,
-                  )),
-                if (box!.get("solanaAddress") != null)
-                  Column(
-                    children: [
-                      SizedBox(height: 20),
-                      Text(
-                        "Your Preferred Wallet",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 20),
-                      WalletDropdown(
-                        fromProfileScreen: widget.title == "Profile",
-                      ),
-                    ],
-                  ),
-                if (widget.showSubscription)
-                  Expanded(child: SubscriptionScreen()),
+                        SizedBox(height: 20),
+                        WalletDropdown(
+                          fromProfileScreen: widget.title == "Profile",
+                        ),
+                      ],
+                    ),
+                if (widget.title != profileTxt)
+                  if (widget.showSubscription)
+                    Expanded(child: SubscriptionScreen()),
               ],
             ),
           ),

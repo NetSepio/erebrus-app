@@ -1,10 +1,10 @@
-import 'dart:io';
-
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/main.dart';
 import 'package:erebrus_app/view/Onboarding/login_register.dart';
 import 'package:erebrus_app/view/browser/webbroweser.dart';
 import 'package:erebrus_app/view/dwifi/dmap.dart';
+import 'package:erebrus_app/view/inAppPurchase/inappP.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
 import 'package:erebrus_app/view/settings/newSubscriptionScreen.dart';
 import 'package:erebrus_app/view/settings/privacyPolicy.dart';
@@ -44,6 +44,15 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("${packageInfo!.version}+${packageInfo!.buildNumber} "),
+          ],
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text('Settings'),
@@ -124,7 +133,7 @@ class _SettingPageState extends State<SettingPage> {
                   onTap: () => Get.to(() => const MapSample()),
                 ),
               ),
-              if(Platform.isIOS)
+              // if (Platform.isIOS)
               Card(
                 child: ListTile(
                   title: const Text("Subscription"),
@@ -144,7 +153,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   trailing: Icon(Icons.arrow_forward_ios, size: 20),
                   onTap: () {
-                    // Get.to(() => SubscriptionScreen());
+                    // Get.to(() => FreeTrialButton());
                     Get.to(() => ProFeaturesScreen());
                   },
                 ),
@@ -244,10 +253,10 @@ class _SettingPageState extends State<SettingPage> {
                 },
               ),
               const SizedBox(height: 30),
-              // if (packageInfo != null)
-              //   Center(
-              //       child: Text(
-              //           "V. ${packageInfo!.version.toString()}+${packageInfo!.buildNumber}"))
+              if (packageInfo != null)
+                Center(
+                    child: Text(
+                        "V. ${packageInfo!.version.toString()}+${packageInfo!.buildNumber}"))
             ],
           ),
         ),

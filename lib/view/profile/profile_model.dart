@@ -30,12 +30,20 @@ class ProfileModel {
 
 class Payload {
     final String? userId;
+    final String? name;
     final String? email;
+    final String? google;
+    final String? apple;
+    final String? chainName;
     final String? walletAddress;
 
     Payload({
         this.userId,
         this.email,
+        this.name,
+        this.google,
+        this.apple,
+        this.chainName,
         this.walletAddress,
     });
 
@@ -46,6 +54,10 @@ class Payload {
     factory Payload.fromJson(Map<String, dynamic> json) => Payload(
         userId: json["userId"],
         email: json["email"],
+        name: json["name"],
+        google: json["google"],
+        apple: json["apple"],
+        chainName: json["chainName"],
         walletAddress:json["walletAddress"],
     );
 
@@ -53,5 +65,9 @@ class Payload {
         "userId": userId,
         "walletAddress":walletAddress,
         "email": email,
+        "name": name,
+        "apple": apple,
+        "google": google,
+        "chainName": chainName,
     };
 }

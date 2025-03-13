@@ -37,10 +37,16 @@ class WalletGenerator {
 }
 
 getSoonAddress(mnemonic) async {
+  try {
+    
   if (box!.containsKey("SoonAddress") == false ||
       box!.get("SoonAddress") == null) {
     var soon = await WalletGenerator.getAddressFromMnemonic(mnemonic);
     box!.put("SoonAddress", soon.toString());
     print("----=-===-===-=$soon");
+  }
+
+  } catch (e) {
+    
   }
 }

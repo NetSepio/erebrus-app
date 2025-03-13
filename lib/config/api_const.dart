@@ -7,10 +7,11 @@ const String baseUrl2 = "https://indexer.mainnet.aptoslabs.com/v1/graphql";
 //     "https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql";
 
 class ApiUrl {
-  String googleAuth = "/account/auth-google";
+  // String googleAuth = "/account/auth-google";
   String registerApple = "/account/register-apple/app";
   String userDetailsAppleId = "/account/user-details-by-apple-id";
   String googleEmailLogin = "/account/auth-google/app";
+  String googleAppleLogin = "/account/auth/app";
   String emailAuth = "/account/generate-auth-id";
   String emailOTPVerify = "/account/paseto-from-magic-link";
   String profile = "/profile";

@@ -65,6 +65,8 @@ class EclipseWalletGenerator {
 // Example usage:
 Future getEclipseAddress(mnemonic) async {
   // Get Eclipse wallet from mnemonic
+  try {
+    
   if (box!.containsKey("EclipseAddress") == false ||
       box!.get("EclipseAddress") == null) {
     final wallet = await EclipseWalletGenerator.getWalletFromMnemonic(mnemonic);
@@ -74,5 +76,9 @@ Future getEclipseAddress(mnemonic) async {
     // Validate an address
     final isValid = EclipseWalletGenerator.isValidAddress(wallet['publicKey']!);
     log('Is valid address: $isValid');
+  }
+
+  } catch (e) {
+    
   }
 }

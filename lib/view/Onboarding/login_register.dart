@@ -118,14 +118,18 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
                                 log("APPle credential ${credential}");
                                 log("APPle credential userIdentifier ${credential.userIdentifier}");
-                                if (credential.email != null) {
-                                  await ApiController().registerApple(
-                                      email: credential.email!,
+                                // if (credential.email != null) {
+                                  await ApiController().googleAppleLogin(
+                                      email: credential.email??"",
+                                      authType: "apple",
                                       appleId: credential.userIdentifier!);
-                                } else {
-                                  await ApiController().userDetailsAppleId(
-                                      appleId: credential.userIdentifier!);
-                                }
+                                  // await ApiController().registerApple(
+                                  //     email: credential.email!,
+                                  //     appleId: credential.userIdentifier!);
+                                // } else {
+                                //   await ApiController().userDetailsAppleId(
+                                //       appleId: credential.userIdentifier!);
+                                // }
                               } catch (e) {
                                 Fluttertoast.showToast(
                                     msg: "Something want wrong");
@@ -141,7 +145,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.black,
                               // backgroundColor: Colors.white,
-                              backgroundColor: black,
+                              backgroundColor: blue,
                             ),
                             onPressed: () async {
                               final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -154,8 +158,8 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
                                 // await ApiController()
                                 //     .googleAuth(idToken: ggAuth.idToken.toString());
-                                await ApiController()
-                                    .emailLogin(email: result.email);
+                                await ApiController().googleAppleLogin(
+                                    email: result.email, authType: "google");
                               } catch (e) {
                                 EasyLoading.dismiss();
                                 log("Errorr--- ${e}");
@@ -193,27 +197,23 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                       const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: MyButton(
-                                customColor: Color.fromARGB(255, 18, 9, 43),
-                                text: importAccount,
-                                onTap: () {
-                                  Get.to(() => const ImportAccountScreen());
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: MyButton(
-                                customColor: Colors.black,
-                                text: generateSeedPhrase,
-                                onTap: () {
-                                  Get.to(() => const GenerateSeedPhrase());
-                                },
-                              ),
-                            ),
-                          ],
+                        child: MyButton(
+                          customColor: blue,
+                          text: importAccount,
+                          onTap: () {
+                            Get.to(() => const ImportAccountScreen());
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: MyButton(
+                          customColor: blue,
+                          text: generateSeedPhrase,
+                          onTap: () {
+                            Get.to(() => const GenerateSeedPhrase());
+                          },
                         ),
                       ),
                       const SizedBox(height: 160),
