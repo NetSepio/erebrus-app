@@ -1,9 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'dart:developer';
+
 import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
 import 'package:erebrus_app/controller/auth_controller.dart';
 import 'package:erebrus_app/view/Onboarding/auth_complete_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class VerifyPhraseScreen extends StatefulWidget {
   final List? words;
@@ -218,10 +221,11 @@ class _VerifyPhraseScreenState extends State<VerifyPhraseScreen> {
           children: [
             Expanded(
               child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (orgMem[0] == controller.word1.text.trim() &&
                         orgMem[3] == controller.word4.text.trim() &&
                         orgMem[7] == controller.word8.text.trim()) {
+                    
                       Get.to(() => const AuthCompleteScreen());
                     } else {
                       Get.showSnackbar(const GetSnackBar(

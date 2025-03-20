@@ -1,16 +1,21 @@
-import 'dart:developer';
-
-import 'package:aptos/aptos.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
+import 'package:erebrus_app/controller/auth_controller.dart';
+import 'package:erebrus_app/view/Onboarding/import_account_screen.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AuthCompleteScreen extends StatelessWidget {
+class AuthCompleteScreen extends StatefulWidget {
   const AuthCompleteScreen({super.key});
 
+  @override
+  State<AuthCompleteScreen> createState() => _AuthCompleteScreenState();
+}
+
+class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
+  AuthController authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     final storage = SecureStorage();
@@ -107,12 +112,19 @@ class AuthCompleteScreen extends StatelessWidget {
                       onPressed: () async {
                         String mnemonics =
                             await storage.getStoredValue("mnemonic") ?? "";
-                        var pvtKey = await storage.getStoredValue('pvtKey');
-                        final sender = AptosAccount.generateAccount(mnemonics);
-                        log("Wallet Address $pvtKey");
-                        log("Wallet Address hex ${sender.accountAddress.hex()}");
-                        var res = await homeController.getPASETO(
-                            walletAddress: sender.address);
+                        showDialog(
+                            context: context,
+                            builder: (a) => Dialog(
+                                  child: NetworkSelectionScreen(
+                                    mnemonic: mnemonics,
+                                  ),
+                                ));
+                        // var pvtKey = await storage.getStoredValue('pvtKey');
+                        // final sender = AptosAccount.generateAccount(mnemonics);
+                        // log("Wallet Address $pvtKey");
+                        // log("Wallet Address hex ${sender.accountAddress.hex()}");
+                        // var res = await homeController.getPASETO(
+                        //     walletAddress: sender.address);
                         // Get.offAll(() => const HomeScreen());
                       },
                       child: const Padding(

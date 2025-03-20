@@ -44,7 +44,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   @override
   void initState() {
     homeController.initvpn();
-    walletSelection();
+    // walletSelection();
 
     homeController.wireguard.vpnStageSnapshot.listen((event) {
       debugPrint("status changed $event");

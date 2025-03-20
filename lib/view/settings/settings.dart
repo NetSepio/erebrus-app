@@ -6,7 +6,7 @@ import 'package:erebrus_app/view/browser/webbroweser.dart';
 import 'package:erebrus_app/view/dwifi/dmap.dart';
 import 'package:erebrus_app/view/inAppPurchase/inappP.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
-import 'package:erebrus_app/view/settings/newSubscriptionScreen.dart';
+import 'package:erebrus_app/view/settings/ProFeaturesScreen.dart';
 import 'package:erebrus_app/view/settings/privacyPolicy.dart';
 import 'package:erebrus_app/view/speedCheck/speedCheck.dart';
 import 'package:flutter/material.dart';
@@ -154,7 +154,7 @@ class _SettingPageState extends State<SettingPage> {
                   trailing: Icon(Icons.arrow_forward_ios, size: 20),
                   onTap: () {
                     // Get.to(() => FreeTrialButton());
-                    Get.to(() => ProFeaturesScreen());
+                    Get.to(() => ProFeaturesScreen(fromLogin: false,));
                   },
                 ),
               ),

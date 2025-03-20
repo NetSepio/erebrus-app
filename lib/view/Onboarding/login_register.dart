@@ -5,12 +5,9 @@ import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/components/widgets.dart';
 import 'package:erebrus_app/config/assets.dart';
 import 'package:erebrus_app/config/colors.dart';
-import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/view/Onboarding/generate_mnemonic_screen.dart';
 import 'package:erebrus_app/view/Onboarding/import_account_screen.dart';
-import 'package:erebrus_app/view/home/home.dart';
-import 'package:erebrus_app/view/profile/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -119,13 +116,13 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                                 log("APPle credential ${credential}");
                                 log("APPle credential userIdentifier ${credential.userIdentifier}");
                                 // if (credential.email != null) {
-                                  await ApiController().googleAppleLogin(
-                                      email: credential.email??"",
-                                      authType: "apple",
-                                      appleId: credential.userIdentifier!);
-                                  // await ApiController().registerApple(
-                                  //     email: credential.email!,
-                                  //     appleId: credential.userIdentifier!);
+                                await ApiController().googleAppleLogin(
+                                    email: credential.email ?? "",
+                                    authType: "apple",
+                                    appleId: credential.userIdentifier!);
+                                // await ApiController().registerApple(
+                                //     email: credential.email!,
+                                //     appleId: credential.userIdentifier!);
                                 // } else {
                                 //   await ApiController().userDetailsAppleId(
                                 //       appleId: credential.userIdentifier!);
@@ -261,54 +258,54 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
     );
   }
 
-  Future<dynamic> textLogin(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        TextEditingController textEditingController = TextEditingController();
-        return AlertDialog(
-          title: const Text(enterAuthToken),
-          content: TextField(
-            controller: textEditingController,
-            decoration: const InputDecoration(
-              hintText: "Paste your PASETO here",
-              border: OutlineInputBorder(),
-            ),
-          ),
-          actions: [
-            Center(
-              child: ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      box!.put("token", textEditingController.text);
-                      ProfileModel ress = await ApiController().getProfile();
-                      if (ress.status != null && ress.status == 200) {
-                        Get.offAll(() => const HomeScreen());
-                      }
-                    } catch (e) {
-                      Get.back();
-                      Fluttertoast.showToast(msg: "Invalid Auth Token");
-                    }
-                  },
-                  child: const Text(loginTxt)),
-            )
-          ],
-        );
-      },
-    );
-  }
+  // Future<dynamic> textLogin(BuildContext context) {
+  //   return showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       TextEditingController textEditingController = TextEditingController();
+  //       return AlertDialog(
+  //         title: const Text(enterAuthToken),
+  //         content: TextField(
+  //           controller: textEditingController,
+  //           decoration: const InputDecoration(
+  //             hintText: "Paste your PASETO here",
+  //             border: OutlineInputBorder(),
+  //           ),
+  //         ),
+  //         actions: [
+  //           Center(
+  //             child: ElevatedButton(
+  //                 onPressed: () async {
+  //                   try {
+  //                     box!.put("token", textEditingController.text);
+  //                     ProfileModel ress = await ApiController().getProfile();
+  //                     if (ress.status != null && ress.status == 200) {
+  //                       Get.offAll(() => const HomeScreen());
+  //                     }
+  //                   } catch (e) {
+  //                     Get.back();
+  //                     Fluttertoast.showToast(msg: "Invalid Auth Token");
+  //                   }
+  //                 },
+  //                 child: const Text(loginTxt)),
+  //           )
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  login({required token}) async {
-    try {
-      box!.put("token", token);
-      log("TOkenn---  ${box!.get("token")}");
-      ProfileModel ress = await ApiController().getProfile();
-      if (ress.status != null && ress.status == 200) {
-        Get.offAll(() => const HomeScreen());
-      }
-    } catch (e) {
-      Get.back();
-      Fluttertoast.showToast(msg: "Invalid Auth Token");
-    }
-  }
+  // login({required token}) async {
+  //   try {
+  //     box!.put("token", token);
+  //     log("TOkenn---  ${box!.get("token")}");
+  //     ProfileModel ress = await ApiController().getProfile();
+  //     if (ress.status != null && ress.status == 200) {
+  //       Get.offAll(() => const HomeScreen());
+  //     }
+  //   } catch (e) {
+  //     Get.back();
+  //     Fluttertoast.showToast(msg: "Invalid Auth Token");
+  //   }
+  // }
 }

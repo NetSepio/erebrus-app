@@ -1,11 +1,15 @@
 import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
+import 'package:erebrus_app/view/bottombar/bottombar.dart';
 import 'package:erebrus_app/view/inAppPurchase/inappP.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 
 class ProFeaturesScreen extends StatefulWidget {
-  const ProFeaturesScreen({Key? key}) : super(key: key);
+  final bool fromLogin;
+  const ProFeaturesScreen({Key? key, required this.fromLogin})
+      : super(key: key);
 
   @override
   State<ProFeaturesScreen> createState() => _ProFeaturesScreenState();
@@ -18,6 +22,11 @@ class _ProFeaturesScreenState extends State<ProFeaturesScreen> {
     try {
       checkSub = await ApiController().checkSubscription();
       setState(() {});
+      if (widget.fromLogin) {
+        if (checkSub!.status.toString().toLowerCase() == "active") {
+          Get.offAll(() => BottomBar());
+        }
+      }
       EasyLoading.dismiss();
     } catch (e) {
       EasyLoading.dismiss();
@@ -38,7 +47,7 @@ class _ProFeaturesScreenState extends State<ProFeaturesScreen> {
         backgroundColor: Colors.black,
         centerTitle: true,
       ),
-      body: (checkSub != null && checkSub!.subscription != null)
+      body: (checkSub != null)
           ? Column(
               children: [
                 const SizedBox(height: 20),
@@ -120,7 +129,7 @@ class _ProFeaturesScreenState extends State<ProFeaturesScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        'Free Trial',
+                        "Get 7 Dat's Free Trial",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),

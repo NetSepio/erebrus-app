@@ -11,6 +11,7 @@ import 'package:erebrus_app/model/erebrus/client_model.dart';
 import 'package:erebrus_app/view/bottombar/bottombar.dart';
 import 'package:erebrus_app/view/home/home.dart';
 import 'package:erebrus_app/view/profile/profile_model.dart';
+import 'package:erebrus_app/view/settings/ProFeaturesScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -157,6 +158,12 @@ class ApiController {
           box!.put("chainName", profileModel.payload!.chainName);
         if (profileModel.payload!.name != null)
           box!.put("name", profileModel.payload!.name);
+
+        if (profileModel.payload!.walletAddress != null) {
+          box!.put("userType", "web3");
+        } else {
+          box!.put("userType", "web2");
+        }
         return profileModel;
       }
     } on DioException catch (e) {
@@ -197,11 +204,11 @@ class ApiController {
     }
   }
 
-  Future getFlowId({required String walletAddress}) async {
-    Response res = await dio
-        .get(baseUrl + ApiUrl().flowid + walletAddress)
-        .catchError((e) {
-      log("getFlowId error");
+  Future getFlowId(
+      {required String walletAddress, required String chain}) async {
+    var url = baseUrl + ApiUrl().flowid + walletAddress + "&chain=$chain";
+    Response res = await dio.get(url).catchError((DioException e) {
+      log("getFlowId error -- ${e.response}");
     });
     if (res.statusCode == 200) {
       // log("Flow Data  ${res.data}");
@@ -227,7 +234,8 @@ class ApiController {
       if (res.statusCode == 200) {
         log("Flow Data  ${res.data}");
         box!.put("token", res.data["payload"]["token"]);
-        Get.offAll(() => const BottomBar());
+        Get.offAll(() =>  ProFeaturesScreen(fromLogin: true,));
+        // Get.offAll(() => const BottomBar());
       }
     } on DioException catch (e) {
       log("getAuthenticate error ${e.response!.data}");

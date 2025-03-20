@@ -190,43 +190,54 @@ class _ProfileState extends State<Profile> {
                             )
                           : SizedBox()),
                 if (widget.title == "EREBRUS" || widget.title == profileTxt)
-                  Obx(() =>
-                      (profileController.profileModel.value.payload != null &&
-                              profileController.profileModel.value.payload!
-                                      .walletAddress !=
-                                  null)
-                          ? Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: TextField(
-                                readOnly: true,
-                                onTap: null,
-                                maxLines: 4,
-                                minLines: 1,
-                                controller: TextEditingController(
-                                  text: profileController
+                  Obx(() => (profileController.profileModel.value.payload !=
+                              null &&
+                          profileController
+                                  .profileModel.value.payload!.walletAddress !=
+                              null)
+                      ? Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextField(
+                            readOnly: true,
+                            onTap: null,
+                            maxLines: 4,
+                            minLines: 1,
+                            controller: TextEditingController(
+                              text: box!.containsKey("selectedWalletAddress") &&
+                                      box!.get("selectedWalletAddress") != null
+                                  ? box!.get("selectedWalletAddress").toString()
+                                  : profileController
                                       .profileModel.value.payload!.walletAddress
                                       .toString(),
-                                ),
-                                decoration: InputDecoration(
-                                  labelText: "Wallet Address",
-                                  suffixIcon: InkWell(
-                                      onTap: () async {
-                                        await Clipboard.setData(ClipboardData(
-                                            text: profileController.profileModel
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "Wallet Address",
+                              suffixIcon: InkWell(
+                                  onTap: () async {
+                                    await Clipboard.setData(ClipboardData(
+                                        text: box!.containsKey(
+                                                    "selectedWalletAddress") &&
+                                                box!.get(
+                                                        "selectedWalletAddress") !=
+                                                    null
+                                            ? box!
+                                                .get("selectedWalletAddress")
+                                                .toString()
+                                            : profileController.profileModel
                                                 .value.payload!.walletAddress
                                                 .toString()));
-                                        Fluttertoast.showToast(msg: "Copied");
-                                      },
-                                      child: Icon(Icons.copy)),
-                                  border: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 1,
-                                    ),
-                                  ),
+                                    Fluttertoast.showToast(msg: "Copied");
+                                  },
+                                  child: Icon(Icons.copy)),
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1,
                                 ),
                               ),
-                            )
-                          : SizedBox()),
+                            ),
+                          ),
+                        )
+                      : SizedBox()),
                 if (widget.title != profileTxt)
                   if (box!.get("solanaAddress") == null &&
                       widget.showSubscription == false)

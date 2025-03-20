@@ -32,7 +32,7 @@ class HomeController extends GetxController {
   Map<String, List<AllNPayload>>? countryMap;
   final storage = SecureStorage();
   Rx<AllNPayload> selectedPayload = AllNPayload().obs;
- Map<String, String> countryCodes = {
+  Map<String, String> countryCodes = {
     "AF": "Afghanistan",
     "AL": "Albania",
     "DZ": "Algeria",
@@ -260,9 +260,11 @@ class HomeController extends GetxController {
     }
   }
 
-  Future getPASETO({required String walletAddress}) async {
+  Future getPASETO(
+      {required String walletAddress, required String chain}) async {
     try {
-      var res = await ApiController().getFlowId(walletAddress: walletAddress);
+      var res = await ApiController()
+          .getFlowId(walletAddress: walletAddress, chain: chain);
       EasyLoading.dismiss();
       isLoading.value = false;
       update();

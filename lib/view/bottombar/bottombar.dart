@@ -61,19 +61,6 @@ class _BottomBarState extends State<BottomBar> {
         ],
       ),
     );
-    // BottomNavigationBar(
-    //   currentIndex: currentIndex,
-    //   items: const [
-    //     BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-    //     // BottomNavigationBarItem(icon: Icon(Icons.wifi), label: "Near WiFi"),
-    //     BottomNavigationBarItem(
-    //         icon: Icon(Icons.subscriptions_outlined), label: "Assistant"),
-    //   ],
-    //   onTap: (value) {
-    //     currentIndex = value;
-    //     setState(() {});
-    //   },
-    // ),
-    // );
+
   }
 }
