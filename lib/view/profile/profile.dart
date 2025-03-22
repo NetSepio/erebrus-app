@@ -2,12 +2,9 @@ import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
-import 'package:erebrus_app/view/Onboarding/eclipseAddress.dart';
-import 'package:erebrus_app/view/Onboarding/solanaAddress.dart';
-import 'package:erebrus_app/view/Onboarding/soonAddress.dart';
+import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
 import 'package:erebrus_app/view/profile/walletSelection.dart';
-import 'package:erebrus_app/view/settings/settings.dart';
-import 'package:erebrus_app/view/subscription/subscriptionScreen.dart';
+import 'package:erebrus_app/view/settings/SettingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -65,7 +62,11 @@ class _ProfileState extends State<Profile> {
             if (widget.showSubscription)
               InkWell(
                 onTap: () {
-                  Get.to(() => const SettingPage());
+                  Get.to(() => const SettingPage())!.whenComplete(
+                    () {
+                      setState(() {});
+                    },
+                  );
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -238,32 +239,35 @@ class _ProfileState extends State<Profile> {
                           ),
                         )
                       : SizedBox()),
-                if (widget.title != profileTxt)
-                  if (box!.get("solanaAddress") == null &&
-                      widget.showSubscription == false)
-                    Expanded(
-                        child: SubscriptionScreen(
-                      showAppbar: false,
-                    )),
-                if (widget.title != profileTxt)
-                  if (box!.get("solanaAddress") != null)
-                    Column(
-                      children: [
-                        SizedBox(height: 20),
-                        Text(
-                          "Your Web3 Wallet",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 20),
-                        WalletDropdown(
-                          fromProfileScreen: widget.title == "Profile",
-                        ),
-                      ],
+                // if (widget.title != profileTxt)
+                //   if (box!.get("solanaAddress") == null &&
+                //       widget.showSubscription == false)
+                //     Expanded(
+                //         child: SubscriptionScreen(
+                //       showAppbar: false,
+                //     )),
+                // if (widget.title != profileTxt)
+                //   if (box!.get("solanaAddress") != null)
+                Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Text(
+                      "Your Web3 Wallet",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                if (widget.title != profileTxt)
-                  if (widget.showSubscription)
-                    Expanded(child: SubscriptionScreen()),
+                    SizedBox(height: 20),
+                    WalletDropdown(
+                      onChanged: (p0) {
+                        setState(() {});
+                      },
+                      fromProfileScreen: widget.title == "Profile",
+                    ),
+                  ],
+                ),
+                // if (widget.title != profileTxt)
+                //   if (widget.showSubscription)
+                //     Expanded(child: SubscriptionScreen()),
               ],
             ),
           ),

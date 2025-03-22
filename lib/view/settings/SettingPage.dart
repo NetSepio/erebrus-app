@@ -1,16 +1,19 @@
 import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/main.dart';
 import 'package:erebrus_app/view/Onboarding/login_register.dart';
-import 'package:erebrus_app/view/browser/webbroweser.dart';
-import 'package:erebrus_app/view/dwifi/dmap.dart';
-import 'package:erebrus_app/view/inAppPurchase/inappP.dart';
+import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
+import 'package:erebrus_app/view/Perks/PerksScreen.dart';
+import 'package:erebrus_app/view/inAppPurchase/ProFeaturesScreen.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
-import 'package:erebrus_app/view/settings/ProFeaturesScreen.dart';
 import 'package:erebrus_app/view/settings/privacyPolicy.dart';
 import 'package:erebrus_app/view/speedCheck/speedCheck.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:location/location.dart';
 // import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,10 +27,6 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   Location location = Location();
-  // PackageInfo? packageInfo;
-
-  bool? _serviceEnabled;
-  LocationData? _locationData;
   init() async {
     // await AndroidFlutterWifi.init();
     // packageInfo = await PackageInfo.fromPlatform();
@@ -37,8 +36,25 @@ class _SettingPageState extends State<SettingPage> {
   @override
   void initState() {
     init();
-    // apiCall();
+    apiCall();
     super.initState();
+  }
+
+  apiCall() async {
+    EasyLoading.show();
+    final storage = SecureStorage();
+    try {
+      var mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+      await getSolanaAddress(mnemonics);
+      await suiWal(mnemonics);
+      await getEclipseAddress(mnemonics);
+      await getSoonAddress(mnemonics);
+      await evmAptos(mnemonics);
+    } catch (e) {
+      EasyLoading.dismiss();
+    }
+    EasyLoading.dismiss();
+    setState(() {});
   }
 
   @override
@@ -94,29 +110,51 @@ class _SettingPageState extends State<SettingPage> {
               ),
               Card(
                 child: ListTile(
-                  title: const Text(speedTestTxt),
-                  subtitle: const Text(speedTestSubTxt),
+                  title: const Text("Perq"),
+                  subtitle: const Text("--- --- "),
                   leading: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                        Colors.blue.shade800,
+                        Colors.blueAccent.shade700,
                         Colors.blue.shade300,
                       ], end: Alignment.bottomRight),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: EdgeInsets.all(10),
-                    child:
-                        const Icon(Icons.speed, size: 20, color: Colors.white),
+                    child: const Icon(Icons.subscriptions_outlined,
+                        size: 20, color: Colors.white),
                   ),
                   trailing: Icon(Icons.arrow_forward_ios, size: 20),
-                  onTap: () => Get.to(() => const SpeedCheck()),
+                  onTap: () {
+                    Get.to(() => PerksScreen());
+                  },
                 ),
               ),
 
+              // Card(
+              //   child: ListTile(
+              //     title: const Text("Discover WIFI"),
+              //     subtitle: const Text("Find nearby WIFI"),
+              //     leading: Container(
+              //       decoration: BoxDecoration(
+              //         gradient: LinearGradient(colors: [
+              //           Colors.green.shade800,
+              //           Colors.green.shade300,
+              //         ], end: Alignment.bottomRight),
+              //         borderRadius: BorderRadius.circular(10),
+              //       ),
+              //       padding: EdgeInsets.all(10),
+              //       child: const Icon(Icons.wifi_find_rounded,
+              //           size: 20, color: Colors.white),
+              //     ),
+              //     trailing: Icon(Icons.arrow_forward_ios, size: 20),
+              //     onTap: () => Get.to(() => const MapSample()),
+              //   ),
+              // ),
               Card(
                 child: ListTile(
-                  title: const Text("Discover WIFI"),
-                  subtitle: const Text("Find nearby WIFI"),
+                  title: const Text("Mode"),
+                  subtitle: const Text("Basic Mode/Pro Mode"),
                   leading: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
@@ -129,10 +167,23 @@ class _SettingPageState extends State<SettingPage> {
                     child: const Icon(Icons.wifi_find_rounded,
                         size: 20, color: Colors.white),
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
-                  onTap: () => Get.to(() => const MapSample()),
+                  trailing: CupertinoSwitch(
+                    value: box!.get("appMode") == null ||
+                            box!.get("appMode") == "basic"
+                        ? false
+                        : true,
+                    onChanged: (value) {
+                      if (value) {
+                        box!.put("appMode", 'pro');
+                      } else {
+                        box!.put("appMode", 'basic');
+                      }
+                      setState(() {});
+                    },
+                  ),
                 ),
               ),
+
               // if (Platform.isIOS)
               Card(
                 child: ListTile(
@@ -154,30 +205,30 @@ class _SettingPageState extends State<SettingPage> {
                   trailing: Icon(Icons.arrow_forward_ios, size: 20),
                   onTap: () {
                     // Get.to(() => FreeTrialButton());
-                    Get.to(() => ProFeaturesScreen(fromLogin: false,));
+                    Get.to(() => ProFeaturesScreen(
+                          fromLogin: false,
+                        ));
                   },
                 ),
               ),
               Card(
                 child: ListTile(
-                  title: const Text("Private search"),
-                  subtitle: Text(
-                      "Private surfing with the free Incognito Internet Browser."),
+                  title: const Text(speedTestTxt),
+                  subtitle: const Text(speedTestSubTxt),
                   leading: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                        Colors.blueAccent.shade700,
+                        Colors.blue.shade800,
                         Colors.blue.shade300,
                       ], end: Alignment.bottomRight),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: EdgeInsets.all(10),
-                    child: const Icon(Icons.web, size: 20, color: Colors.white),
+                    child:
+                        const Icon(Icons.speed, size: 20, color: Colors.white),
                   ),
                   trailing: Icon(Icons.arrow_forward_ios, size: 20),
-                  onTap: () {
-                    Get.to(() => InAppWebViewScreen());
-                  },
+                  onTap: () => Get.to(() => const SpeedCheck()),
                 ),
               ),
 
@@ -213,6 +264,8 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 onTap: () async {
                   await box!.clear();
+                  await box!.close();
+                  box = await Hive.openBox('erebrus');
                   Get.offAll(() => const LoginOrRegisterPage());
                 },
               ),
@@ -252,11 +305,6 @@ class _SettingPageState extends State<SettingPage> {
                   );
                 },
               ),
-              const SizedBox(height: 30),
-              if (packageInfo != null)
-                Center(
-                    child: Text(
-                        "V. ${packageInfo!.version.toString()}+${packageInfo!.buildNumber}"))
             ],
           ),
         ),

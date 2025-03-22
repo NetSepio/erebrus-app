@@ -13,7 +13,7 @@ import 'package:erebrus_app/model/RegisterVPNClientModel.dart';
 import 'package:erebrus_app/model/erebrus/client_model.dart';
 import 'package:erebrus_app/view/Onboarding/login_register.dart';
 import 'package:erebrus_app/view/profile/profile_model.dart';
-import 'package:erebrus_app/view/vpn/vpn_home.dart';
+import 'package:erebrus_app/view/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_curve25519/flutter_curve25519.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

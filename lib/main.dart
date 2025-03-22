@@ -1,8 +1,8 @@
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
 import 'package:erebrus_app/view/Onboarding/onboardingScreen.dart';
-import 'package:erebrus_app/view/home/home.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
+import 'package:erebrus_app/view/inAppPurchase/ProFeaturesScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -16,6 +16,7 @@ import 'package:upgrader/upgrader.dart';
 ThemeMode themeMode = ThemeMode.system;
 
 PackageInfo? packageInfo;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -25,6 +26,9 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  if (box!.get("appMode") == null) {
+    box!.put("appMode", 'basic');
+  }
   packageInfo = await PackageInfo.fromPlatform();
   runApp(const MyApp());
 }
@@ -48,13 +52,12 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: UpgradeAlert(
         dialogStyle: UpgradeDialogStyle.cupertino,
-        
         upgrader: Upgrader(
           durationUntilAlertAgain: Duration(minutes: 10),
         ),
         child: box!.containsKey("token")
             ? box!.get("token") != ""
-                ? const HomeScreen()
+                ? ProFeaturesScreen(fromLogin: true)
                 : const OnboardingScreen()
             : const OnboardingScreen(),
       ),
@@ -63,4 +66,4 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Colors.green.shade900),
     );
   }
-} 
+}

@@ -125,7 +125,6 @@ flutter:
   assets:
     - assets/
     - assets/images/
-    - assets/tokens/
     - .env
   #   - images/a_dot_ham.jpeg
 

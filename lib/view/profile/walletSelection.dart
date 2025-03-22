@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class WalletDropdown extends StatefulWidget {
+  final void Function(String?) onChanged;
   final bool fromProfileScreen;
 
-  const WalletDropdown({super.key, required this.fromProfileScreen});
+  const WalletDropdown(
+      {super.key, required this.fromProfileScreen, required this.onChanged});
   @override
   _WalletDropdownState createState() => _WalletDropdownState();
 }
@@ -67,6 +67,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
             value: selectedWallet,
             itemHeight: 70,
             onChanged: (String? newValue) {
+              widget.onChanged("a");
               setState(() {
                 selectedWallet = newValue;
                 box!.put("selectedWalletAddress", networkList[newValue!]);
@@ -112,61 +113,61 @@ class _WalletDropdownState extends State<WalletDropdown> {
             }).toList(),
           ),
         ),
-        if (widget.fromProfileScreen)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Divider(),
-              SizedBox(height: 20),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(1000),
-                child: Image.asset(
-                  box!.get("selectedWalletName") == "Solana"
-                      ? "assets/solo.png"
-                      : box!.get("selectedWalletName") == "Eclipse"
-                          ? "assets/download.png"
-                          : "assets/soon.png",
-                  height: 40,
-                  width: 40,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  box!.get("selectedWalletAddress").toString(),
-                  style: TextStyle(fontSize: 18),
-                ),
-                trailing: InkWell(
-                    onTap: () async {
-                      await Clipboard.setData(ClipboardData(
-                          text: box!.get("selectedWalletAddress").toString()));
-                      Fluttertoast.showToast(msg: "Wallet address copy");
-                    },
-                    child: Icon(Icons.copy)),
-              ),
-              Divider(),
-              SizedBox(height: 10),
-              if (nftDta != null && box!.get("selectedWalletName") == "Solana")
-                ListView.separated(
-                  itemCount: nftDta.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    var data = nftDta[index];
-                    return ListTile(
-                      leading: Image.network(
-                        data["image"].toString(),
-                        fit: BoxFit.cover,
-                        width: 80,
-                      ),
-                      title: Text(data["name".toString()]),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(indent: 100, height: 20);
-                  },
-                )
-            ],
-          )
+        // if (widget.fromProfileScreen)
+        //   Column(
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children: [
+        //       Divider(),
+        //       SizedBox(height: 20),
+        //       ClipRRect(
+        //         borderRadius: BorderRadius.circular(1000),
+        //         child: Image.asset(
+        //           box!.get("selectedWalletName") == "Solana"
+        //               ? "assets/solo.png"
+        //               : box!.get("selectedWalletName") == "Eclipse"
+        //                   ? "assets/download.png"
+        //                   : "assets/soon.png",
+        //           height: 40,
+        //           width: 40,
+        //           fit: BoxFit.cover,
+        //         ),
+        //       ),
+        //       ListTile(
+        //         title: Text(
+        //           box!.get("selectedWalletAddress").toString(),
+        //           style: TextStyle(fontSize: 18),
+        //         ),
+        //         trailing: InkWell(
+        //             onTap: () async {
+        //               await Clipboard.setData(ClipboardData(
+        //                   text: box!.get("selectedWalletAddress").toString()));
+        //               Fluttertoast.showToast(msg: "Wallet address copy");
+        //             },
+        //             child: Icon(Icons.copy)),
+        //       ),
+        //       Divider(),
+        //       SizedBox(height: 10),
+        //       if (nftDta != null && box!.get("selectedWalletName") == "Solana")
+        //         ListView.separated(
+        //           itemCount: nftDta.length,
+        //           shrinkWrap: true,
+        //           itemBuilder: (context, index) {
+        //             var data = nftDta[index];
+        //             return ListTile(
+        //               leading: Image.network(
+        //                 data["image"].toString(),
+        //                 fit: BoxFit.cover,
+        //                 width: 80,
+        //               ),
+        //               title: Text(data["name".toString()]),
+        //             );
+        //           },
+        //           separatorBuilder: (BuildContext context, int index) {
+        //             return Divider(indent: 100, height: 20);
+        //           },
+        //         )
+        //     ],
+        //   )
       ],
     );
   }

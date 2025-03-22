@@ -18,6 +18,7 @@
         android:name="${applicationName}"
         android:allowBackup="false"
         android:fullBackupOnly="false"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/launcher_icon_new_dark">
            <meta-data
         android:name="com.google.android.gms.vision.DEPENDENCIES"

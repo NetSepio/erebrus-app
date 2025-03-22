@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:erebrus_app/config/common.dart';
-import 'package:erebrus_app/view/settings/settings.dart';
+import 'package:erebrus_app/view/settings/SettingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,14 +11,14 @@ import 'package:link_text/link_text.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-class VoiceChatBot extends StatefulWidget {
+class CyreneAi extends StatefulWidget {
   @override
-  _VoiceChatBotState createState() => _VoiceChatBotState();
+  _CyreneAiState createState() => _CyreneAiState();
 }
 
 final List<Map<String, String>> messages = [];
 
-class _VoiceChatBotState extends State<VoiceChatBot> {
+class _CyreneAiState extends State<CyreneAi> {
   final stt.SpeechToText _speech = stt.SpeechToText();
   final FlutterTts _flutterTts = FlutterTts();
   final TextEditingController _textController = TextEditingController();
@@ -136,7 +136,11 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(() => const SettingPage());
+              Get.to(() => const SettingPage())!.whenComplete(
+                () {
+                  setState(() {});
+                },
+              );
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),

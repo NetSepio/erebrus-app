@@ -1,6 +1,6 @@
-import 'package:erebrus_app/ai/aivoice.dart';
-import 'package:erebrus_app/view/profile/profile.dart';
-import 'package:erebrus_app/view/vpn/vpn_home.dart';
+import 'package:erebrus_app/view/browser/webbroweser.dart';
+import 'package:erebrus_app/view/cyreneAi/cyreneAi.dart';
+import 'package:erebrus_app/view/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -17,12 +17,13 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const VpnHomeScreen(),
     // const MapSample(),
-    VoiceChatBot(),
-    Profile(
-      title: "EREBRUS",
-      showBackArrow: false,
-      showSubscription: true,
-    ),
+    CyreneAi(),
+    InAppWebViewScreen(),
+    // Profile(
+    //   title: "EREBRUS",
+    //   showBackArrow: false,
+    //   showSubscription: true,
+    // ),
 
     // const SubscriptionScreen(),
   ];
@@ -41,8 +42,8 @@ class _BottomBarState extends State<BottomBar> {
         onTap: (i) => setState(() => currentIndex = i),
         items: [
           SalomonBottomBarItem(
-            icon: Icon(Icons.home),
-            title: Text("Home"),
+            icon: Icon(Icons.vpn_lock_outlined),
+            title: Text(""),
             selectedColor: Color.fromARGB(255, 47, 116, 227),
           ),
           SalomonBottomBarItem(
@@ -50,17 +51,16 @@ class _BottomBarState extends State<BottomBar> {
               "assets/Erebrus_AI_Cyrene.png",
               width: 22,
             ),
-            title: Text("Cyrene"),
+            title: Text(""),
             selectedColor: Color(0xff0162FF),
           ),
           SalomonBottomBarItem(
-            icon: Icon(Icons.person),
-            title: Text("Profile"),
+            icon: Icon(Icons.search),
+            title: Text(""),
             selectedColor: Colors.teal,
           ),
         ],
       ),
     );
-
   }
 }

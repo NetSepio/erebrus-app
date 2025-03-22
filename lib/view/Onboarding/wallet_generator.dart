@@ -1,12 +1,14 @@
 import 'dart:typed_data';
 
+import 'package:aptos/aptos.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:solana/solana.dart';
+import 'package:web3dart/crypto.dart';
+import 'package:web3dart/web3dart.dart';
 
 class WalletGenerator {
-
   static String generateMnemonic() {
     return bip39.generateMnemonic();
   }
@@ -72,4 +74,30 @@ suiWal(mnemonics) async {
     // log("suiAdd--${ed25519!.getAddress().toString()}");
     box!.put("suiAdd", wallet);
   }
+}
+
+var evmWalletAddress;
+var aptosWalletAddress;
+Future evmAptos(mnemonic) async {
+  try {
+    final seed = bip39.mnemonicToSeed(mnemonic);
+    // await getEvmWallet(mnemonic);
+
+    if (box!.containsKey("aptosAddress") == false ||
+        box!.get("aptosAddress") == null) {
+      final evmPrivateKey =
+          EthPrivateKey.fromHex(bytesToHex(seed.sublist(0, 32)));
+      evmWalletAddress = evmPrivateKey.address.hex;
+      box!.put("aptosAddress", evmWalletAddress.toString());
+      print("EVM Wallet Address: $evmWalletAddress");
+    }
+
+    // Derive Aptos Wallet Address
+    if (box!.containsKey("aptosAdd") == false || box!.get("aptosAdd") == null) {
+      final aptosPrivateKey = AptosAccount.generateAccount(mnemonic);
+      aptosWalletAddress = aptosPrivateKey.accountAddress;
+      box!.put("aptosAdd", aptosWalletAddress.toString());
+      print("Aptos Wallet Address: $aptosWalletAddress");
+    }
+  } catch (e) {}
 }

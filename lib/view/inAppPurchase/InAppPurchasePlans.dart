@@ -5,22 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-class FreeTrialButton extends StatefulWidget {
-  const FreeTrialButton({Key? key}) : super(key: key);
+class InAppPurchasePlans extends StatefulWidget {
+  const InAppPurchasePlans({Key? key}) : super(key: key);
 
   @override
-  State<FreeTrialButton> createState() => _FreeTrialButtonState();
+  State<InAppPurchasePlans> createState() => _InAppPurchasePlansState();
 }
 
-class _FreeTrialButtonState extends State<FreeTrialButton> {
+class _InAppPurchasePlansState extends State<InAppPurchasePlans> {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   bool _available = false;
   List<ProductDetails> _products = [];
   List<PurchaseDetails> _purchases = [];
   final Set<String> _productIDs = {
-    'first_month',
-    'three_month'
-  }; // Updated product IDs
+    'annual_plan',
+    'three_month',
+  };
   late StreamSubscription<List<PurchaseDetails>> _subscription;
 
   @override
@@ -135,7 +135,13 @@ class _FreeTrialButtonState extends State<FreeTrialButton> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  'BUY ${product.title} - ${product.price}',
+                  product.id == "annual_plan"
+                      ? "Annual Plan (37.5% Discount)"
+                      : product.id == "three_month"
+                          ? "3 Month Plan (25% Discount)"
+                          : product.id == "first_month"
+                              ? "1 Month Plan"
+                              : '',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),

@@ -1,10 +1,12 @@
 import 'package:erebrus_app/api/api.dart';
+import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
 import 'package:erebrus_app/view/bottombar/bottombar.dart';
-import 'package:erebrus_app/view/inAppPurchase/inappP.dart';
+import 'package:erebrus_app/view/inAppPurchase/InAppPurchasePlans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProFeaturesScreen extends StatefulWidget {
   final bool fromLogin;
@@ -107,8 +109,23 @@ class _ProFeaturesScreenState extends State<ProFeaturesScreen> {
                     ),
                   ],
                 ),
+                if (checkSub != null)
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 40, left: 10, right: 10),
+                    child: Card(
+                      child: ListTile(
+                        title: Text("Your Subscription "),
+                        trailing: Text(
+                          checkSub!.status.toString().toUpperCase(),
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ),
                 const Spacer(),
                 if (checkSub != null &&
+                    checkSub!.status.toString() != "active" &&
                     checkSub!.status.toString() != "expired")
                   InkWell(
                     onTap: () async {
@@ -144,7 +161,39 @@ class _ProFeaturesScreenState extends State<ProFeaturesScreen> {
                     ),
                   ),
                 const SizedBox(height: 10),
-                const FreeTrialButton(),
+                if (box!.get("userType") == "web3Wallet")
+                  InkWell(
+                    onTap: () async {
+                      await launchUrl(Uri.parse(
+                          "https://erebrus.io/subscription?network=${box!.get("selected_network")}&walletAddress=${box!.get("web3WalletAddress")}"));
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 16),
+                          margin: EdgeInsets.only(bottom: 20),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.blueAccent.shade700,
+                                Colors.deepPurpleAccent.shade700,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            "Buy Subscription",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                else
+                  const InAppPurchasePlans(),
               ],
             )
           : Center(child: CircularProgressIndicator()),

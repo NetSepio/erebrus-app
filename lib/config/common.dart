@@ -4,13 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Box? box;
 
-height(height) {
-  return SizedBox(height: double.tryParse(height.toString()));
-}
-
-width(width) {
-  return SizedBox(width: double.tryParse(width.toString()));
-}
+height(double height) => SizedBox(height: height);
+width(double width) => SizedBox(width: width);
 
 textFiled(hinttext, {controller}) {
   return TextField(

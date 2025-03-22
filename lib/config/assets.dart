@@ -1,5 +1,4 @@
 const googleLogo = "assets/images/google.png";
-const noWalletFound = "assets/images/sad.png";
 const onboarding1 = "assets/01.png";
 const onboarding2 = "assets/02.png";
 const onboarding3 = "assets/03.png";

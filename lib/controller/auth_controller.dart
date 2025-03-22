@@ -1,10 +1,7 @@
 // ignore_for_file: unused_field, no_leading_underscores_for_local_identifiers, unnecessary_this
-import 'dart:developer';
-
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
-import 'package:erebrus_app/web3dart/web3dart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,20 +44,6 @@ class AuthController extends GetxController {
     String? _mnemonic = await storage.getStoredValue('mnemonic');
     return _mnemonic;
   }
-
-  // Future<void> privateKeyFromMnemonic({String? newMnemonic}) async {
-  //   if (newMnemonic != null) {
-  //     this._mnemonic = newMnemonic;
-  //   }
-  //   await storage.writeStoredValues('mnemonic', _mnemonic);
-  //   String pvtKey = Web3.privateKeyFromMnemonic(_mnemonic);
-  //   await storage.writeStoredValues('pvtKey', pvtKey);
-  //   Web3 web3 = Web3(approvalCallback);
-  //   await web3.setCredentials(pvtKey);
-  //   String accountAddress = await web3.getAddress();
-  //   log("Wallet Address $accountAddress");
-  //   await storage.writeStoredValues("accountAddress", accountAddress);
-  // }
 
   Future<void> privateKeyFromMnemonic({String? newMnemonic}) async {
     if (newMnemonic != null) {
