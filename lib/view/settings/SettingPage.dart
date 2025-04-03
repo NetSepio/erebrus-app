@@ -7,6 +7,7 @@ import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
 import 'package:erebrus_app/view/Perks/PerksScreen.dart';
 import 'package:erebrus_app/view/inAppPurchase/ProFeaturesScreen.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
+import 'package:erebrus_app/view/refer/referalAndEarn.dart';
 import 'package:erebrus_app/view/settings/privacyPolicy.dart';
 import 'package:erebrus_app/view/speedCheck/speedCheck.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:location/location.dart';
-// import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatefulWidget {
@@ -26,10 +25,7 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  Location location = Location();
   init() async {
-    // await AndroidFlutterWifi.init();
-    // packageInfo = await PackageInfo.fromPlatform();
     setState(() {});
   }
 
@@ -44,6 +40,7 @@ class _SettingPageState extends State<SettingPage> {
     EasyLoading.show();
     final storage = SecureStorage();
     try {
+      EasyLoading.show();
       var mnemonics = await storage.getStoredValue("mnemonic") ?? "";
       await getSolanaAddress(mnemonics);
       await suiWal(mnemonics);
@@ -87,49 +84,55 @@ class _SettingPageState extends State<SettingPage> {
               //     child: Text("data")),
               Card(
                 child: ListTile(
-                  title: const Text(profileTxt),
-                  subtitle: const Text(profileSubTxt),
-                  leading: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Colors.purple.shade800,
-                        Colors.purple.shade300,
-                      ]),
-                      borderRadius: BorderRadius.circular(10),
+                    title: const Text(profileTxt),
+                    subtitle: const Text(profileSubTxt),
+                    leading: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          Colors.purple.shade800,
+                          Colors.purple.shade300,
+                        ]),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: const Icon(Icons.person,
+                          size: 20, color: Colors.white),
                     ),
-                    padding: EdgeInsets.all(10),
-                    child:
-                        const Icon(Icons.person, size: 20, color: Colors.white),
-                  ),
-                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
-                  onTap: () => Get.to(() => Profile(
-                        title: profileTxt,
-                        showBackArrow: true,
-                      )),
-                ),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 20),
+                    onTap: () {
+                      Get.to(() => Profile(
+                                title: profileTxt,
+                                showBackArrow: true,
+                              ))!
+                          .whenComplete(() {
+                        setState(() {});
+                      });
+                    }),
               ),
-              Card(
-                child: ListTile(
-                  title: const Text("Perq"),
-                  subtitle: const Text("--- --- "),
-                  leading: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Colors.blueAccent.shade700,
-                        Colors.blue.shade300,
-                      ], end: Alignment.bottomRight),
-                      borderRadius: BorderRadius.circular(10),
+              if ((box!.get("selectedWalletName") != null &&
+                  box!.get("selectedWalletName") == "Solana"))
+                Card(
+                  child: ListTile(
+                    title: const Text("Perks"),
+                    // subtitle: const Text("--- --- "),
+                    leading: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          Colors.blueAccent.shade700,
+                          Colors.blue.shade300,
+                        ], end: Alignment.bottomRight),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: const Icon(Icons.subscriptions_outlined,
+                          size: 20, color: Colors.white),
                     ),
-                    padding: EdgeInsets.all(10),
-                    child: const Icon(Icons.subscriptions_outlined,
-                        size: 20, color: Colors.white),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 20),
+                    onTap: () {
+                      Get.to(() => PerksScreen());
+                    },
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
-                  onTap: () {
-                    Get.to(() => PerksScreen());
-                  },
                 ),
-              ),
 
               // Card(
               //   child: ListTile(
@@ -154,7 +157,7 @@ class _SettingPageState extends State<SettingPage> {
               Card(
                 child: ListTile(
                   title: const Text("Mode"),
-                  subtitle: const Text("Basic Mode/Pro Mode"),
+                  subtitle: const Text("You can access custom node selection"),
                   leading: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
@@ -164,7 +167,7 @@ class _SettingPageState extends State<SettingPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: EdgeInsets.all(10),
-                    child: const Icon(Icons.wifi_find_rounded,
+                    child: Icon(Icons.wifi_find_rounded,
                         size: 20, color: Colors.white),
                   ),
                   trailing: CupertinoSwitch(
@@ -229,6 +232,31 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   trailing: Icon(Icons.arrow_forward_ios, size: 20),
                   onTap: () => Get.to(() => const SpeedCheck()),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  title: const Text("Refer and Earn"),
+                  subtitle: const Text("Invite a friend and earn rewards"),
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.green.shade800,
+                        Colors.lightGreenAccent,
+                      ], end: Alignment.bottomRight),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child:
+                        const Icon(Icons.speed, size: 20, color: Colors.white),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
+                  onTap: () async {
+                    Get.to(() => ReferAndEarn());
+                    // await Share.share(
+                    //     'Install erebrus & get 7 days free trial. Use my referral code: ${box!.get("referralCode")}\nhttps://play.google.com/store/apps/details?id=com.erebrus.app',
+                    //     subject: 'Erebrus');
+                  },
                 ),
               ),
 

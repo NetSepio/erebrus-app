@@ -1,6 +1,7 @@
+
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
-import 'package:erebrus_app/view/Onboarding/onboardingScreen.dart';
+import 'package:erebrus_app/view/Onboarding/OnboardingScreen.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:erebrus_app/view/inAppPurchase/ProFeaturesScreen.dart';
 import 'package:flutter/material.dart';

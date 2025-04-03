@@ -239,6 +239,7 @@ class _ProfileState extends State<Profile> {
                           ),
                         )
                       : SizedBox()),
+
                 // if (widget.title != profileTxt)
                 //   if (box!.get("solanaAddress") == null &&
                 //       widget.showSubscription == false)

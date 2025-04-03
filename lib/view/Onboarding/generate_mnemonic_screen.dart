@@ -1,11 +1,13 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/theme.dart';
 import 'package:erebrus_app/controller/auth_controller.dart';
 import 'package:erebrus_app/view/Onboarding/verify_mnemonic_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 class GenerateSeedPhrase extends StatefulWidget {
   final bool view;
@@ -55,10 +57,30 @@ class _GenerateSeedPhraseState extends State<GenerateSeedPhrase> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               height(10),
-              const Text(
-                "Back Up Mnemonics",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                textAlign: TextAlign.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Back Up Mnemonics",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    textAlign: TextAlign.center,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await Clipboard.setData(
+                          ClipboardData(text: authController.phrase.join(" ")));
+                      log("${authController.phrase.join(" ")}");
+                      Fluttertoast.showToast(msg: "Mnemonics Copied");
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.copy,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                ],
               ),
               height(30),
               Container(
@@ -115,7 +137,7 @@ class _GenerateSeedPhraseState extends State<GenerateSeedPhrase> {
                     } else {
                       authController.privateKeyFromMnemonic().then((_) {
                         Get.to(
-                          () => VerifyPhraseScreen(
+                          () => VerifyMnemonicScreen(
                             words: authController.phrase,
 
                             // controller.mnemonic.split(" "),

@@ -2,7 +2,6 @@ import 'package:erebrus_app/view/browser/webbroweser.dart';
 import 'package:erebrus_app/view/cyreneAi/cyreneAi.dart';
 import 'package:erebrus_app/view/home/home.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class BottomBar extends StatefulWidget {
@@ -29,7 +28,6 @@ class _BottomBarState extends State<BottomBar> {
   ];
   @override
   void initState() {
-    Geolocator.requestPermission();
     super.initState();
   }
 

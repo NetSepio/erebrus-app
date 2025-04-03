@@ -56,10 +56,20 @@ class _ProFeaturesScreenState extends State<ProFeaturesScreen> {
                 Center(
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.precision_manufacturing,
-                        size: 40,
-                        color: Color(0xff0162FF),
+                      InkWell(
+                        onLongPress: () async {
+                          await ApiController()
+                              .trialSubscription()
+                              .whenComplete(() {
+                            checkSubscription();
+                            ;
+                          });
+                        },
+                        child: Icon(
+                          Icons.precision_manufacturing,
+                          size: 40,
+                          color: Color(0xff0162FF),
+                        ),
                       ),
                       SizedBox(height: 8),
                       Text(
@@ -124,48 +134,44 @@ class _ProFeaturesScreenState extends State<ProFeaturesScreen> {
                     ),
                   ),
                 const Spacer(),
-                if (checkSub != null &&
-                    checkSub!.status.toString() != "active" &&
-                    checkSub!.status.toString() != "expired")
-                  InkWell(
-                    onTap: () async {
-                      await ApiController().trialSubscription();
-                      checkSubscription();
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
-                      margin: EdgeInsets.only(bottom: 20),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.blueAccent.shade700,
-                            Colors.deepPurpleAccent.shade700,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(12),
+                // if (checkSub != null &&
+                //     checkSub!.status.toString() != "active" &&
+                //     checkSub!.status.toString() != "expired")
+                InkWell(
+                  onTap: () async {
+                    await ApiController().trialSubscription();
+                    checkSubscription();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
+                    margin: EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.blueAccent.shade700,
+                          Colors.deepPurpleAccent.shade700,
+                        ],
                       ),
-                      child: Text(
-                        "Get 7 Dat's Free Trial",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      "Get 7 Dat's Free Trial",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
-                if (checkSub != null &&
-                    checkSub!.status.toString() == "expired")
-                  Card(
-                    child: const Text(
-                      "Your Free Trial is Expired",
-                      style: TextStyle(),
-                    ),
-                  ),
+                ),
                 const SizedBox(height: 10),
                 if (box!.get("userType") == "web3Wallet")
                   InkWell(
                     onTap: () async {
+                      // await ApiController().trialSubscription();
                       await launchUrl(Uri.parse(
-                          "https://erebrus.io/subscription?network=${box!.get("selected_network")}&walletAddress=${box!.get("web3WalletAddress")}"));
+                              "https://erebrus.io/subscription?network=${box!.get("selected_network")}&walletAddress=${box!.get("web3WalletAddress")}"))
+                          .whenComplete(() {
+                        checkSubscription();
+                      });
                     },
                     child: Column(
                       children: [

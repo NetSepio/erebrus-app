@@ -19,7 +19,7 @@ class ApiUrl {
   String flowid = "/flowid?walletAddress=";
   String authenticate = "/authenticate/NonSign";
   String allNode = "/nodes/active";
-
   String vpnData = "/erebrus/client";
   String nftCount = "/graphql";
+  String getReferralFd = "/referral/account";
 }

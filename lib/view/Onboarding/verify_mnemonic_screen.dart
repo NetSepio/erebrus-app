@@ -1,25 +1,22 @@
-import 'dart:developer';
-
 import 'package:erebrus_app/config/common.dart';
-import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
 import 'package:erebrus_app/controller/auth_controller.dart';
 import 'package:erebrus_app/view/Onboarding/auth_complete_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VerifyPhraseScreen extends StatefulWidget {
+class VerifyMnemonicScreen extends StatefulWidget {
   final List? words;
-  const VerifyPhraseScreen({
+  const VerifyMnemonicScreen({
     super.key,
     this.words,
   });
 
   @override
-  State<VerifyPhraseScreen> createState() => _VerifyPhraseScreenState();
+  State<VerifyMnemonicScreen> createState() => _VerifyMnemonicScreenState();
 }
 
-class _VerifyPhraseScreenState extends State<VerifyPhraseScreen> {
+class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
   int selectedWord = 1;
   AuthController controller = Get.find<AuthController>();
   List orgMem = [];
@@ -225,7 +222,6 @@ class _VerifyPhraseScreenState extends State<VerifyPhraseScreen> {
                     if (orgMem[0] == controller.word1.text.trim() &&
                         orgMem[3] == controller.word4.text.trim() &&
                         orgMem[7] == controller.word8.text.trim()) {
-                    
                       Get.to(() => const AuthCompleteScreen());
                     } else {
                       Get.showSnackbar(const GetSnackBar(

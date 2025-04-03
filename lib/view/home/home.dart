@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:erebrus_app/api/api.dart';
@@ -65,17 +64,22 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
         }
       }
     });
-    Timer(
-      Duration(seconds: 2),
-      () {
-        // showDummyNft.value = true;
-      },
-    );
+    profileCall();
+    // Timer(
+    //   Duration(seconds: 2),
+    //   () {
+    //     // showDummyNft.value = true;
+    //   },
+    // );
     homeController.generateKeyPair();
 
     // apiCall();
     // vpnActivate ? _obtainStats() : null;
     super.initState();
+  }
+
+  profileCall() async {
+    await profileController.getProfile();
   }
 
   walletSelection() async {
@@ -402,6 +406,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
+                              "You are now connected to ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()} with Node ID: ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).id!.substring(0, 4)} ... running on ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()} Blockchain"
                               "Your are connected to ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString()] ?? homeController.selectedPayload.value.ipinfocountry.toString()} on ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName} chain"),
                         )
                       : SizedBox(height: 25),

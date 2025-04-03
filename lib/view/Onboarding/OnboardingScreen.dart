@@ -44,84 +44,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Future<void> _checkLocationPermission() async {
-    if (Platform.isIOS) {
-      Get.to(() => const LoginOrRegisterPage());
-      return;
-    }
-    if (await Permission.location.isGranted) {
-      Get.to(() => const LoginOrRegisterPage());
-      return;
-    }
-
-    // Show prominent disclosure
-    _showProminentDisclosure();
-  }
-
-  void _showProminentDisclosure() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text(
-            locationPermissionRequired,
-            textAlign: TextAlign.center,
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(locationPermissionSubText,
-                  textAlign: TextAlign.center),
-              const SizedBox(height: 20),
-              InkWell(
-                onTap: () {
-                  Get.to(() => const PrivacyPolicy());
-                },
-                child: const Text(
-                  privacyPolicy,
-                  style: TextStyle(color: Colors.blue),
-                ),
-              )
-            ],
-          ),
-          actions: <Widget>[
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    child: Text(deny),
-                    onPressed: () {
-                      exit(0);
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: TextButton(
-                    child: const Text(allow),
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                      // Request location permission
-                      await _requestLocationPermission();
-                    },
-                  ),
-                ),
-              ],
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _requestLocationPermission() async {
-    final status = await Permission.location.request();
-    if (status.isGranted) {
-      Get.to(() => const LoginOrRegisterPage());
-    } else {
-      exit(0);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -207,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_currentPage + 1 == contents.length) {
-                            _checkLocationPermission();
+                            Get.to(() => const LoginOrRegisterPage());
                           } else {
                             _controller.nextPage(
                               duration: const Duration(milliseconds: 200),
@@ -290,8 +212,8 @@ List<OnboardingContents> contents = [
         "Unlimited Fast Internet, Perfect for Seamless Browsing and Streaming",
   ),
   OnboardingContents(
-    title: "Permission to Secure Your Connection",
+    title: "Secure Your Connection",
     image: onboarding3,
-    desc: "Allow Location and WIFI Access to Optimize Network Security",
+    desc: "Optimize Your Network Security",
   ),
 ];

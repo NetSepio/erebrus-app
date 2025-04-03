@@ -40,7 +40,6 @@ We may collect the following personal information from you:
 
 - Name
 - Email address
-- Location data
 - Contact information such as email address, social media handles, phone number etc.
 - Payment details (if applicable)
 - Profile information such as username, name, email and password

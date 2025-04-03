@@ -63,9 +63,9 @@ class _PerksScreenState extends State<PerksScreen> {
     try {
       if (box!.containsKey("ApiWallet") && box!.get("ApiWallet") != null) {
         var res = await Dio().get(
-          // dotenv.get("SOLANA_NFT_API") + "/${box!.get("ApiWallet")}/tokens",
-          dotenv.get("SOLANA_NFT_API") +
-              "/8bDudaBScd3qSiuE2VujZ5Pr29ruaLg25MhgPMRCjv5d/tokens",
+          dotenv.get("SOLANA_NFT_API") + "/${box!.get("ApiWallet")}/tokens",
+          // dotenv.get("SOLANA_NFT_API") +
+          //     "/8bDudaBScd3qSiuE2VujZ5Pr29ruaLg25MhgPMRCjv5d/tokens",
         );
         nftDta = res.data;
         log("Nft data -- ${nftDta}");

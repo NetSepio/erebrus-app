@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:math' as math;
-
 import 'package:dio/dio.dart';
 import 'package:erebrus_app/config/api_const.dart';
 import 'package:erebrus_app/config/common.dart';
@@ -10,6 +9,7 @@ import 'package:erebrus_app/model/RegisterVPNClientModel.dart';
 import 'package:erebrus_app/model/erebrus/client_model.dart';
 import 'package:erebrus_app/view/inAppPurchase/ProFeaturesScreen.dart';
 import 'package:erebrus_app/view/profile/profile_model.dart';
+import 'package:erebrus_app/view/refer/ReferralsFdModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -135,15 +135,39 @@ class ApiController {
   Future getFlowId(
       {required String walletAddress, required String chain}) async {
     var url = baseUrl + ApiUrl().flowid + walletAddress + "&chain=$chain";
-    Response res = await dio.get(url).catchError((DioException e) {
+    log("Flow Data  ${url}");
+    try {
+      Response res = await dio.get(url);
+      if (res.statusCode == 200) {
+        log("Flow Data  ${res.data}");
+        getAuthenticate(
+            flowid: res.data["payload"]["flowId"].toString(),
+            walletAddress: walletAddress);
+        return await res.data;
+      }
+    } on DioException catch (e) {
       log("getFlowId error -- ${e.response}");
-    });
-    if (res.statusCode == 200) {
-      // log("Flow Data  ${res.data}");
-      getAuthenticate(
-          flowid: res.data["payload"]["flowId"].toString(),
-          walletAddress: walletAddress);
-      return await res.data;
+    }
+  }
+
+  Future<ReferralsFdModel> getReferralFd() async {
+    var url = baseUrl + ApiUrl().getReferralFd;
+    log("Get ReferralFd  ${url}");
+    try {
+      Response res = await dio.get(url,
+          options: Options(headers: {
+            "Content-Type": "application/json",
+            "Authorization":
+                "Bearer ${box!.containsKey("token") ? box!.get("token") : ""}"
+          }));
+      if (res.statusCode == 200) {
+        log("ReferralFd Data  ${res.data}");
+        return await ReferralsFdModel.fromJson(res.data);
+      }
+      return ReferralsFdModel();
+    } on DioException catch (e) {
+      log("getReferralFd error -- ${e.response}");
+      return ReferralsFdModel();
     }
   }
 

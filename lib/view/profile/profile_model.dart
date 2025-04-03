@@ -36,6 +36,7 @@ class Payload {
     final String? apple;
     final String? chainName;
     final String? walletAddress;
+    final String? referralCode;
 
     Payload({
         this.userId,
@@ -45,6 +46,7 @@ class Payload {
         this.apple,
         this.chainName,
         this.walletAddress,
+        this.referralCode,
     });
 
     factory Payload.fromRawJson(String str) => Payload.fromJson(json.decode(str));
@@ -59,11 +61,13 @@ class Payload {
         apple: json["apple"],
         chainName: json["chainName"],
         walletAddress:json["walletAddress"],
+        referralCode:json["referralCode"],
     );
 
     Map<String, dynamic> toJson() => {
         "userId": userId,
         "walletAddress":walletAddress,
+        "referralCode":referralCode,
         "email": email,
         "name": name,
         "apple": apple,

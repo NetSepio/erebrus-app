@@ -194,7 +194,7 @@ class _NetworkSelectionScreenState extends State<NetworkSelectionScreen> {
                           await WalletGenerator.getAddressFromMnemonic(
                               mnemonics);
 
-                      log("Wallet Address $sender");
+                      log("Wallet Address --- $sender");
                       var res = await homeController.getPASETO(
                           chain: "sol", walletAddress: sender);
                     } else if (selectedNetwork == "Peaq" ||

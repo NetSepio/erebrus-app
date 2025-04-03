@@ -1,7 +1,4 @@
 const somethingWrong = "Something Wrong";
-const locationPermissionRequired = 'Location Permission Required';
-const locationPermissionSubText =
-    'This App Collects Location Data to Enable Locate Nearby WIFI and Share Even When The App is Closed or Not In Use.';
 const privacyPolicy = "Privacy Policy";
 const deny = "Deny";
 const allow = "Allow";
