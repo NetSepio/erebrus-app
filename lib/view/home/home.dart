@@ -406,8 +406,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
-                              "You are now connected to ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()} with Node ID: ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).id!.substring(0, 4)} ... running on ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()} Blockchain"
-                              "Your are connected to ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString()] ?? homeController.selectedPayload.value.ipinfocountry.toString()} on ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName} chain"),
+                              "You are now connected to ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()} with Node ID: ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).id!.substring(0, 4)} ... running on ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()} Blockchain"),
                         )
                       : SizedBox(height: 25),
                 ),

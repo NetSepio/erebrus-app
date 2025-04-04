@@ -322,13 +322,14 @@ class ApiController {
     try {
       var url =
           "https://gateway.netsepio.com/api/v1.0/erebrus/client/$region/$uuid";
+      log("url 000-- ===>>>  ${url}");
       Response res = await dio.delete(
         url,
         options: header,
       );
 
       if (res.statusCode == 200) {
-        // log('VPN Data delete----------------');
+        log('VPN Data delete----------------');
       }
     } on DioException catch (e) {
       log('VPN Data delete ERROR  --------------${e.response}');
