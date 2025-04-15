@@ -405,8 +405,36 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                   () => (vpnActivate.value == true)
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                              "You are now connected to ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()} with Node ID: ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).id!.substring(0, 4)} ... running on ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()} Blockchain"),
+                          child: RichText(
+                            text: TextSpan(
+                              text: "You are now connected to ",
+                              style: TextStyle(
+                                  wordSpacing: 1.5,
+                                  color: Colors.grey.shade300),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      "${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                TextSpan(
+                                    text:
+                                        " with Node ID: ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).id!} running on "),
+                                TextSpan(
+                                  text:
+                                      "${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                TextSpan(text: " Blockchain"),
+                              ],
+                            ),
+                          ),
+                          // Text(
+                          //     "You are now connected to ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()} with Node ID: ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).id!} running on ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()} Blockchain"),
                         )
                       : SizedBox(height: 25),
                 ),

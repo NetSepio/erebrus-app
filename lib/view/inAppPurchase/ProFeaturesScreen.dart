@@ -156,7 +156,7 @@ class _ProFeaturesScreenState extends State<ProFeaturesScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      "Get 7 Dat's Free Trial",
+                      "Get 7 Day's Free Trial",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),

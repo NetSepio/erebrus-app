@@ -19,7 +19,9 @@ class _InAppWebViewScreenState extends State<InAppWebViewScreen> {
 
   void loadUrl(String url) {
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = 'https://www.google.com/search?q=${Uri.encodeComponent(url)}';
+      url = url.contains("www.")
+          ? "https://${Uri.encodeComponent(url)}"
+          : 'https://www.google.com/search?q=${Uri.encodeComponent(url)}';
     }
     webViewController.loadUrl(urlRequest: URLRequest(url: WebUri(url)));
   }
