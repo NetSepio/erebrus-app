@@ -5,86 +5,6 @@ PODS:
   - AppAuth/Core (1.7.6)
   - AppAuth/ExternalUserAgent (1.7.6):
     - AppAuth/Core
-  - appmetrica_plugin (2.1.1):
-    - AppMetricaAnalytics (~> 5.3)
-    - Flutter
-  - AppMetricaAdSupport (5.9.0):
-    - AppMetricaCore (= 5.9.0)
-    - AppMetricaCoreExtension (= 5.9.0)
-  - AppMetricaAnalytics (5.9.0):
-    - AppMetricaAdSupport (= 5.9.0)
-    - AppMetricaCore (= 5.9.0)
-    - AppMetricaCrashes (= 5.9.0)
-    - AppMetricaWebKit (= 5.9.0)
-  - AppMetricaCore (5.9.0):
-    - AppMetricaCoreUtils (= 5.9.0)
-    - AppMetricaEncodingUtils (= 5.9.0)
-    - AppMetricaFMDB (= 5.9.0)
-    - AppMetricaHostState (= 5.9.0)
-    - AppMetricaIdentifiers (= 5.9.0)
-    - AppMetricaKeychain (= 5.9.0)
-    - AppMetricaLog (= 5.9.0)
-    - AppMetricaNetwork (= 5.9.0)
-    - AppMetricaPlatform (= 5.9.0)
-    - AppMetricaProtobuf (= 5.9.0)
-    - AppMetricaProtobufUtils (= 5.9.0)
-    - AppMetricaStorageUtils (= 5.9.0)
-  - AppMetricaCoreExtension (5.9.0):
-    - AppMetricaCore (= 5.9.0)
-    - AppMetricaStorageUtils (= 5.9.0)
-  - AppMetricaCoreUtils (5.9.0):
-    - AppMetricaLog (= 5.9.0)
-  - AppMetricaCrashes (5.9.0):
-    - AppMetricaCore (= 5.9.0)
-    - AppMetricaCoreExtension (= 5.9.0)
-    - AppMetricaCoreUtils (= 5.9.0)
-    - AppMetricaEncodingUtils (= 5.9.0)
-    - AppMetricaHostState (= 5.9.0)
-    - AppMetricaLog (= 5.9.0)
-    - AppMetricaPlatform (= 5.9.0)
-    - AppMetricaProtobufUtils (= 5.9.0)
-    - AppMetricaStorageUtils (= 5.9.0)
-    - KSCrash/Recording (< 2.1.0, >= 2.0.0-rc.1)
-  - AppMetricaEncodingUtils (5.9.0):
-    - AppMetricaCoreUtils (= 5.9.0)
-    - AppMetricaLog (= 5.9.0)
-    - AppMetricaPlatform (= 5.9.0)
-  - AppMetricaFMDB (5.9.0)
-  - AppMetricaHostState (5.9.0):
-    - AppMetricaCoreUtils (= 5.9.0)
-    - AppMetricaLog (= 5.9.0)
-  - AppMetricaIdentifiers (5.9.0):
-    - AppMetricaKeychain (= 5.9.0)
-    - AppMetricaLogSwift (= 5.9.0)
-    - AppMetricaPlatform (= 5.9.0)
-    - AppMetricaStorageUtils (= 5.9.0)
-    - AppMetricaSynchronization (= 5.9.0)
-  - AppMetricaKeychain (5.9.0):
-    - AppMetricaCoreUtils (= 5.9.0)
-    - AppMetricaLog (= 5.9.0)
-    - AppMetricaStorageUtils (= 5.9.0)
-  - AppMetricaLog (5.9.0)
-  - AppMetricaLogSwift (5.9.0):
-    - AppMetricaLog (= 5.9.0)
-  - AppMetricaNetwork (5.9.0):
-    - AppMetricaCoreUtils (= 5.9.0)
-    - AppMetricaLog (= 5.9.0)
-    - AppMetricaPlatform (= 5.9.0)
-  - AppMetricaPlatform (5.9.0):
-    - AppMetricaCoreUtils (= 5.9.0)
-    - AppMetricaLog (= 5.9.0)
-  - AppMetricaProtobuf (5.9.0)
-  - AppMetricaProtobufUtils (5.9.0):
-    - AppMetricaProtobuf (= 5.9.0)
-  - AppMetricaStorageUtils (5.9.0):
-    - AppMetricaCoreUtils (= 5.9.0)
-    - AppMetricaLog (= 5.9.0)
-  - AppMetricaSynchronization (5.9.0):
-    - AppMetricaLogSwift (= 5.9.0)
-  - AppMetricaWebKit (5.9.0):
-    - AppMetricaCore (= 5.9.0)
-    - AppMetricaCoreUtils (= 5.9.0)
-    - AppMetricaLog (= 5.9.0)
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
@@ -107,25 +27,12 @@ PODS:
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
-  - geocoding_ios (1.0.5):
-    - Flutter
-  - geolocator_apple (1.2.0):
-    - Flutter
-  - Google-Maps-iOS-Utils (6.1.0):
-    - GoogleMaps (~> 9.0)
-  - google_maps_flutter_ios (0.0.1):
-    - Flutter
-    - Google-Maps-iOS-Utils (< 7.0, >= 5.0)
-    - GoogleMaps (< 10.0, >= 8.4)
   - google_sign_in_ios (0.0.1):
     - AppAuth (>= 1.7.4)
     - Flutter
     - FlutterMacOS
     - GoogleSignIn (~> 7.1)
     - GTMSessionFetcher (>= 3.4.0)
-  - GoogleMaps (9.4.0):
-    - GoogleMaps/Maps (= 9.4.0)
-  - GoogleMaps/Maps (9.4.0)
   - GoogleSignIn (7.1.0):
     - AppAuth (< 2.0, >= 1.7.3)
     - GTMAppAuth (< 5.0, >= 4.1.1)
@@ -141,16 +48,6 @@ PODS:
   - in_app_purchase_storekit (0.0.1):
     - Flutter
     - FlutterMacOS
-  - KSCrash/Core (2.0.0)
-  - KSCrash/Recording (2.0.0):
-    - KSCrash/RecordingCore
-  - KSCrash/RecordingCore (2.0.0):
-    - KSCrash/Core
-  - local_auth_darwin (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - location (0.0.1):
-    - Flutter
   - OrderedSet (6.0.3)
   - package_info_plus (0.4.5):
     - Flutter
@@ -181,17 +78,12 @@ PODS:
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
     - FlutterMacOS
-  - wifi_iot (0.0.1):
-    - Flutter
-  - wifi_scan (0.0.1):
-    - Flutter
   - wireguard_flutter (0.0.1):
     - Flutter
     - FlutterMacOS
   - WireGuardKit (0.3)
 
 DEPENDENCIES:
-  - appmetrica_plugin (from `.symlinks/plugins/appmetrica_plugin/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
@@ -200,13 +92,8 @@ DEPENDENCIES:
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
-  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
-  - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - in_app_purchase_storekit (from `.symlinks/plugins/in_app_purchase_storekit/darwin`)
-  - local_auth_darwin (from `.symlinks/plugins/local_auth_darwin/darwin`)
-  - location (from `.symlinks/plugins/location/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
@@ -217,40 +104,15 @@ DEPENDENCIES:
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
-  - wifi_iot (from `.symlinks/plugins/wifi_iot/ios`)
-  - wifi_scan (from `.symlinks/plugins/wifi_scan/ios`)
   - wireguard_flutter (from `.symlinks/plugins/wireguard_flutter/darwin`)
   - WireGuardKit (= 0.3)
 
 SPEC REPOS:
   trunk:
     - AppAuth
-    - AppMetricaAdSupport
-    - AppMetricaAnalytics
-    - AppMetricaCore
-    - AppMetricaCoreExtension
-    - AppMetricaCoreUtils
-    - AppMetricaCrashes
-    - AppMetricaEncodingUtils
-    - AppMetricaFMDB
-    - AppMetricaHostState
-    - AppMetricaIdentifiers
-    - AppMetricaKeychain
-    - AppMetricaLog
-    - AppMetricaLogSwift
-    - AppMetricaNetwork
-    - AppMetricaPlatform
-    - AppMetricaProtobuf
-    - AppMetricaProtobufUtils
-    - AppMetricaStorageUtils
-    - AppMetricaSynchronization
-    - AppMetricaWebKit
-    - Google-Maps-iOS-Utils
-    - GoogleMaps
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
-    - KSCrash
     - OrderedSet
     - ReachabilitySwift
     - Toast
@@ -258,8 +120,6 @@ SPEC REPOS:
     - WireGuardKit
 
 EXTERNAL SOURCES:
-  appmetrica_plugin:
-    :path: ".symlinks/plugins/appmetrica_plugin/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   device_info_plus:
@@ -276,20 +136,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_tts/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  geocoding_ios:
-    :path: ".symlinks/plugins/geocoding_ios/ios"
-  geolocator_apple:
-    :path: ".symlinks/plugins/geolocator_apple/ios"
-  google_maps_flutter_ios:
-    :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   in_app_purchase_storekit:
     :path: ".symlinks/plugins/in_app_purchase_storekit/darwin"
-  local_auth_darwin:
-    :path: ".symlinks/plugins/local_auth_darwin/darwin"
-  location:
-    :path: ".symlinks/plugins/location/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -310,36 +160,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
-  wifi_iot:
-    :path: ".symlinks/plugins/wifi_iot/ios"
-  wifi_scan:
-    :path: ".symlinks/plugins/wifi_scan/ios"
   wireguard_flutter:
     :path: ".symlinks/plugins/wireguard_flutter/darwin"
 
 SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
-  appmetrica_plugin: d5b67180992259ecfa040189027808915101b893
-  AppMetricaAdSupport: 030ecf754defdf915849ed5b2c0a9f2a2f44658d
-  AppMetricaAnalytics: 9c05ad0993395f88e68ba9a28ab1212fb68376c6
-  AppMetricaCore: cdad94c505967ebac86f81da48841df3136ef696
-  AppMetricaCoreExtension: b9c8695bac86ec7f4ef90f905131f7b9d31d8295
-  AppMetricaCoreUtils: 3c7aa8a78895f98f557f1bc88bce4eb80a6bcd2a
-  AppMetricaCrashes: 7641b5c23c581693e6c8ae253948635f8f3ff071
-  AppMetricaEncodingUtils: 61f9fd1c510e517e2b4981b940bc510f9498e1bc
-  AppMetricaFMDB: 743a9d6833380eebfa0ca0f1db2883bb05b41c16
-  AppMetricaHostState: 5c9196539244397f7fb8a4db44bddc1bbc67b93b
-  AppMetricaIdentifiers: b870d30d6a5acd9cc9df9e30a37e4bf8a0e03a25
-  AppMetricaKeychain: 767acc62243599c034bab686093640b3e86d3893
-  AppMetricaLog: 9fdc87723f6a1b497866f6827143117d7ff667c4
-  AppMetricaLogSwift: 9d67b9ce5097cfed6ff56a6a4ec7770f2ce2df07
-  AppMetricaNetwork: 81342ff33cd3786bcdbe06c5b580179aec7c95c2
-  AppMetricaPlatform: cb4699122820183ce3dc29fc386bada3afde99d5
-  AppMetricaProtobuf: 8d9ad65007f56af94b324dbc31096ee8be04d412
-  AppMetricaProtobufUtils: 33f29ccee2f898b537eece0c4fe04e14e1bdab9a
-  AppMetricaStorageUtils: 42c3f8163226516aec3e183db4f3e1a29fac1c41
-  AppMetricaSynchronization: ed4196effc6997921fab53503e79c6505dbae707
-  AppMetricaWebKit: 568f2057ae462b792b0b04eeeaffdd3b2af1f2b3
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
@@ -348,19 +173,11 @@ SPEC CHECKSUMS:
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   flutter_tts: 0f492aab6accf87059b72354fcb4ba934304771d
   fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
-  geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
-  geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
-  Google-Maps-iOS-Utils: 0a484b05ed21d88c9f9ebbacb007956edd508a96
-  google_maps_flutter_ios: e31555a04d1986ab130f2b9f24b6cdc861acc6d3
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
-  GoogleMaps: 0608099d4870cac8754bdba9b6953db543432438
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   in_app_purchase_storekit: 8c3b0b3eb1b0f04efbff401c3de6266d4258d433
-  KSCrash: ad271a7799f0a2841be0fb7d6bd105444c440832
-  local_auth_darwin: 66e40372f1c29f383a314c738c7446e2f7fdadc3
-  location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
@@ -375,8 +192,6 @@ SPEC CHECKSUMS:
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   webview_flutter_wkwebview: 0982481e3d9c78fd5c6f62a002fcd24fc791f1e4
-  wifi_iot: b5aafd6f9b52f8a357383a1deabab45f31cd602d
-  wifi_scan: 6d20b3b4f59bbad1ddcf3e241560f3acd62f6cbe
   wireguard_flutter: 1e75469eaf86ae553566b6847bce070e3b3c315b
   WireGuardKit: 8b9e7f28441b67aafe60d59c15b8c70bed5ab092
 
