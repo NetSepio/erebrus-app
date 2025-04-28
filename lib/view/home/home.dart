@@ -306,7 +306,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                     labelText: 'Select Region',
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 10)),
-                                value: homeController.selectedCountry!.value,
+                                value: homeController.selectedNode!.value,
                                 hint: const Text('Select Region'),
                                 items: homeController.countryMap!.keys
                                     .map((country) {
@@ -318,22 +318,20 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                 }).toList(),
                                 onChanged: (value) {
                                   setState(() {
-                                    homeController.selectedCountry!.value =
-                                        value!;
+                                    homeController.selectedNode!.value = value!;
 
                                     homeController.selectedCity = homeController
-                                        .countryMap![homeController
-                                            .selectedCountry!.value]!
+                                        .countryMap![
+                                            homeController.selectedNode!.value]!
                                         .first
                                         .chainName
                                         .toString();
-                                    homeController.selectedPayload.value =
-                                        homeController.countryMap![
-                                                homeController
-                                                    .selectedCountry!.value]!
-                                            .firstWhere((node) =>
-                                                node.chainName ==
-                                                homeController.selectedCity);
+                                    homeController.selectedPayload
+                                        .value = homeController.countryMap![
+                                            homeController.selectedNode!.value]!
+                                        .firstWhere((node) =>
+                                            node.chainName ==
+                                            homeController.selectedCity);
                                   });
                                 },
                               )
@@ -343,8 +341,8 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                 if (box!.get("appMode") == "pro")
                   Obx(
                     () => vpnActivate.value == false &&
-                            homeController.selectedCountry != null &&
-                            homeController.selectedCountry!.value.isNotEmpty
+                            homeController.selectedNode != null &&
+                            homeController.selectedNode!.value.isNotEmpty
                         ? DropdownButtonFormField<AllNPayload>(
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -353,14 +351,14 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                     EdgeInsets.symmetric(horizontal: 10)),
                             value: homeController.selectedCity != null
                                 ? homeController.countryMap![
-                                        homeController.selectedCountry!.value]!
+                                        homeController.selectedNode!.value]!
                                     .firstWhere((node) =>
                                         node.chainName ==
                                         homeController.selectedCity)
                                 : null,
                             hint: const Text('Select Node'),
                             items: homeController.countryMap![
-                                    homeController.selectedCountry!.value]!
+                                    homeController.selectedNode!.value]!
                                 .map((node) {
                               return DropdownMenuItem<AllNPayload>(
                                 value: node,
@@ -414,17 +412,18 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                               children: [
                                 TextSpan(
                                   text:
-                                      "${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()}",
+                                      "${countryCodeToEmoji(homeController.selectedPayload.value.ipinfocountry.toString())} ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white),
                                 ),
                                 TextSpan(
-                                    text:
-                                        " with Node ID: ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).id!} running on "),
+                                  text:
+                                      " with Node ID: ${homeController.sNodeid} running on ",
+                                ),
                                 TextSpan(
                                   text:
-                                      "${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()}",
+                                      "${homeController.countryMap![homeController.selectedNode!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white),
@@ -433,8 +432,6 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                               ],
                             ),
                           ),
-                          // Text(
-                          //     "You are now connected to ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()} with Node ID: ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).id!} running on ${homeController.countryMap![homeController.selectedCountry!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()} Blockchain"),
                         )
                       : SizedBox(height: 25),
                 ),

@@ -27,9 +27,10 @@ class HomeController extends GetxController {
   RxInt selectedNFT = 0.obs;
   Rx<ProfileModel>? profileModel;
   RxBool isLoading = true.obs;
-  RxString? selectedCountry = "".obs;
+  RxString? selectedNode = "".obs;
   String? selectedCity;
   Map<String, List<AllNPayload>>? countryMap;
+  String sNodeid = '';
   final storage = SecureStorage();
   Rx<AllNPayload> selectedPayload = AllNPayload().obs;
   Map<String, String> countryCodes = {
@@ -239,7 +240,7 @@ class HomeController extends GetxController {
     }
     if (selectedPayload.value.region == null) {
       selectedPayload.value = allNodeModel.value.payload![0];
-      selectedCountry!.value = countryMap.keys.first;
+      selectedNode!.value = countryMap.keys.first;
       selectedCity =
           countryMap[selectedPayload.value.region]!.first.chainName.toString();
     }
@@ -420,13 +421,31 @@ class HomeController extends GetxController {
     log("presharedKey -- $presharedKey");
     EasyLoading.show();
     try {
+      math.Random random = math.Random();
+      sNodeid = selectedPayload.value.id.toString();
+      if (box!.get("appMode") == "pro") {
+        // Pro mode: use selectedPayload.id
+      } else {
+        // Free mode: random id
+        sNodeid = countryMap![selectedNode!.value]![
+                random.nextInt(countryMap![selectedNode!.value]!.length)]
+            .id
+            .toString();
+        log("Random Selected ID: $sNodeid");
+      }
+
       registerClientModel.value = await ApiController().registerClient(
-          selectedPayload.value.id.toString(), initPublicKey, initPrivateKey);
+        sNodeid,
+        initPublicKey,
+        initPrivateKey,
+      );
+
       if (registerClientModel.value.payload == null) {
         Fluttertoast.showToast(
             msg: "Something went wrong. Please try another region.");
         return;
       }
+
       RegisterPayload vpnData = registerClientModel.value.payload!;
       initAddress = vpnData.client!.address!.first;
       initAllowedIp =
@@ -438,6 +457,7 @@ class HomeController extends GetxController {
       startVpn();
     } catch (e) {
       EasyLoading.dismiss();
+      log("registerClient() error: $e");
     }
   }
 }

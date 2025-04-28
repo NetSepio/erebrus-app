@@ -7,6 +7,13 @@ Box? box;
 height(double height) => SizedBox(height: height);
 width(double width) => SizedBox(width: width);
 
+String countryCodeToEmoji(String countryCode) {
+  return countryCode.toUpperCase().replaceAllMapped(
+        RegExp(r'[A-Z]'),
+        (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397),
+      );
+}
+
 textFiled(hinttext, {controller}) {
   return TextField(
     controller: controller,
