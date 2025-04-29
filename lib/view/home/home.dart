@@ -79,7 +79,9 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
   }
 
   profileCall() async {
-    await profileController.getProfile();
+    try {
+      await profileController.getProfile();
+    } catch (e) {}
   }
 
   walletSelection() async {
@@ -286,13 +288,19 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                               .selectedPayload.value.name ==
                                           null
                                       ? "Select Region"
-                                      : homeController.countryCodes[
+                                      : countryCodeToEmoji(homeController
+                                              .selectedPayload
+                                              .value
+                                              .ipinfocountry
+                                              .toString()) +
+                                          " " +
+                                          (homeController.countryCodes[
+                                                  homeController.selectedPayload
+                                                      .value.ipinfocountry
+                                                      .toString()] ??
                                               homeController.selectedPayload
                                                   .value.ipinfocountry
-                                                  .toString()] ??
-                                          homeController.selectedPayload.value
-                                              .ipinfocountry
-                                              .toString()),
+                                                  .toString())),
                                   const Icon(
                                     Icons.circle,
                                     color: Colors.green,
@@ -312,9 +320,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                     .map((country) {
                                   return DropdownMenuItem<String>(
                                       value: country,
-                                      child: Text(homeController
-                                              .countryCodes[country] ??
-                                          country));
+                                      child: Text(countryCodeToEmoji(country) +
+                                          ' ' +
+                                          (homeController
+                                                  .countryCodes[country] ??
+                                              country)));
                                 }).toList(),
                                 onChanged: (value) {
                                   setState(() {

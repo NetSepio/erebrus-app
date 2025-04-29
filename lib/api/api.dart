@@ -95,8 +95,10 @@ class ApiController {
         return profileModel;
       }
     } on DioException catch (e) {
-      log("profile -- ${e.response!.toString()}");
-      Fluttertoast.showToast(msg: e.response!.data.toString());
+      try {
+        log("profile -- ${e.response!.toString()}");
+        Fluttertoast.showToast(msg: e.response!.data.toString());
+      } catch (e) {}
     }
     return ProfileModel();
   }

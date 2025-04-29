@@ -31,6 +31,8 @@ class HomeController extends GetxController {
   String? selectedCity;
   Map<String, List<AllNPayload>>? countryMap;
   String sNodeid = '';
+  int vpnConnectAttempt = 0;
+
   final storage = SecureStorage();
   Rx<AllNPayload> selectedPayload = AllNPayload().obs;
   Map<String, String> countryCodes = {
@@ -382,6 +384,17 @@ class HomeController extends GetxController {
                 ''';
     log("vpn conf -- $conf");
     try {
+      Timer(
+        Duration(seconds: 3),
+        () async {
+          bool a = await wireguard.isConnected();
+          if (a == false && vpnConnectAttempt == 0) {
+            startVpn();
+            vpnConnectAttempt = 1;
+            update();
+          }
+        },
+      );
       await wireguard.startVpn(
         serverAddress: initEndpoint,
         wgQuickConfig: conf,
@@ -392,7 +405,7 @@ class HomeController extends GetxController {
       getIp();
     } catch (error, stack) {
       vpnActivate.value = false;
-      debugPrint("failed to start $error\n$stack");
+      log("failed to start $error\n$stack");
     }
     update();
   }
