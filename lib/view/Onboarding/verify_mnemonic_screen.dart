@@ -104,7 +104,7 @@ class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
                               ? "No. 4th"
                               : controller.word4.text,
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
+                              color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),
@@ -132,7 +132,7 @@ class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
                               ? "No. 8th"
                               : controller.word8.text,
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
+                              color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),
@@ -160,7 +160,7 @@ class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
                               ? "No. 1st"
                               : controller.word1.text,
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
+                              color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),
@@ -202,7 +202,7 @@ class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
                         left: 10, top: 6, bottom: 6, right: 6),
                     child: Text(
                       widget.words![index],
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
+                      style: const TextStyle(color: Colors.white, fontSize: 15),
                     ),
                   ),
                 ),
@@ -235,6 +235,9 @@ class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
                       ));
                     }
                   },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent.shade700,
+                      foregroundColor: Colors.white),
                   child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 12),
                     child: Text(

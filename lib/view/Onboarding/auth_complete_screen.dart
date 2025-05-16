@@ -3,8 +3,10 @@ import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
 import 'package:erebrus_app/controller/auth_controller.dart';
 import 'package:erebrus_app/view/Onboarding/import_account_screen.dart';
+import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class AuthCompleteScreen extends StatefulWidget {
@@ -22,6 +24,8 @@ class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
     HomeController homeController = Get.find();
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.black,
         title: const Text(
           "",
         ),
@@ -53,7 +57,7 @@ class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
                 subtitle: Text(
                   "Obtaining Your Mnemonic Means Obtaining Your Assets",
                   style: TextStyle(
-                    color: blueGray,
+                    color: Colors.grey,
                   ),
                 ),
               ),
@@ -67,7 +71,7 @@ class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
                 subtitle: Text(
                   "Do Not Make Copies Or Take Screenshots",
                   style: TextStyle(
-                    color: blueGray,
+                    color: Colors.grey,
                   ),
                 ),
               ),
@@ -81,7 +85,7 @@ class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
                 subtitle: Text(
                   "Once Lost, The Assets Cannot Be Recovered.",
                   style: TextStyle(
-                    color: blueGray,
+                    color: Colors.grey,
                   ),
                 ),
               ),
@@ -98,11 +102,14 @@ class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
               contentPadding: EdgeInsets.zero,
               value: true,
               dense: true,
-              activeColor: Colors.blue.shade900,
+              activeColor: Colors.blueAccent.shade700,
+              checkColor: Colors.white,
               onChanged: (v) {},
               title: const Text(
                 "I Understand That I Am Responsible For The Security Of My Mnemonic.",
-                style: TextStyle(fontWeight: FontWeight.w100),
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
             Row(
@@ -127,6 +134,9 @@ class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
                         //     walletAddress: sender.address);
                         // Get.offAll(() => const HomeScreen());
                       },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent.shade700,
+                          foregroundColor: Colors.white),
                       child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12),
                         child: Text("Done"),

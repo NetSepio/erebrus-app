@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:erebrus_app/config/common.dart';
+import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/view/cyreneAi/agentModel.dart';
 import 'package:erebrus_app/view/settings/SettingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -12,13 +15,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class CyreneAi extends StatefulWidget {
+  final Agent data;
+  const CyreneAi({super.key, required this.data});
   @override
   _CyreneAiState createState() => _CyreneAiState();
 }
 
-final List<Map<String, String>> messages = [];
-
 class _CyreneAiState extends State<CyreneAi> {
+  final List<Map<String, String>> messages = [];
   final stt.SpeechToText _speech = stt.SpeechToText();
   final FlutterTts _flutterTts = FlutterTts();
   final TextEditingController _textController = TextEditingController();
@@ -38,8 +42,8 @@ class _CyreneAiState extends State<CyreneAi> {
       messages.add({"role": "assistant", "content": "Thinking..."});
     });
 
-    final url = Uri.parse(
-        "https://us01.cyreneai.com/b450db11-332b-0fc2-a144-92824a34f699/message");
+    final url =
+        Uri.parse("https://${widget.data.domain}/${widget.data.id}/message");
     final headers = {"Content-Type": "application/json"};
     final body = jsonEncode({
       "text": query,
@@ -156,11 +160,20 @@ class _CyreneAiState extends State<CyreneAi> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/Erebrus_AI_Cyrene.png",
-                      height: Get.height * .25),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(1000),
+                    child: CachedNetworkImage(
+                      imageUrl: "https://ipfs.io/ipfs/" +
+                          widget.data.avatarImg.toString(),
+                      height: Get.height * .25,
+                      errorWidget: (context, url, error) => Image.asset(
+                          "assets/Erebrus_AI_Cyrene.png",
+                          height: Get.height * .25),
+                    ),
+                  ),
                   SizedBox(height: 15),
                   Text(
-                    "Cyrene",
+                    widget.data.name!.toTitleCase(),
                     style: TextStyle(color: Colors.grey, fontSize: 26),
                   ),
                 ],
@@ -198,6 +211,8 @@ class _CyreneAiState extends State<CyreneAi> {
                 Expanded(
                   child: TextField(
                     controller: _textController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
                     decoration: InputDecoration(
                       hintText: "Type a message",
                       border: OutlineInputBorder(
@@ -226,6 +241,10 @@ class _CyreneAiState extends State<CyreneAi> {
                 SizedBox(width: 10),
                 InkWell(
                     onTap: () {
+                      if (_textController.text.isEmpty) {
+                        Fluttertoast.showToast(msg: "Type Something");
+                        return;
+                      }
                       _sendToCyreneAI(_textController.text);
                       _textController.clear();
                     },

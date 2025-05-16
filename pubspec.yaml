@@ -78,6 +78,7 @@ dependencies:
   link_text: ^0.2.1
   upgrader: ^11.3.1
   share_plus: ^10.1.4
+  dropdown_button2: ^2.3.9
   # appmetrica_plugin: ^2.1.1
 
 dev_dependencies:

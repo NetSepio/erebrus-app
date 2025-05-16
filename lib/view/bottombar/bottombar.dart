@@ -1,4 +1,5 @@
 import 'package:erebrus_app/view/browser/webbroweser.dart';
+import 'package:erebrus_app/view/cyreneAi/agentSelect.dart';
 import 'package:erebrus_app/view/cyreneAi/cyreneAi.dart';
 import 'package:erebrus_app/view/home/home.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,8 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const VpnHomeScreen(),
     // const MapSample(),
-    CyreneAi(),
+    AgentSelect(),
+    // CyreneAi(),
     InAppWebViewScreen(),
     // Profile(
     //   title: "EREBRUS",
@@ -35,28 +37,30 @@ class _BottomBarState extends State<BottomBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[currentIndex],
-      bottomNavigationBar: SalomonBottomBar(
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
+        backgroundColor: Colors.black,
         currentIndex: currentIndex,
         onTap: (i) => setState(() => currentIndex = i),
+        selectedItemColor: Colors.blueAccent,
         items: [
-          SalomonBottomBarItem(
-            icon: Icon(Icons.vpn_lock_outlined),
-            title: Text(""),
-            selectedColor: Color.fromARGB(255, 47, 116, 227),
-          ),
-          SalomonBottomBarItem(
-            icon: Image.asset(
-              "assets/Erebrus_AI_Cyrene.png",
-              width: 22,
-            ),
-            title: Text(""),
-            selectedColor: Color(0xff0162FF),
-          ),
-          SalomonBottomBarItem(
-            icon: Icon(Icons.search),
-            title: Text(""),
-            selectedColor: Colors.teal,
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.vpn_lock_outlined), label: ''
+              // title: Text(""),
+              // selectedColor: Color.fromARGB(255, 47, 116, 227),
+              ),
+          BottomNavigationBarItem(
+              icon: Image.asset(
+                "assets/Erebrus_AI_Cyrene.png",
+                width: 22,
+              ),
+              label: ''
+              // title: Text(""),
+              // selectedColor: Color(0xff0162FF),
+              ),
+          BottomNavigationBarItem(icon: Icon(Icons.web), label: ''
+              // title: Text(""),
+              // selectedColor: Colors.teal,
+              ),
         ],
       ),
     );

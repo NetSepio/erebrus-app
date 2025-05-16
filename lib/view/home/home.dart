@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/config/api_const.dart';
 import 'package:erebrus_app/config/colors.dart';
@@ -308,14 +309,16 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                   )
                                 ],
                               )
-                            : DropdownButtonFormField<String>(
+                            : DropdownButtonFormField2(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Select Region',
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 10)),
+                                isDense: false,
                                 value: homeController.selectedNode!.value,
                                 hint: const Text('Select Region'),
+                                // menuMaxHeight: 300,
                                 items: homeController.countryMap!.keys
                                     .map((country) {
                                   return DropdownMenuItem<String>(
@@ -353,7 +356,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                     () => vpnActivate.value == false &&
                             homeController.selectedNode != null &&
                             homeController.selectedNode!.value.isNotEmpty
-                        ? DropdownButtonFormField<AllNPayload>(
+                        ? DropdownButtonFormField2<AllNPayload>(
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Select Node',
@@ -474,7 +477,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                     .textTheme
                                     .bodyLarge!
                                     .copyWith(
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       color: Colors.white,
                                     ),
                               ),

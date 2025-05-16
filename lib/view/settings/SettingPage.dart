@@ -109,51 +109,31 @@ class _SettingPageState extends State<SettingPage> {
                       });
                     }),
               ),
-              if ((box!.get("selectedWalletName") != null &&
-                  box!.get("selectedWalletName") == "Solana"))
-                Card(
-                  child: ListTile(
-                    title: const Text("Perks"),
-                    // subtitle: const Text("--- --- "),
-                    leading: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                          Colors.blueAccent.shade700,
-                          Colors.blue.shade300,
-                        ], end: Alignment.bottomRight),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child: const Icon(Icons.subscriptions_outlined,
-                          size: 20, color: Colors.white),
-                    ),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 20),
-                    onTap: () {
-                      Get.to(() => PerksScreen());
-                    },
-                  ),
-                ),
-
-              // Card(
-              //   child: ListTile(
-              //     title: const Text("Discover WIFI"),
-              //     subtitle: const Text("Find nearby WIFI"),
-              //     leading: Container(
-              //       decoration: BoxDecoration(
-              //         gradient: LinearGradient(colors: [
-              //           Colors.green.shade800,
-              //           Colors.green.shade300,
-              //         ], end: Alignment.bottomRight),
-              //         borderRadius: BorderRadius.circular(10),
+              // if ((box!.get("selectedWalletName") != null &&
+              //     box!.get("selectedWalletName") == "Solana"))
+              //   Card(
+              //     child: ListTile(
+              //       title: const Text("Perks"),
+              //       // subtitle: const Text("--- --- "),
+              //       leading: Container(
+              //         decoration: BoxDecoration(
+              //           gradient: LinearGradient(colors: [
+              //             Colors.blueAccent.shade700,
+              //             Colors.blue.shade300,
+              //           ], end: Alignment.bottomRight),
+              //           borderRadius: BorderRadius.circular(10),
+              //         ),
+              //         padding: EdgeInsets.all(10),
+              //         child: const Icon(Icons.subscriptions_outlined,
+              //             size: 20, color: Colors.white),
               //       ),
-              //       padding: EdgeInsets.all(10),
-              //       child: const Icon(Icons.wifi_find_rounded,
-              //           size: 20, color: Colors.white),
+              //       trailing: Icon(Icons.arrow_forward_ios, size: 20),
+              //       onTap: () {
+              //         Get.to(() => PerksScreen());
+              //       },
               //     ),
-              //     trailing: Icon(Icons.arrow_forward_ios, size: 20),
-              //     onTap: () => Get.to(() => const MapSample()),
               //   ),
-              // ),
+
               Card(
                 child: ListTile(
                   title: const Text("Mode"),

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -48,7 +49,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
     return Column(
       children: [
         Container(
-          height: 80,
+          // height: 80,
           decoration: BoxDecoration(
             border: Border.all(
               width: 1,
@@ -57,7 +58,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
             borderRadius: BorderRadius.circular(6),
           ),
           padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(10),
+          // margin: EdgeInsets.all(10),
           child: DropdownButton<String>(
             isExpanded: true,
             underline: Container(),
@@ -65,7 +66,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
               "Select Your Network",
             ),
             value: selectedWallet,
-            itemHeight: 70,
+            // itemHeight: 70,
             onChanged: (String? newValue) {
               widget.onChanged("a");
               setState(() {
@@ -75,38 +76,54 @@ class _WalletDropdownState extends State<WalletDropdown> {
                 if (box!.get("selectedWalletName") == "Solana") getNfts();
               });
             },
+            itemHeight: 90,
             items: networkList.entries.map((entry) {
               String walletName = entry.key;
               String walletAddress = entry.value;
               return DropdownMenuItem<String>(
                 value: walletName,
-                child: ListTile(
-                  dense: true,
-                  leading: Image.asset(
-                    walletName == "Sui"
-                        ? "assets/sui.png"
-                        : walletName == "Solana"
-                            ? "assets/solo.png"
-                            : walletName == "Peaq"
-                                ? "assets/peaq.png"
-                                : walletName == "Aptos"
-                                    ? "assets/app.png"
-                                    : walletName == "Eclipse"
-                                        ? "assets/download.png"
-                                        : "assets/soon.png",
-                    height: 40,
-                    width: 40,
-                  ),
-                  title: Text(
-                    walletName,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    walletAddress,
-                    // maxLines: 3,
-                    style: TextStyle(color: Colors.white),
-                    overflow: TextOverflow.ellipsis,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        walletName == "Sui"
+                            ? "assets/sui.png"
+                            : walletName == "Solana"
+                                ? "assets/solo.png"
+                                : walletName == "Peaq"
+                                    ? "assets/peaq.png"
+                                    : walletName == "Aptos"
+                                        ? "assets/app.png"
+                                        : walletName == "Eclipse"
+                                            ? "assets/download.png"
+                                            : "assets/soon.png",
+                        height: 40,
+                        width: 40,
+                      ),
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              walletName,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              walletAddress,
+                              maxLines: 3,
+                              style: TextStyle(color: Colors.white),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );

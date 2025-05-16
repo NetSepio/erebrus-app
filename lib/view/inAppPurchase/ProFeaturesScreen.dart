@@ -223,25 +223,29 @@ class FeatureCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          size: 20,
-          color: color,
-        ),
-        const SizedBox(height: 6),
-        Text(
-          title,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          description,
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.white54),
-        ),
-      ],
+    return Container(
+      width: Get.width * .4,
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            size: 20,
+            color: color,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            description,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white54),
+          ),
+          const SizedBox(height: 6),
+        ],
+      ),
     );
   }
 }

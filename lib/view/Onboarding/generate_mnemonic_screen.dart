@@ -67,9 +67,9 @@ class _GenerateSeedPhraseState extends State<GenerateSeedPhrase> {
                   ),
                   InkWell(
                     onTap: () async {
+                      log("${authController.phrase.join(" ")}");
                       await Clipboard.setData(
                           ClipboardData(text: authController.phrase.join(" ")));
-                      log("${authController.phrase.join(" ")}");
                       Fluttertoast.showToast(msg: "Mnemonics Copied");
                     },
                     child: Padding(
@@ -106,13 +106,13 @@ class _GenerateSeedPhraseState extends State<GenerateSeedPhrase> {
                       textAlign: TextAlign.justify,
                       text: TextSpan(
                         text: "${index + 1}. ",
-                        style:
-                            const TextStyle(color: Colors.grey, fontSize: 10),
+                        style: TextStyle(
+                            color: Colors.grey.shade300, fontSize: 12),
                         children: [
                           TextSpan(
                             text: authController.phrase[index],
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 12),
+                                color: Colors.white, fontSize: 15),
                           )
                         ],
                       ),
@@ -127,29 +127,55 @@ class _GenerateSeedPhraseState extends State<GenerateSeedPhrase> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: ElevatedButton(
-                  onPressed: () {
-                    if (widget.view) {
-                      Navigator.pop(context);
-                    } else {
-                      authController.privateKeyFromMnemonic().then((_) {
-                        Get.to(
-                          () => VerifyMnemonicScreen(
-                            words: authController.phrase,
+            Container(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.warning_amber_rounded,
+                      color: Colors.grey.shade300),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      "Your seed Phrase is the key to used to back up your wallet. keep it secret and secure at all time.",
+                      style: TextStyle(color: Colors.grey.shade300),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent.shade700,
+                          foregroundColor: Colors.white),
+                      onPressed: () {
+                        if (widget.view) {
+                          Navigator.pop(context);
+                        } else {
+                          authController.privateKeyFromMnemonic().then((_) {
+                            Get.to(
+                              () => VerifyMnemonicScreen(
+                                words: authController.phrase,
 
-                            // controller.mnemonic.split(" "),
-                          ),
-                        );
-                      });
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text(widget.view ? "Back" : "Next"),
-                  )),
+                                // controller.mnemonic.split(" "),
+                              ),
+                            );
+                          });
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(widget.view ? "Back" : "Next"),
+                      )),
+                ),
+              ],
             ),
           ],
         ),
