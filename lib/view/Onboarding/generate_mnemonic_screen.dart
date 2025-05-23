@@ -6,6 +6,7 @@ import 'package:erebrus_app/controller/auth_controller.dart';
 import 'package:erebrus_app/view/Onboarding/verify_mnemonic_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
@@ -155,11 +156,15 @@ class _GenerateSeedPhraseState extends State<GenerateSeedPhrase> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent.shade700,
                           foregroundColor: Colors.white),
-                      onPressed: () {
+                      onPressed: () async {
                         if (widget.view) {
                           Navigator.pop(context);
                         } else {
-                          authController.privateKeyFromMnemonic().then((_) {
+                          EasyLoading.show();
+                          await authController
+                              .privateKeyFromMnemonic()
+                              .then((_) {
+                            EasyLoading.dismiss();
                             Get.to(
                               () => VerifyMnemonicScreen(
                                 words: authController.phrase,

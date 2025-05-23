@@ -1,4 +1,3 @@
-
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
 import 'package:erebrus_app/view/Onboarding/OnboardingScreen.dart';
@@ -12,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:reown_appkit/reown_appkit.dart';
 import 'package:upgrader/upgrader.dart';
 
 ThemeMode themeMode = ThemeMode.system;

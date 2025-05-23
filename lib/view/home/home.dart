@@ -21,6 +21,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import "package:reown_appkit/reown_appkit.dart";
 import 'package:wireguard_flutter/wireguard_flutter.dart';
 
 RxBool vpnActivate = false.obs;
@@ -73,11 +74,9 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     //   },
     // );
     homeController.generateKeyPair();
-
-    // apiCall();
-    // vpnActivate ? _obtainStats() : null;
     super.initState();
   }
+
 
   profileCall() async {
     try {
@@ -216,6 +215,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // log("appKitModal -->" + appKitModal!.isConnected.toString());
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -238,6 +238,7 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                 ),
         ),
         actions: [
+         
           InkWell(
             onTap: () {
               Get.to(() => const SettingPage())!.whenComplete(

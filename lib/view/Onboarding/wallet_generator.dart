@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:aptos/aptos.dart';
+// import 'package:aptos/aptos.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:erebrus_app/config/common.dart';
@@ -94,10 +94,10 @@ Future evmAptos(mnemonic) async {
 
     // Derive Aptos Wallet Address
     if (box!.containsKey("aptosAdd") == false || box!.get("aptosAdd") == null) {
-      final aptosPrivateKey = AptosAccount.generateAccount(mnemonic);
-      aptosWalletAddress = aptosPrivateKey.accountAddress;
-      box!.put("aptosAdd", aptosWalletAddress.toString());
-      print("Aptos Wallet Address: $aptosWalletAddress");
+      // final aptosPrivateKey = AptosAccount.generateAccount(mnemonic);
+      // aptosWalletAddress = aptosPrivateKey.accountAddress;
+      // box!.put("aptosAdd", aptosWalletAddress.toString());
+      // print("Aptos Wallet Address: $aptosWalletAddress");
     }
   } catch (e) {}
 }

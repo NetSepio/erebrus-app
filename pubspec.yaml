@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 2.1.4+41
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: '>=3.6.2 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -46,7 +46,7 @@ dependencies:
   lottie: ^3.1.2
   hive_flutter: ^1.1.0
   google_sign_in: ^6.2.2
-  dio: ^5.4.0
+  dio: ^4.0.6
   avatar_glow: ^3.0.1
   get_ip_address: ^0.0.6
   graphql_flutter: ^5.2.0-beta.6
@@ -55,36 +55,36 @@ dependencies:
   url_launcher: ^6.2.4
   flutter_launcher_icons: ^0.14.1
   fluttertoast: ^8.2.4
-  aptos: ^0.0.5
-  flutter_internet_speed_test: ^1.5.0
+  aptos:
   percent_indicator: ^4.2.3
-  syncfusion_flutter_gauges: ^27.2.5
+  flutter_internet_speed_test: ^1.0.1
+  syncfusion_flutter_gauges: ^29.1.38
   permission_handler: ^11.3.1
   flutter_easyloading: ^3.0.5
   solana: ^0.31.0
   wireguard_flutter: ^0.1.2
   sign_in_with_apple: ^6.1.3
-  sui: ^0.3.7
+  # sui: ^0.3.7
   ed25519_hd_key: ^2.3.0
   bs58: ^1.0.2
   speech_to_text: ^7.0.0
   flutter_tts: ^4.2.0
   in_app_purchase: ^3.2.0
   salomon_bottom_bar: ^3.3.2
-  webview_flutter: ^4.10.0
+  # webview_flutter: ^4.10.0
   flutter_inappwebview: ^6.1.5
-  intl: ^0.19.0
+  intl: 
   package_info_plus: ^8.2.1
   link_text: ^0.2.1
   upgrader: ^11.3.1
   share_plus: ^10.1.4
   dropdown_button2: ^2.3.9
+  reown_appkit: ^1.4.3+1
   # appmetrica_plugin: ^2.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

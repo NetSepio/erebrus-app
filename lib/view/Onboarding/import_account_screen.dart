@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:aptos/aptos.dart';
+// import 'package:aptos/aptos.dart';
+import 'package:aptos/aptos_account.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';

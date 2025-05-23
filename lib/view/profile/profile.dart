@@ -1,7 +1,9 @@
+import 'package:erebrus_app/components/reownInit.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
+import 'package:erebrus_app/main.dart';
 import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
 import 'package:erebrus_app/view/profile/walletSelection.dart';
 import 'package:erebrus_app/view/settings/SettingPage.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:reown_appkit/reown_appkit.dart';
 
 class Profile extends StatefulWidget {
   final String title;
@@ -29,9 +32,15 @@ class _ProfileState extends State<Profile> {
   RxString solanaAddress = "".obs;
   final storage = SecureStorage();
   ProfileController profileController = Get.find();
+  ReownAppKitModal? appKitModal;
+  config() async {
+    appKitModal = await reownInit(context);
+    setState(() {});
+  }
 
   apiCall() async {
     try {
+      config();
       await profileController.getProfile();
       var mnemonics = await profileController.mnemonics.value;
       await getSolanaAddress(mnemonics);
@@ -249,23 +258,35 @@ class _ProfileState extends State<Profile> {
                 //     )),
                 // if (widget.title != profileTxt)
                 //   if (box!.get("solanaAddress") != null)
-                Column(
-                  children: [
-                    SizedBox(height: 20),
-                    Text(
-                      "Your Web3 Wallet",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                if (appKitModal != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Card(
+                      color: Colors.white,
+                      child: AppKitModalAccountButton(
+                        appKitModal: appKitModal!,
+                        context: context,
+                      ),
                     ),
-                    SizedBox(height: 20),
-                    WalletDropdown(
-                      onChanged: (p0) {
-                        setState(() {});
-                      },
-                      fromProfileScreen: widget.title == "Profile",
-                    ),
-                  ],
-                ),
+                  )
+                else
+                  Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Text(
+                        "Your Web3 Wallet",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 20),
+                      WalletDropdown(
+                        onChanged: (p0) {
+                          setState(() {});
+                        },
+                        fromProfileScreen: widget.title == "Profile",
+                      ),
+                    ],
+                  ),
                 // if (widget.title != profileTxt)
                 //   if (widget.showSubscription)
                 //     Expanded(child: SubscriptionScreen()),

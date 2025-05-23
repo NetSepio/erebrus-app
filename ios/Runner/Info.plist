@@ -96,6 +96,10 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+		<key>CFBundleTypeRole</key>
+    	<string>Editor</string>
+		<key>CFBundleURLName</key>
+    	<string>com.erebrus.app</string>
 		<key>CFBundleURLSchemes</key>
 			<array>
 			<string>com.erebrus.app</string>

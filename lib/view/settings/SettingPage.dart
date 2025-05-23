@@ -1,3 +1,4 @@
+import 'package:erebrus_app/components/reownInit.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/strings.dart';
@@ -194,26 +195,27 @@ class _SettingPageState extends State<SettingPage> {
                   },
                 ),
               ),
-              Card(
-                child: ListTile(
-                  title: const Text(speedTestTxt),
-                  subtitle: const Text(speedTestSubTxt),
-                  leading: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Colors.blue.shade800,
-                        Colors.blue.shade300,
-                      ], end: Alignment.bottomRight),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: EdgeInsets.all(10),
-                    child:
-                        const Icon(Icons.speed, size: 20, color: Colors.white),
-                  ),
-                  trailing: Icon(Icons.arrow_forward_ios, size: 20),
-                  onTap: () => Get.to(() => const SpeedCheck()),
-                ),
-              ),
+              // Card(
+              //   child: ListTile(
+              //     title: const Text(speedTestTxt),
+              //     subtitle: const Text(speedTestSubTxt),
+              //     leading: Container(
+              //       decoration: BoxDecoration(
+              //         gradient: LinearGradient(colors: [
+              //           Colors.blue.shade800,
+              //           Colors.blue.shade300,
+              //         ], end: Alignment.bottomRight),
+              //         borderRadius: BorderRadius.circular(10),
+              //       ),
+              //       padding: EdgeInsets.all(10),
+              //       child:
+              //           const Icon(Icons.speed, size: 20, color: Colors.white),
+              //     ),
+              //     trailing: Icon(Icons.arrow_forward_ios, size: 20),
+              //     onTap: () => Get.to(() => const SpeedCheck()),
+              //   ),
+              // ),
+
               Card(
                 child: ListTile(
                   title: const Text("Refer and Earn"),
@@ -274,6 +276,11 @@ class _SettingPageState extends State<SettingPage> {
                   await box!.clear();
                   await box!.close();
                   box = await Hive.openBox('erebrus');
+                  try {
+                    await reownInit(context).then((a) {
+                      a.disconnect();
+                    });
+                  } catch (e) {}
                   Get.offAll(() => const LoginOrRegisterPage());
                 },
               ),

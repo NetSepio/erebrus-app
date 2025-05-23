@@ -202,7 +202,7 @@ class _ProFeaturesScreenState extends State<ProFeaturesScreen> {
                   const InAppPurchasePlans(),
               ],
             )
-          : Center(child: CircularProgressIndicator()),
+          : Center(child: SizedBox()),
     );
   }
 }

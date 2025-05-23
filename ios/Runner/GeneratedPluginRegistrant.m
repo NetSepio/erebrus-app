@@ -6,6 +6,18 @@
 
 #import "GeneratedPluginRegistrant.h"
 
+#if __has_include(<appcheck/AppcheckPlugin.h>)
+#import <appcheck/AppcheckPlugin.h>
+#else
+@import appcheck;
+#endif
+
+#if __has_include(<coinbase_wallet_sdk/CoinbaseWalletSdkFlutterPlugin.h>)
+#import <coinbase_wallet_sdk/CoinbaseWalletSdkFlutterPlugin.h>
+#else
+@import coinbase_wallet_sdk;
+#endif
+
 #if __has_include(<connectivity_plus/ConnectivityPlusPlugin.h>)
 #import <connectivity_plus/ConnectivityPlusPlugin.h>
 #else
@@ -129,6 +141,8 @@
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
+  [AppcheckPlugin registerWithRegistrar:[registry registrarForPlugin:@"AppcheckPlugin"]];
+  [CoinbaseWalletSdkFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"CoinbaseWalletSdkFlutterPlugin"]];
   [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
   [FPPDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPDeviceInfoPlusPlugin"]];
   [InAppWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppWebViewFlutterPlugin"]];

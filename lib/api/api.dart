@@ -49,7 +49,7 @@ class ApiController {
         Get.offAll(() => ProFeaturesScreen(fromLogin: true));
         // Get.offAll(() => const HomeScreen());
       });
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       EasyLoading.dismiss();
       log("----  Google login error  ${e.response}");
     }
@@ -94,7 +94,7 @@ class ApiController {
 
         return profileModel;
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       try {
         log("profile -- ${e.response!.toString()}");
         Fluttertoast.showToast(msg: e.response!.data.toString());
@@ -128,7 +128,7 @@ class ApiController {
       );
       // log("checkSubscription -  ${res.data}");
       return await CheckSubscriptionModel.fromJson(res.data);
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       log("checkSubscription error-- ${e.response}");
       return await CheckSubscriptionModel.fromJson(e.response!.data);
     }
@@ -147,7 +147,7 @@ class ApiController {
             walletAddress: walletAddress);
         return await res.data;
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       log("getFlowId error -- ${e.response}");
     }
   }
@@ -167,7 +167,7 @@ class ApiController {
         return await ReferralsFdModel.fromJson(res.data);
       }
       return ReferralsFdModel();
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       log("getReferralFd error -- ${e.response}");
       return ReferralsFdModel();
     }
@@ -193,7 +193,7 @@ class ApiController {
         Get.offAll(() => ProFeaturesScreen(fromLogin: true));
         // Get.offAll(() => const BottomBar());
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       log("getAuthenticate error ${e.response!.data}");
     }
   }
@@ -290,7 +290,7 @@ class ApiController {
         var errorMessage = res.data['message'];
         throw Exception(errorMessage);
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       EasyLoading.dismiss();
       // Get.snackbar('Error', 'An error occurred',
       //     colorText: Colors.white, backgroundColor: Colors.red);
@@ -314,7 +314,7 @@ class ApiController {
       if (res.statusCode == 200) {
         log('VPN Data delete----------------');
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       log('VPN Data delete ERROR 32 --------------${e.response}');
     }
   }
@@ -333,7 +333,7 @@ class ApiController {
       if (res.statusCode == 200) {
         log('VPN Data delete----------------');
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       log('VPN Data delete ERROR  --------------${e.response}');
     }
   }

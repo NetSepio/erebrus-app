@@ -75,7 +75,7 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                               Fluttertoast.showToast(
                                   msg: "Invalid Referral Code");
                             }
-                          } on DioException catch (e) {
+                          } on DioError catch (e) {
                             log("message: ${e.response!.data}");
 
                             Fluttertoast.showToast(
