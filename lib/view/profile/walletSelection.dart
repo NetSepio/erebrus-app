@@ -22,6 +22,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
     if (box!.get("aptosAddress") != null) "Aptos": box!.get("aptosAddress"),
     if (box!.get("suiAddress") != null) "Sui": box!.get("suiAddress"),
     if (box!.get("peaqAddress") != null) "Peaq": box!.get("peaqAddress"),
+    if (box!.get("ReownAddress") != null) "Reown": box!.get("ReownAddress"),
     if (box!.get("EclipseAddress") != null)
       "Eclipse": box!.get("EclipseAddress"),
     if (box!.get("SoonAddress") != null) "Soon": box!.get("SoonAddress"),
@@ -76,7 +77,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
                 if (box!.get("selectedWalletName") == "Solana") getNfts();
               });
             },
-            itemHeight: 90,
+            itemHeight: 70,
             items: networkList.entries.map((entry) {
               String walletName = entry.key;
               String walletAddress = entry.value;
@@ -96,11 +97,13 @@ class _WalletDropdownState extends State<WalletDropdown> {
                                     ? "assets/peaq.png"
                                     : walletName == "Aptos"
                                         ? "assets/app.png"
-                                        : walletName == "Eclipse"
-                                            ? "assets/download.png"
-                                            : "assets/soon.png",
-                        height: 40,
-                        width: 40,
+                                        : walletName == "Reown"
+                                            ? "assets/evm.png"
+                                            : walletName == "Eclipse"
+                                                ? "assets/download.png"
+                                                : "assets/soon.png",
+                        height: 30,
+                        width: 30,
                       ),
                       SizedBox(width: 6),
                       Expanded(
@@ -110,14 +113,15 @@ class _WalletDropdownState extends State<WalletDropdown> {
                             Text(
                               walletName,
                               style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12),
                             ),
                             Text(
                               walletAddress,
                               maxLines: 3,
-                              style: TextStyle(color: Colors.white),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ],

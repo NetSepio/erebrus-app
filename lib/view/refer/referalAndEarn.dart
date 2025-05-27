@@ -37,7 +37,21 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          "Refer & Earn",
+          style: TextStyle(fontSize: 14),
+        ),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Text(
+          "Refer your friend and earn 25% from the subscription revenue.",
+          textAlign: TextAlign.center,
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(

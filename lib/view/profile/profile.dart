@@ -258,7 +258,7 @@ class _ProfileState extends State<Profile> {
                 //     )),
                 // if (widget.title != profileTxt)
                 //   if (box!.get("solanaAddress") != null)
-                if (appKitModal != null)
+                if (appKitModal != null && appKitModal!.isConnected)
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Card(

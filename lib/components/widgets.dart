@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
   final Color customColor;
-  final String text;
+  final String? text;
   final String? logoUrl;
   final void Function()? onTap;
   const MyButton({
     super.key,
     required this.customColor,
-    required this.text,
+    this.text,
     this.logoUrl,
     required this.onTap,
   });
@@ -41,15 +41,16 @@ class MyButton extends StatelessWidget {
                   image: AssetImage(logoUrl!),
                   height: 25.0,
                 ),
-              if (logoUrl != null) SizedBox(width: 20),
-              Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+              if (logoUrl != null && text != null) SizedBox(width: 20),
+              if (text != null)
+                Text(
+                  text!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
             ],
           ),
         ),

@@ -219,7 +219,8 @@ class _SettingPageState extends State<SettingPage> {
               Card(
                 child: ListTile(
                   title: const Text("Refer and Earn"),
-                  subtitle: const Text("Invite a friend and earn rewards"),
+                  subtitle: const Text(
+                      "Refer your friend and earn 25% from the subscription revenue."),
                   leading: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [

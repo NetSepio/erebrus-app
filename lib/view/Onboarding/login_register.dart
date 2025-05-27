@@ -1,15 +1,16 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/components/reownInit.dart';
 import 'package:erebrus_app/components/widgets.dart';
 import 'package:erebrus_app/config/assets.dart';
 import 'package:erebrus_app/config/colors.dart';
+import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/main.dart';
 import 'package:erebrus_app/view/Onboarding/generate_mnemonic_screen.dart';
 import 'package:erebrus_app/view/Onboarding/import_account_screen.dart';
+import 'package:erebrus_app/view/Onboarding/solanaConnectController.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -19,6 +20,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:reown_appkit/modal/i_appkit_modal_impl.dart';
 import 'package:reown_appkit/reown_appkit.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:solana_mobile_client/solana_mobile_client.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
@@ -30,6 +32,9 @@ class LoginOrRegisterPage extends StatefulWidget {
 
 class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
   ReownAppKitModal? appKitModal;
+  final controller = Get.put(ClientController());
+  HomeController homeController = Get.find();
+
   @override
   void initState() {
     config();
@@ -179,42 +184,115 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                               ),
                             ),
                           ),
-                        // AppKitModalConnectButton(
-                        //   appKit: appKitModal!,
-                        //   custom: SizedBox
-                        //       .shrink(), // Will make the button invisible
-                        // ),
-                        // AppKitModalAccountButton(
-                        //   appKitModal: appKitModal!,
-                        //   custom: SizedBox
-                        //       .shrink(), // Will make the button invisible
-                        // ),
+                        // AppKitModalConnectButton(appKit: appKitModal!),
+                        // AppKitModalAccountButton(appKitModal: appKitModal!),
+                        // ElevatedButton(
+                        //     onPressed: () {
+                        //       List a = ReownAppKitModalNetworks
+                        //           .getAllSupportedNetworks(
+                        //         namespace: 'eip155',
+                        //       ).map((chain) => '${chain.chainId}').toList();
+                        //       print("Default Network Events: $a");
+                        //     },
+                        //     child: Text("Default Network Events")),
+                        // AppKitModalNetworkSelectButton(appKit: appKitModal!),
                         if (appKitModal != null) const SizedBox(height: 20),
                         if (appKitModal != null)
                           Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            child: MyButton(
-                              customColor: blue,
-                              text: 'Wallet Auth',
-                              onTap: () {
-                                appKitModal!.openNetworksView();
-                              },
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                InkWell(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(13),
+                                    decoration: BoxDecoration(
+                                        color: blue, shape: BoxShape.circle),
+                                    child: Image.asset(
+                                      "assets/evm.png",
+                                      height: 30,
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    await appKitModal!.openNetworksView();
+                                  },
+                                ),
+                                FutureBuilder(
+                                    future: controller.isWalletAvailable(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return SizedBox();
+                                      }
+                                      if (snapshot.hasError) {
+                                        return Expanded(
+                                          child: MyButton(
+                                            customColor: blue,
+                                            text: 'Solana App Not Found',
+                                            onTap: () async {
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Solana wallet not available");
+                                            },
+                                          ),
+                                        );
+                                      }
+                                      return InkWell(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: blue,
+                                              shape: BoxShape.circle),
+                                          child: Image.asset(
+                                            // customColor: blue,
+                                            "assets/solo.png",
+                                            height: 30,
+                                          ),
+                                        ),
+                                        onTap: () async {
+                                          try {
+                                            await controller
+                                                .authorize()
+                                                .then((value) async {
+                                              if (controller.address != null) {
+                                                box!.put("solanaAddress",
+                                                    controller.address!);
+                                                var res = await homeController
+                                                    .getPASETO(
+                                                        chain: "sol",
+                                                        walletAddress:
+                                                            controller
+                                                                .address!);
+                                              } else {
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        "Wallet not connected");
+                                              }
+                                            });
+                                          } catch (e) {
+                                            Fluttertoast.showToast(
+                                                msg: "Solan apps not found");
+                                          }
+                                        },
+                                      );
+                                    }),
+                              ],
                             ),
                           )
                         else
                           Center(child: CircularProgressIndicator()),
                         SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: MyButton(
-                            customColor: blue,
-                            text: importAccount,
-                            onTap: () {
-                              Get.to(() => const ImportAccountScreen());
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 20),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(left: 20, right: 20),
+                        //   child: MyButton(
+                        //     customColor: blue,
+                        //     text: importAccount,
+                        //     onTap: () {
+                        //       Get.to(() => const ImportAccountScreen());
+                        //     },
+                        //   ),
+                        // ),
+                        // const SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: MyButton(
