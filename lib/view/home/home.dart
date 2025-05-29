@@ -77,7 +77,6 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
     super.initState();
   }
 
-
   profileCall() async {
     try {
       await profileController.getProfile();
@@ -238,7 +237,6 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                 ),
         ),
         actions: [
-         
           InkWell(
             onTap: () {
               Get.to(() => const SettingPage())!.whenComplete(
@@ -317,9 +315,11 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 10)),
                                 isDense: false,
+                                dropdownStyleData: DropdownStyleData(
+                                  maxHeight: Get.height * .6,
+                                ),
                                 value: homeController.selectedNode!.value,
                                 hint: const Text('Select Region'),
-                                // menuMaxHeight: 300,
                                 items: homeController.countryMap!.keys
                                     .map((country) {
                                   return DropdownMenuItem<String>(
@@ -363,6 +363,9 @@ class _VpnHomeScreenState extends State<VpnHomeScreen> {
                                 labelText: 'Select Node',
                                 contentPadding:
                                     EdgeInsets.symmetric(horizontal: 10)),
+                            dropdownStyleData: DropdownStyleData(
+                              maxHeight: Get.height * .6,
+                            ),
                             value: homeController.selectedCity != null
                                 ? homeController.countryMap![
                                         homeController.selectedNode!.value]!
