@@ -77,7 +77,7 @@ class _WalletDropdownState extends State<WalletDropdown> {
                 if (box!.get("selectedWalletName") == "Solana") getNfts();
               });
             },
-            itemHeight: 70,
+            itemHeight: 80,
             items: networkList.entries.map((entry) {
               String walletName = entry.key;
               String walletAddress = entry.value;

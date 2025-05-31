@@ -44,10 +44,12 @@ class _ProfileState extends State<Profile> {
       await profileController.getProfile();
       var mnemonics = await profileController.mnemonics.value;
       await getSolanaAddress(mnemonics);
-      await suiWal(mnemonics);
-      await getEclipseAddress(mnemonics);
-      await getSoonAddress(mnemonics);
-      await evmAptos(mnemonics);
+      if (appEnvironmentFor != "saga") {
+        await suiWal(mnemonics);
+        await getEclipseAddress(mnemonics);
+        await getSoonAddress(mnemonics);
+        await evmAptos(mnemonics);
+      }
     } catch (e) {}
     setState(() {});
   }
@@ -221,7 +223,19 @@ class _ProfileState extends State<Profile> {
                                       .toString(),
                             ),
                             decoration: InputDecoration(
-                              labelText: "Wallet Address",
+                              prefixIcon: appEnvironmentFor == "saga"
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Image.asset(
+                                        "assets/solo.png",
+                                        height: 30,
+                                        width: 30,
+                                      ),
+                                    )
+                                  : null,
+                              labelText: appEnvironmentFor == "saga"
+                                  ? "Solana Wallet Address"
+                                  : "Wallet Address",
                               suffixIcon: InkWell(
                                   onTap: () async {
                                     await Clipboard.setData(ClipboardData(
@@ -258,35 +272,36 @@ class _ProfileState extends State<Profile> {
                 //     )),
                 // if (widget.title != profileTxt)
                 //   if (box!.get("solanaAddress") != null)
-                if (appKitModal != null && appKitModal!.isConnected)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Card(
-                      color: Colors.white,
-                      child: AppKitModalAccountButton(
-                        appKitModal: appKitModal!,
-                        context: context,
+                if (appEnvironmentFor != "saga")
+                  if (appKitModal != null && appKitModal!.isConnected)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Card(
+                        color: Colors.white,
+                        child: AppKitModalAccountButton(
+                          appKitModal: appKitModal!,
+                          context: context,
+                        ),
                       ),
+                    )
+                  else
+                    Column(
+                      children: [
+                        SizedBox(height: 20),
+                        Text(
+                          "Your Web3 Wallet",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 20),
+                        WalletDropdown(
+                          onChanged: (p0) {
+                            setState(() {});
+                          },
+                          fromProfileScreen: widget.title == "Profile",
+                        ),
+                      ],
                     ),
-                  )
-                else
-                  Column(
-                    children: [
-                      SizedBox(height: 20),
-                      Text(
-                        "Your Web3 Wallet",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 20),
-                      WalletDropdown(
-                        onChanged: (p0) {
-                          setState(() {});
-                        },
-                        fromProfileScreen: widget.title == "Profile",
-                      ),
-                    ],
-                  ),
                 // if (widget.title != profileTxt)
                 //   if (widget.showSubscription)
                 //     Expanded(child: SubscriptionScreen()),

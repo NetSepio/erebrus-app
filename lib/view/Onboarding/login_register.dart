@@ -37,7 +37,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
   @override
   void initState() {
-    config();
+    if (appEnvironmentFor != "saga") config();
     super.initState();
   }
 
@@ -48,12 +48,12 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (appKitModal != null) {
-      // print("connected--> ${appKitModal!.isConnected!}");
-      // final chainId = appKitModal!.selectedChain?.chainId ?? '';
-      // final namespace = NamespaceUtils.getNamespaceFromChain(chainId);
-      // final address = appKitModal!.session!.getAddress(namespace);
-    }
+    // if (appKitModal != null) {
+    // print("connected--> ${appKitModal!.isConnected!}");
+    // final chainId = appKitModal!.selectedChain?.chainId ?? '';
+    // final namespace = NamespaceUtils.getNamespaceFromChain(chainId);
+    // final address = appKitModal!.session!.getAddress(namespace);
+    // }
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -128,62 +128,65 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                               },
                             ),
                           ),
-                        if (Platform.isAndroid)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                // backgroundColor: Colors.white,
-                                backgroundColor: blue,
-                              ),
-                              onPressed: () async {
-                                final GoogleSignIn googleSignIn =
-                                    GoogleSignIn();
-                                try {
-                                  EasyLoading.show();
-                                  final result = await googleSignIn.signIn();
-                                  final ggAuth = await result!.authentication;
-                                  print("idToken - ${ggAuth.idToken}");
-                                  log("idToken - ${ggAuth.idToken}");
+                        if (appEnvironmentFor != "saga")
+                          if (Platform.isAndroid)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  // backgroundColor: Colors.white,
+                                  backgroundColor: blue,
+                                ),
+                                onPressed: () async {
+                                  final GoogleSignIn googleSignIn =
+                                      GoogleSignIn();
+                                  try {
+                                    EasyLoading.show();
+                                    final result = await googleSignIn.signIn();
+                                    final ggAuth = await result!.authentication;
+                                    print("idToken - ${ggAuth.idToken}");
+                                    log("idToken - ${ggAuth.idToken}");
 
-                                  // await ApiController()
-                                  //     .googleAuth(idToken: ggAuth.idToken.toString());
-                                  await ApiController().googleAppleLogin(
-                                      email: result.email, authType: "google");
-                                } catch (e) {
-                                  EasyLoading.dismiss();
-                                  log("Errorr--- ${e}");
-                                }
-                              },
-                              child: const SizedBox(
-                                height: 50,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image(
-                                      image: AssetImage(googleLogo),
-                                      height: 18.0,
-                                      width: 24,
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 24, right: 8),
-                                      child: Text(
-                                        loginWithGoogle,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
+                                    // await ApiController()
+                                    //     .googleAuth(idToken: ggAuth.idToken.toString());
+                                    await ApiController().googleAppleLogin(
+                                        email: result.email,
+                                        authType: "google");
+                                  } catch (e) {
+                                    EasyLoading.dismiss();
+                                    log("Errorr--- ${e}");
+                                  }
+                                },
+                                child: const SizedBox(
+                                  height: 50,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image(
+                                        image: AssetImage(googleLogo),
+                                        height: 18.0,
+                                        width: 24,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.only(left: 24, right: 8),
+                                        child: Text(
+                                          loginWithGoogle,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
                         // AppKitModalConnectButton(appKit: appKitModal!),
                         // AppKitModalAccountButton(appKitModal: appKitModal!),
                         // ElevatedButton(
@@ -196,91 +199,42 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                         //     },
                         //     child: Text("Default Network Events")),
                         // AppKitModalNetworkSelectButton(appKit: appKitModal!),
-                        if (appKitModal != null) const SizedBox(height: 20),
-                        if (appKitModal != null)
+                        if (appEnvironmentFor != "saga")
+                          if (appKitModal != null) const SizedBox(height: 20),
+                        if (appEnvironmentFor != "saga")
+                          if (appKitModal != null)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(13),
+                                      decoration: BoxDecoration(
+                                          color: blue, shape: BoxShape.circle),
+                                      child: Image.asset(
+                                        "assets/evm.png",
+                                        height: 30,
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      await appKitModal!.openNetworksView();
+                                    },
+                                  ),
+                                  solanaLoginBtn(),
+                                ],
+                              ),
+                            )
+                          else
+                            Center(child: CircularProgressIndicator()),
+                        if (appEnvironmentFor == "saga")
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                InkWell(
-                                  child: Container(
-                                    padding: const EdgeInsets.all(13),
-                                    decoration: BoxDecoration(
-                                        color: blue, shape: BoxShape.circle),
-                                    child: Image.asset(
-                                      "assets/evm.png",
-                                      height: 30,
-                                    ),
-                                  ),
-                                  onTap: () async {
-                                    await appKitModal!.openNetworksView();
-                                  },
-                                ),
-                                FutureBuilder(
-                                    future: controller.isWalletAvailable(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return SizedBox();
-                                      }
-                                      if (snapshot.hasError) {
-                                        return Expanded(
-                                          child: MyButton(
-                                            customColor: blue,
-                                            text: 'Solana App Not Found',
-                                            onTap: () async {
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "Solana wallet not available");
-                                            },
-                                          ),
-                                        );
-                                      }
-                                      return InkWell(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              color: blue,
-                                              shape: BoxShape.circle),
-                                          child: Image.asset(
-                                            // customColor: blue,
-                                            "assets/solo.png",
-                                            height: 30,
-                                          ),
-                                        ),
-                                        onTap: () async {
-                                          try {
-                                            await controller
-                                                .authorize()
-                                                .then((value) async {
-                                              if (controller.address != null) {
-                                                box!.put("solanaAddress",
-                                                    controller.address!);
-                                                var res = await homeController
-                                                    .getPASETO(
-                                                        chain: "sol",
-                                                        walletAddress:
-                                                            controller
-                                                                .address!);
-                                              } else {
-                                                Fluttertoast.showToast(
-                                                    msg:
-                                                        "Wallet not connected");
-                                              }
-                                            });
-                                          } catch (e) {
-                                            Fluttertoast.showToast(
-                                                msg: "Solan apps not found");
-                                          }
-                                        },
-                                      );
-                                    }),
-                              ],
-                            ),
-                          )
-                        else
-                          Center(child: CircularProgressIndicator()),
+                            child: solanaLoginBtn(),
+                          ),
                         SizedBox(height: 20),
                         // Padding(
                         //   padding: const EdgeInsets.only(left: 20, right: 20),
@@ -297,7 +251,9 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: MyButton(
                             customColor: blue,
-                            text: generateSeedPhrase,
+                            text: appEnvironmentFor == "saga"
+                                ? "Create Wallet"
+                                : generateSeedPhrase,
                             onTap: () {
                               Get.to(() => const GenerateSeedPhrase());
                             },
@@ -347,6 +303,78 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
         ),
       ),
     );
+  }
+
+  FutureBuilder<bool> solanaLoginBtn() {
+    return FutureBuilder(
+        future: controller.isWalletAvailable(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SizedBox();
+          }
+          if (snapshot.hasError) {
+            return Expanded(
+              child: MyButton(
+                customColor: blue,
+                text: 'Solana App Not Found',
+                onTap: () async {
+                  Fluttertoast.showToast(msg: "Solana wallet not available");
+                },
+              ),
+            );
+          }
+          return InkWell(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: blue,
+                borderRadius: appEnvironmentFor == "saga"
+                    ? BorderRadius.circular(100)
+                    : null,
+                shape: appEnvironmentFor != "saga"
+                    ? BoxShape.circle
+                    : BoxShape.rectangle,
+              ),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/solo.png",
+                    height: 30,
+                  ),
+                  if (appEnvironmentFor == "saga")
+                    Padding(
+                      padding: const EdgeInsets.only(left: 6),
+                      child: Text(
+                        "Solana Wallet",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                ],
+              ),
+            ),
+            onTap: () async {
+              try {
+                await controller.authorize().then((value) async {
+                  if (controller.address != null) {
+                    box!.put("solanaAddress", controller.address!);
+                    var res = await homeController.getPASETO(
+                        chain: "sol", walletAddress: controller.address!);
+                  } else {
+                    Fluttertoast.showToast(msg: "Wallet not connected");
+                  }
+                });
+              } catch (e) {
+                Fluttertoast.showToast(msg: "Solan apps not found");
+              }
+            },
+          );
+        });
   }
 
   // Future<dynamic> textLogin(BuildContext context) {

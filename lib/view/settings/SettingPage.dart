@@ -44,10 +44,12 @@ class _SettingPageState extends State<SettingPage> {
       EasyLoading.show();
       var mnemonics = await storage.getStoredValue("mnemonic") ?? "";
       await getSolanaAddress(mnemonics);
-      await suiWal(mnemonics);
-      await getEclipseAddress(mnemonics);
-      await getSoonAddress(mnemonics);
-      await evmAptos(mnemonics);
+      if (appEnvironmentFor != "saga") {
+        await suiWal(mnemonics);
+        await getEclipseAddress(mnemonics);
+        await getSoonAddress(mnemonics);
+        await evmAptos(mnemonics);
+      }
     } catch (e) {
       EasyLoading.dismiss();
     }
@@ -277,11 +279,11 @@ class _SettingPageState extends State<SettingPage> {
                   await box!.clear();
                   await box!.close();
                   box = await Hive.openBox('erebrus');
-                  try {
-                    await reownInit(context).then((a) {
-                      a.disconnect();
-                    });
-                  } catch (e) {}
+                  // try {
+                  //   await reownInit(context).then((a) {
+                  //     a.disconnect();
+                  //   });
+                  // } catch (e) {}
                   Get.offAll(() => const LoginOrRegisterPage());
                 },
               ),

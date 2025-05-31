@@ -2,6 +2,7 @@ import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
 import 'package:erebrus_app/controller/auth_controller.dart';
+import 'package:erebrus_app/main.dart';
 import 'package:erebrus_app/view/Onboarding/import_account_screen.dart';
 import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
@@ -119,20 +120,23 @@ class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
                       onPressed: () async {
                         String mnemonics =
                             await storage.getStoredValue("mnemonic") ?? "";
-                        showDialog(
-                            context: context,
-                            builder: (a) => Dialog(
-                                  child: NetworkSelectionScreen(
-                                    mnemonic: mnemonics,
-                                  ),
-                                ));
-                        // var pvtKey = await storage.getStoredValue('pvtKey');
-                        // final sender = AptosAccount.generateAccount(mnemonics);
-                        // log("Wallet Address $pvtKey");
-                        // log("Wallet Address hex ${sender.accountAddress.hex()}");
-                        // var res = await homeController.getPASETO(
-                        //     walletAddress: sender.address);
-                        // Get.offAll(() => const HomeScreen());
+                        if (appEnvironmentFor == "saga") {
+                          box!.put("selected_network", 'Solana');
+                          EasyLoading.show();
+                          final sender =
+                              await WalletGenerator.getAddressFromMnemonic(
+                                  mnemonics);
+                          var res = await homeController.getPASETO(
+                              chain: "sol", walletAddress: sender);
+                          EasyLoading.dismiss();
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (a) => Dialog(
+                                    child: NetworkSelectionScreen(
+                                        mnemonic: mnemonics),
+                                  ));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent.shade700,
