@@ -257,189 +257,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget nftsShow() {
-    return GraphQLProvider(
-      client: ValueNotifier<GraphQLClient>(
-        GraphQLClient(
-          link: HttpLink(baseUrl2),
-          cache: GraphQLCache(),
-        ),
-      ),
-      child: Query(
-        options: QueryOptions(
-          document: gql(r'''
-      query getAccountCurrentTokens($address: String!, $where: [current_token_ownerships_v2_bool_exp!]!, $offset: Int, $limit: Int) {
-      current_token_ownerships_v2(
-        where: {owner_address: {_eq: $address}, amount: {_gt: 0}, _or: [{table_type_v1: {_eq: "0x3::token::TokenStore"}}, {table_type_v1: {_is_null: true}}], _and: $where}
-        order_by: [{last_transaction_version: desc}, {token_data_id: desc}]
-        offset: $offset
-        limit: $limit
-      ) {
-        amount
-        current_token_data {
-      ...TokenDataFields
-        }
-        last_transaction_version
-        property_version_v1
-        token_properties_mutated_v1
-        is_soulbound_v2
-        is_fungible_v2
-      }
-      current_token_ownerships_v2_aggregate(
-        where: {owner_address: {_eq: $address}, amount: {_gt: 0}}
-      ) {
-        aggregate {
-      count
-        }
-      }
-      }
-    
-      fragment TokenDataFields on current_token_datas_v2 {
-      description
-      token_uri
-      token_name
-      token_data_id
-      current_collection {
-        ...CollectionDataFields
-      }
-      token_properties
-      token_standard
-      cdn_asset_uris {
-        cdn_image_uri
-      }
-      }
-    
-      fragment CollectionDataFields on current_collections_v2 {
-      uri
-      max_supply
-      description
-      collection_name
-      collection_id
-      creator_address
-      cdn_asset_uris {
-        cdn_image_uri
-      }
-      }
-      '''),
-          variables: {
-            "address": box!.get("selectedWalletAddress"),
-            // "0xc143aba11d86c6a0d5959eaec1ad18652693768d92daab18f323fd7de1dc9829",
-            "limit": 12,
-            "offset": 0,
-            "where": const [],
-          },
-          operationName: "getAccountCurrentTokens",
-        ),
-        builder: (QueryResult result, {refetch, fetchMore}) {
-          if (result.hasException) {
-            log("Exception --  ${result.exception}");
-            return Text("".toString());
-          }
-
-          if (result.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (result.data == null ||
-              result.data!['current_token_ownerships_v2'] == null) {
-            return const Text("");
-          }
-          //result.data!['current_token_ownerships_v2'][index]['current_collection']['collection_id]
-          return ListView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            physics: BouncingScrollPhysics(),
-            itemCount: result.data!['current_token_ownerships_v2'].length,
-            itemBuilder: (context, index) {
-              var data = result.data!['current_token_ownerships_v2'][index];
-
-              if (homeController.collectionId != null) {
-                homeController.collectionId!.value = data['current_token_data']
-                    ['current_collection']["collection_id"];
-              }
-              var collectionName = data['current_token_data']
-                  ['current_collection']["collection_name"];
-              log("NFF))) " + data.toString());
-              return collectionName.toString().contains("NETSEPIO") ||
-                      collectionName.toString().contains("EREBRUS")
-                  ? Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        InkWell(
-                          onTap: () {
-                            homeController.selectedNFT.value = index + 1;
-
-                            homeController.collectionId =
-                                data['current_token_data']['current_collection']
-                                        ["collection_id"]
-                                    .toString()
-                                    .obs;
-
-                            setState(() {});
-                          },
-                          child: Card(
-                            color: homeController.collectionId != null &&
-                                    homeController.selectedNFT.value != 0
-                                ? Colors.blueGrey.shade900
-                                : const Color(0xff1B1A1F),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Wrap(
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.center,
-                                    children: [
-                                      if (data['current_token_data']
-                                              ["token_uri"] !=
-                                          null)
-                                        CachedNetworkImage(
-                                          imageUrl: data['current_token_data']
-                                                      ["cdn_asset_uris"]
-                                                  ["cdn_image_uri"]
-                                              .toString(),
-                                          height: 120,
-                                          placeholder: (context, url) =>
-                                              const Center(
-                                                  child:
-                                                      CircularProgressIndicator()),
-                                          errorWidget: (context, url, error) =>
-                                              Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                                "assets/erebrus_mobile_app_icon.png"),
-                                          ),
-                                        ),
-                                      const SizedBox(width: 15),
-                                      Column(
-                                        children: [
-                                          Text(
-                                            "${data["current_token_data"]["token_name"]}",
-                                            style: const TextStyle(
-                                                fontSize: 26,
-                                                fontWeight: FontWeight.w800),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  : const SizedBox();
-            },
-          );
-        },
-      ),
-    );
-  }
 }
 
 class VpnHomeContent extends StatelessWidget {
@@ -473,13 +290,13 @@ class VpnHomeContent extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
                     Image.asset(
                       'assets/erebrus_mobile_app_icon.png',
                       height: 28,
                     ),
-                    const SizedBox(width: 8),
+                Row(
+                  children: [
+                    const SizedBox(width: 10),
                     Text(
                       'EREBRUS',
                       style: TextStyle(
@@ -658,6 +475,7 @@ class VpnHomeContent extends StatelessWidget {
             ),
             Spacer(),
             serverInfoCard,
+          const SizedBox(height: 20),
           ],
         ),
       ),
@@ -793,44 +611,4 @@ Widget _buildServerInfoCard(BuildContext context, HomeController homeController)
       ),
     ),
   );
-}
-
-class _SpeedIndicator extends StatelessWidget {
-  final double speed;
-  const _SpeedIndicator({required this.speed});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 160,
-      height: 160,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: SweepGradient(
-          colors: [
-            Colors.blueAccent,
-            Colors.blue.shade900,
-            Colors.blueAccent,
-            Colors.blue.shade900,
-          ],
-          stops: [0.0, 0.5, 0.75, 1.0],
-        ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Connected",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
