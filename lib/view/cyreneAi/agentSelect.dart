@@ -21,7 +21,10 @@ class _AgentSelectState extends State<AgentSelect> {
     EasyLoading.show();
     try {
       var res = await dio
-          .get("https://gateway.erebrus.io/api/v1.0/agents/us01.erebrus.io");
+          .get(
+            "https://gateway.erebrus.io/api/v1.0/agents/12D3KooWSMjGonLZ6rWnStWwFwyfQiynzECroXSPgSShcJwq8DTX"
+            // "https://gateway.erebrus.io/api/v1.0/agents/us01.erebrus.io",
+          );
       data = AgentModel.fromJson(res.data);
       setState(() {});
       EasyLoading.dismiss();

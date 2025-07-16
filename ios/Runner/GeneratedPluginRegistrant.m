@@ -36,12 +36,6 @@
 @import flutter_inappwebview_ios;
 #endif
 
-#if __has_include(<flutter_internet_speed_test/FlutterInternetSpeedTestPlugin.h>)
-#import <flutter_internet_speed_test/FlutterInternetSpeedTestPlugin.h>
-#else
-@import flutter_internet_speed_test;
-#endif
-
 #if __has_include(<flutter_secure_storage/FlutterSecureStoragePlugin.h>)
 #import <flutter_secure_storage/FlutterSecureStoragePlugin.h>
 #else
@@ -146,7 +140,6 @@
   [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
   [FPPDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPDeviceInfoPlusPlugin"]];
   [InAppWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppWebViewFlutterPlugin"]];
-  [FlutterInternetSpeedTestPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterInternetSpeedTestPlugin"]];
   [FlutterSecureStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterSecureStoragePlugin"]];
   [FlutterTtsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterTtsPlugin"]];
   [FluttertoastPlugin registerWithRegistrar:[registry registrarForPlugin:@"FluttertoastPlugin"]];

@@ -57,7 +57,6 @@ dependencies:
   fluttertoast: ^8.2.4
   aptos:
   percent_indicator: ^4.2.3
-  flutter_internet_speed_test: ^1.0.1
   syncfusion_flutter_gauges: ^29.1.38
   permission_handler: ^11.3.1
   flutter_easyloading: ^3.0.5

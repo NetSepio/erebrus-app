@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_internet_speed_test/flutter_internet_speed_test.dart';
+// import 'package:flutter_internet_speed_test/flutter_internet_speed_test.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:erebrus_app/config/colors.dart';
 

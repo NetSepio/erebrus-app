@@ -15,7 +15,7 @@ import 'package:reown_appkit/reown_appkit.dart';
 import 'package:upgrader/upgrader.dart';
 
 ThemeMode themeMode = ThemeMode.system;
-const String appEnvironmentFor = "saga";
+const String appEnvironmentFor = "erebrus";
 PackageInfo? packageInfo;
 
 void main() async {

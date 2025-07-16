@@ -26,16 +26,16 @@ import 'package:wireguard_flutter/wireguard_flutter.dart';
 
 RxBool vpnActivate = false.obs;
 
-class VpnHomeScreen extends StatefulWidget {
-  const VpnHomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<VpnHomeScreen> createState() => _VpnHomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 ProfileController profileController = Get.find();
 
-class _VpnHomeScreenState extends State<VpnHomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   HomeController homeController = Get.find();
   RxBool showDummyNft = false.obs;
   final storage = SecureStorage();
