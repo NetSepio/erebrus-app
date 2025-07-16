@@ -131,7 +131,7 @@ class _AgentSelectState extends State<AgentSelect> {
                           Get.to(() => CyreneAi(data: d));
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.only(bottom: 15),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(

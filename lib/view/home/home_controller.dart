@@ -427,8 +427,10 @@ class HomeController extends GetxController {
   registerClient() async {
     log("initPublicKey -- $initPublicKey");
     log("presharedKey -- $presharedKey");
-    EasyLoading.show();
+    // EasyLoading.show();
     try {
+        EasyLoading.dismiss();
+      vpnActivate.value = true;
       math.Random random = math.Random();
       sNodeid = selectedPayload.value.id.toString();
       if (box!.get("appMode") == "pro") {

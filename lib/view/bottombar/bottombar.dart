@@ -70,7 +70,7 @@ class _BottomBarState extends State<BottomBar> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                           Image.asset("assets/tor.png",width: 30,)
+                           Image.asset("assets/web.png",color: Colors.grey.shade300,width: 30,)
                           ],
                         ),
                       ),

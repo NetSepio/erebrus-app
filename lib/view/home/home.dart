@@ -373,11 +373,11 @@ class VpnHomeContent extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            isConnected ? "ON" : 'OFF',
+                            isConnected ? "RUNNING" : 'CONNECT',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                              fontSize: 20,
                             ),
                           ),
                         ],
@@ -388,8 +388,10 @@ class VpnHomeContent extends StatelessWidget {
               ),
             ),
             SizedBox(height: 50),
-            Text('Your Ip: $ip',
-                style: TextStyle(color: Colors.white, fontSize: 16)),
+            Obx(()=> 
+            (vpnActivate.value)?
+            Text('Your IP: $ip',
+                style: TextStyle(color: Colors.white, fontSize: 16)):SizedBox(),),
             SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -475,7 +477,7 @@ class VpnHomeContent extends StatelessWidget {
             ),
             Spacer(),
             serverInfoCard,
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
           ],
         ),
       ),

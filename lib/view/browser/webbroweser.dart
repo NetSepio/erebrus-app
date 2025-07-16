@@ -32,6 +32,7 @@ class _InAppWebViewScreenState extends State<InAppWebViewScreen> {
       appBar: AppBar(
         title: Row(
           children: [
+            
             Expanded(
               child: TextField(
                 controller: urlController,
