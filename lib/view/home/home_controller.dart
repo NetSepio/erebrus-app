@@ -414,14 +414,9 @@ class HomeController extends GetxController {
     try {
       await wireguard.stopVpn();
       vpnActivate.value = false;
-      if (registerClientModel.value.payload != null) {
-        await ApiController().deleteVpn2(
-            uuid: registerClientModel.value.payload!.client!.uuid!,
-            region: selectedPayload.value.region.toString().toLowerCase());
-      } else {
+     
         await ApiController()
             .deleteVpn(uuid: registerClientModel.value.payload!.client!.uuid!);
-      }
       log("vpnActivate.value --   ${vpnActivate.value}");
       update();
     } catch (e, str) {

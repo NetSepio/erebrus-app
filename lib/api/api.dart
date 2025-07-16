@@ -312,29 +312,29 @@ class ApiController {
       });
 
       if (res.statusCode == 200) {
-        log('VPN Data delete----------------');
+        log('VPN Data deleted----------------${res.data}');
       }
     } on DioError catch (e) {
       log('VPN Data delete ERROR 32 --------------${e.response}');
     }
   }
 
-  deleteVpn2({required String uuid, required String region}) async {
-    log(header.headers.toString());
-    try {
-      var url =
-          "https://gateway.netsepio.com/api/v1.0/erebrus/client/$region/$uuid";
-      log("url 000-- ===>>>  ${url}");
-      Response res = await dio.delete(
-        url,
-        options: header,
-      );
+  // deleteVpn2({required String uuid, required String region}) async {
+  //   log(header.headers.toString());
+  //   try {
+  //     var url =
+  //         "https://gateway.netsepio.com/api/v1.0/erebrus/client/$region/$uuid";
+  //     log("url 000-- ===>>>  ${url}");
+  //     Response res = await dio.delete(
+  //       url,
+  //       options: header,
+  //     );
 
-      if (res.statusCode == 200) {
-        log('VPN Data delete----------------');
-      }
-    } on DioError catch (e) {
-      log('VPN Data delete ERROR  --------------${e.response}');
-    }
-  }
+  //     if (res.statusCode == 200) {
+  //       log('VPN Data delete----------------');
+  //     }
+  //   } on DioError catch (e) {
+  //     log('VPN Data delete ERROR  --------------${e.response}');
+  //   }
+  // }
 }

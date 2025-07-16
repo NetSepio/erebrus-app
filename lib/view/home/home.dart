@@ -23,6 +23,7 @@ import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import "package:reown_appkit/reown_appkit.dart";
 import 'package:wireguard_flutter/wireguard_flutter.dart';
+import 'package:erebrus_app/view/home/server_selection.dart';
 
 RxBool vpnActivate = false.obs;
 
@@ -50,17 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
       if (mounted) {
         switch (event) {
           case VpnStage.connected:
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Successfully Connected to VPN'),
-            ));
+            log("connected");
             break;
           case VpnStage.disconnected:
-            ScaffoldMessenger.of(context).clearSnackBars();
-            if (Platform.isAndroid)
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('Disconnected from VPN'),
-              ));
+            log("disconnected");
             break;
           default:
         }
@@ -214,366 +208,52 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // log("appKitModal -->" + appKitModal!.isConnected.toString());
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
-        centerTitle: true,
-        title: Obx(
-          () => vpnActivate.value == true
-              ? Text(
-                  '⦿ Connected',
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w600, color: Colors.green),
-                )
-              : Text(
-                  'EREBRUS',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontWeight: FontWeight.w600),
-                ),
-        ),
-        actions: [
-          InkWell(
-            onTap: () {
-              Get.to(() => const SettingPage())!.whenComplete(
-                () {
-                  setState(() {});
-                },
-              );
+      body: Obx(() {
+        if (vpnActivate.value == true) {
+          // Connected state UI
+          return ConnectedStateScreen();
+        } else {
+          // Main screen UI (as before)
+          final homeController = Get.find<HomeController>();
+          final ip = homeController.selectedPayload.value.ipinfoip ?? homeController.ipData['ip'] ?? '0.0.0.0';
+          final downloadSpeed = homeController.selectedPayload.value.downloadSpeed;
+          final uploadSpeed = homeController.selectedPayload.value.uploadSpeed;
+          return VpnHomeContent(
+            isConnected: false,
+            onPowerTap: () {
+              if (vpnActivate.value == true) {
+                homeController.generateKeyPair();
+                homeController.disconnect();
+                homeController.getIp();
+                return;
+              }
+              if (homeController.checkSub.value.status == "notFound") {
+                Fluttertoast.showToast(
+                    msg: "Check Your Subscription",
+                    gravity: ToastGravity.CENTER,
+                    backgroundColor: Colors.red);
+                return;
+              }
+              if (vpnActivate.value == false) {
+                if (homeController.collectionId != null &&
+                    homeController.selectedNFT.value != 0) {
+                  homeController.apiCall();
+                } else {
+                  homeController.registerClient();
+                }
+              }
+              homeController.getIp();
             },
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.settings),
-            ),
-          )
-        ],
-      ),
-      body: Stack(
-        children: [
-          Positioned(
-              top: 50,
-              child: Opacity(
-                opacity: .3,
-                child: Image.asset(
-                  "assets/glob.jpg",
-                  // 'assets/background.png',
-                  fit: BoxFit.contain,
-                  alignment: Alignment.bottomCenter,
-                  // color: Colors.white,
-                  height: Get.height,
-                  width: Get.width,
-                ),
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                const SizedBox(height: 25),
-                SizedBox(
-                  height: 70,
-                  width: Get.width,
-                  child: Obx(
-                    () => homeController.allNodeModel.value.payload != null &&
-                            homeController.countryMap != null
-                        ? vpnActivate.value == true
-                            ? Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(homeController
-                                              .selectedPayload.value.name ==
-                                          null
-                                      ? "Select Region"
-                                      : countryCodeToEmoji(homeController
-                                              .selectedPayload
-                                              .value
-                                              .ipinfocountry
-                                              .toString()) +
-                                          " " +
-                                          (homeController.countryCodes[
-                                                  homeController.selectedPayload
-                                                      .value.ipinfocountry
-                                                      .toString()] ??
-                                              homeController.selectedPayload
-                                                  .value.ipinfocountry
-                                                  .toString())),
-                                  const Icon(
-                                    Icons.circle,
-                                    color: Colors.green,
-                                    size: 15,
-                                  )
-                                ],
-                              )
-                            : DropdownButtonFormField2(
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Select Region',
-                                    contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 10)),
-                                isDense: false,
-                                dropdownStyleData: DropdownStyleData(
-                                  maxHeight: Get.height * .6,
-                                ),
-                                value: homeController.selectedNode!.value,
-                                hint: const Text('Select Region'),
-                                items: homeController.countryMap!.keys
-                                    .map((country) {
-                                  return DropdownMenuItem<String>(
-                                      value: country,
-                                      child: Text(countryCodeToEmoji(country) +
-                                          ' ' +
-                                          (homeController
-                                                  .countryCodes[country] ??
-                                              country)));
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    homeController.selectedNode!.value = value!;
-
-                                    homeController.selectedCity = homeController
-                                        .countryMap![
-                                            homeController.selectedNode!.value]!
-                                        .first
-                                        .chainName
-                                        .toString();
-                                    homeController.selectedPayload
-                                        .value = homeController.countryMap![
-                                            homeController.selectedNode!.value]!
-                                        .firstWhere((node) =>
-                                            node.chainName ==
-                                            homeController.selectedCity);
-                                  });
-                                },
-                              )
-                        : const SizedBox(),
-                  ),
-                ),
-                if (box!.get("appMode") == "pro")
-                  Obx(
-                    () => vpnActivate.value == false &&
-                            homeController.selectedNode != null &&
-                            homeController.selectedNode!.value.isNotEmpty
-                        ? DropdownButtonFormField2<AllNPayload>(
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Select Node',
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10)),
-                            dropdownStyleData: DropdownStyleData(
-                              maxHeight: Get.height * .6,
-                            ),
-                            value: homeController.selectedCity != null
-                                ? homeController.countryMap![
-                                        homeController.selectedNode!.value]!
-                                    .firstWhere((node) =>
-                                        node.chainName ==
-                                        homeController.selectedCity)
-                                : null,
-                            hint: const Text('Select Node'),
-                            items: homeController.countryMap![
-                                    homeController.selectedNode!.value]!
-                                .map((node) {
-                              return DropdownMenuItem<AllNPayload>(
-                                value: node,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      node.id!.substring(0, 5) +
-                                          " ... " +
-                                          node.id!
-                                              .substring(node.id!.length - 5) +
-                                          "    ",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                    Text(
-                                      "${node.chainName}",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (AllNPayload? value) {
-                              setState(() {
-                                homeController.selectedCity = value!.chainName;
-                                homeController.selectedPayload.value = value;
-                                log(homeController
-                                    .selectedPayload.value.ipinfocountry
-                                    .toString());
-                              });
-                            },
-                          )
-                        : const SizedBox(),
-                  ),
-
-                Obx(
-                  () => (vpnActivate.value == true)
-                      ? Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: RichText(
-                            text: TextSpan(
-                              text: "You are now connected to ",
-                              style: TextStyle(
-                                  wordSpacing: 1.5,
-                                  color: Colors.grey.shade300),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "${countryCodeToEmoji(homeController.selectedPayload.value.ipinfocountry.toString())} ${homeController.countryCodes[homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()] ?? homeController.selectedPayload.value.ipinfocountry.toString().toUpperCase()}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                TextSpan(
-                                  text:
-                                      " with Node ID: ${homeController.sNodeid} running on ",
-                                ),
-                                TextSpan(
-                                  text:
-                                      "${homeController.countryMap![homeController.selectedNode!.value]!.firstWhere((node) => node.chainName == homeController.selectedCity).chainName!.toUpperCase()}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                TextSpan(text: " Blockchain"),
-                              ],
-                            ),
-                          ),
-                        )
-                      : SizedBox(height: 25),
-                ),
-
-                Obx(() => Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        if (homeController.ipData.value.isNotEmpty)
-                          Expanded(
-                            child: Container(
-                              height: 60,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff20253A),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 10, bottom: 10),
-                              child: Text(
-                                "Current IP : " +
-                                    (homeController.selectedPayload.value
-                                                    .ipinfoip !=
-                                                null &&
-                                            vpnActivate.value == true
-                                        ? "${homeController.selectedPayload.value.ipinfoip}"
-                                        : "${homeController.ipData.value["ip"]}"),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                    ),
-                              ),
-                            ),
-                          )
-                      ],
-                    )),
-
-                SizedBox(
-                  height: 10,
-                ),
-                // if (vpnActivate.value == true)
-
-                const SizedBox(height: 80),
-                Obx(
-                  () => Center(
-                    child: InkWell(
-                      onTap: () {
-                        if (homeController.checkSub.value.status == "notFound"
-                            //     ||
-                            // homeController.checkSub.value.status ==
-                            //     "expired"
-                            ) {
-                          Fluttertoast.showToast(
-                              msg: "Check Your Subscription",
-                              gravity: ToastGravity.CENTER,
-                              backgroundColor: Colors.red);
-                          return;
-                        }
-                        if (vpnActivate.value == false) {
-                          if (homeController.collectionId != null &&
-                              homeController.selectedNFT.value != 0) {
-                            homeController.apiCall();
-                          } else {
-                            homeController.registerClient();
-                          }
-                        } else {
-                          homeController.generateKeyPair();
-                          homeController.disconnect();
-                        }
-                        homeController.getIp();
-                      },
-                      borderRadius: BorderRadius.circular(90),
-                      child: AvatarGlow(
-                        glowColor: vpnActivate.value == true
-                            ? Colors.green
-                            : const Color.fromRGBO(37, 112, 252, 1),
-                        duration: const Duration(milliseconds: 2000),
-                        repeat: true,
-                        animate: vpnActivate.value == true ? true : false,
-                        glowShape: BoxShape.circle,
-                        child: Material(
-                          elevation: 0,
-                          shape: const CircleBorder(),
-                          color: vpnActivate.value == true
-                              ? Colors.green
-                              : const Color(0xff0162FF),
-                          child: SizedBox(
-                            height: 150,
-                            width: 150,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.power_settings_new,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  vpnActivate.value == true
-                                      ? "Connected"
-                                      : 'Connect',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(color: Colors.white),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+            timerString: '00:00:00',
+            ip: ip,
+            downloadSpeed: downloadSpeed,
+            uploadSpeed: uploadSpeed,
+            serverInfoCard: _buildServerInfoCard(context, homeController),
+          );
+        }
+      }),
     );
   }
 
@@ -664,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
               result.data!['current_token_ownerships_v2'] == null) {
             return const Text("");
           }
-          //result.data!['current_token_ownerships_v2'][index]['current_collection]['collection_id]
+          //result.data!['current_token_ownerships_v2'][index]['current_collection']['collection_id]
           return ListView.builder(
             shrinkWrap: true,
             padding: EdgeInsets.zero,
@@ -757,6 +437,399 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           );
         },
+      ),
+    );
+  }
+}
+
+class VpnHomeContent extends StatelessWidget {
+  final bool isConnected;
+  final VoidCallback onPowerTap;
+  final String timerString;
+  final String ip;
+  final double? downloadSpeed;
+  final double? uploadSpeed;
+  final Widget serverInfoCard;
+
+  const VpnHomeContent({
+    Key? key,
+    required this.isConnected,
+    required this.onPowerTap,
+    required this.timerString,
+    required this.ip,
+    required this.downloadSpeed,
+    required this.uploadSpeed,
+    required this.serverInfoCard,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/erebrus_mobile_app_icon.png',
+                      height: 28,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'EREBRUS',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Text(
+                      'VPN',
+                      style: TextStyle(
+                        color: Color(0xFF1E90FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                  ],
+                ),
+                IconButton(
+                  onPressed: () {
+                    Get.to(() => SettingPage());
+                  },
+                  icon: Icon(Icons.settings),
+                ),
+              ],
+            ),
+            Spacer(),
+            Text(
+              isConnected ? 'Connected' : '',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Text(
+              timerString,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                  letterSpacing: 2),
+            ),
+            SizedBox(height: 50),
+            Center(
+              child: InkWell(
+                onTap: onPowerTap,
+                borderRadius: BorderRadius.circular(90),
+                child: AvatarGlow(
+                  glowColor: isConnected
+                      ? Colors.green
+                      : const Color.fromRGBO(37, 112, 252, 1),
+                  duration: const Duration(milliseconds: 2000),
+                  repeat: isConnected,
+                  animate:isConnected,
+                  glowShape: BoxShape.circle,
+                  child: Material(
+                    elevation: 0,
+                    shape: const CircleBorder(),
+                    color: isConnected ? Colors.green : const Color(0xff0162FF),
+                    child: SizedBox(
+                      height: 160,
+                      width: 160,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.power_settings_new,
+                            color: Colors.white,
+                            size: 60,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            isConnected ? "ON" : 'OFF',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 50),
+            Text('Your Ip: $ip',
+                style: TextStyle(color: Colors.white, fontSize: 16)),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 160,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF181A20),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      bottomLeft: Radius.circular(16),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.arrow_downward,
+                              color: Colors.white, size: 20),
+                          SizedBox(width: 6),
+                          Text(
+                            downloadSpeed != null
+                                ? '${downloadSpeed!.toStringAsFixed(1)} Mb/s '
+                                : '-- Mb/s',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+                      Text('Downloaded',
+                          style: TextStyle(
+                              color: Colors.white70, fontSize: 13)),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 1,
+                  height: 40,
+                  color: Colors.white24,
+                ),
+                Container(
+                width: 160,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF181A20),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.arrow_upward,
+                              color: Colors.white, size: 20),
+                          SizedBox(width: 6),
+                          Text(
+                            uploadSpeed != null
+                                ? '${uploadSpeed!.toStringAsFixed(1)} Mb/s'
+                                : '-- Mb/s',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+                      Text('Uploaded',
+                          style: TextStyle(
+                              color: Colors.white70, fontSize: 13)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Spacer(),
+            serverInfoCard,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ConnectedStateScreen extends StatefulWidget {
+  const ConnectedStateScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ConnectedStateScreen> createState() => _ConnectedStateScreenState();
+}
+
+class _ConnectedStateScreenState extends State<ConnectedStateScreen> {
+  late Timer _timer;
+  int _seconds = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds++;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  String get timerString {
+    final hours = (_seconds ~/ 3600).toString().padLeft(2, '0');
+    final minutes = ((_seconds % 3600) ~/ 60).toString().padLeft(2, '0');
+    final seconds = (_seconds % 60).toString().padLeft(2, '0');
+    return '$hours:$minutes:$seconds';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final homeController = Get.find<HomeController>();
+    final ip = homeController.selectedPayload.value.ipinfoip ?? homeController.ipData['ip'] ?? '0.0.0.0';
+    final downloadSpeed = homeController.selectedPayload.value.downloadSpeed;
+    final uploadSpeed = homeController.selectedPayload.value.uploadSpeed;
+    return VpnHomeContent(
+      isConnected: true,
+      onPowerTap: () {
+        homeController.disconnect();
+      },
+      timerString: timerString,
+      ip: ip,
+      downloadSpeed: downloadSpeed,
+      uploadSpeed: uploadSpeed,
+      serverInfoCard: _buildServerInfoCard(context, homeController),
+    );
+  }
+}
+
+Widget _buildServerInfoCard(BuildContext context, HomeController homeController) {
+  final selected = homeController.selectedPayload.value;
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 24),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Color(0xFF181A20),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Row(
+        children: [
+          if (selected.ipinfocountry != null)
+            Text(
+              countryCodeToEmoji(selected.ipinfocountry.toString()),
+              style: TextStyle(fontSize: 28),
+            ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  homeController.countryCodes[selected.ipinfocountry?.toUpperCase() ?? ''] ?? selected.ipinfocountry?.toUpperCase() ?? '',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  'Secure Network',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              Icon(Icons.network_check, color: Colors.green, size: 18),
+              const SizedBox(width: 4),
+              Text(
+                '168ms', // TODO: Replace with actual ping if available
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(width: 12),
+          TextButton(
+            onPressed: () {
+              Get.to(() => ServerSelectionScreen());
+            },
+            child: Row(
+              children: [
+                Text('Change', style: TextStyle(color: Color(0xFF1E90FF))),
+                Icon(Icons.arrow_forward_ios, color: Color(0xFF1E90FF), size: 16),
+              ],
+            ),
+            style: TextButton.styleFrom(
+              foregroundColor: Color(0xFF1E90FF),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+class _SpeedIndicator extends StatelessWidget {
+  final double speed;
+  const _SpeedIndicator({required this.speed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 160,
+      height: 160,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: SweepGradient(
+          colors: [
+            Colors.blueAccent,
+            Colors.blue.shade900,
+            Colors.blueAccent,
+            Colors.blue.shade900,
+          ],
+          stops: [0.0, 0.5, 0.75, 1.0],
+        ),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Connected",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
