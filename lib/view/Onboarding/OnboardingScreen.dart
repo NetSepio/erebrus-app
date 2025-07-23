@@ -6,6 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:erebrus_app/config/assets.dart';
 import 'package:erebrus_app/config/colors.dart';
 import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/config/responsive.dart';
 import 'package:erebrus_app/view/Onboarding/login_register.dart';
 import 'package:erebrus_app/view/settings/privacyPolicy.dart';
 
@@ -37,18 +38,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         border: Border.all(color: blue),
         color: _currentPage == index ? blue : Colors.black,
       ),
-      margin: const EdgeInsets.only(right: 5),
-      height: 10,
+      margin: EdgeInsets.only(right: Responsive.scaleWidth(context, 5)),
+      height: Responsive.scaleWidth(context, 10),
       curve: Curves.easeIn,
-      width: 10,
+      width: Responsive.scaleWidth(context, 10),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    double width = SizeConfig.screenW!;
-    double height = SizeConfig.screenH!;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: const Color(0xff040819),
@@ -64,16 +64,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 itemCount: contents.length,
                 itemBuilder: (context, i) {
                   return Padding(
-                    padding: const EdgeInsets.all(40.0),
+                    padding: EdgeInsets.all(Responsive.scaleWidth(context, 40.0)),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
                           Image.asset(
                             contents[i].image,
-                            height: SizeConfig.blockV! * 32,
+                            height: Responsive.scaleHeight(context, height * 0.32),
                           ),
                           SizedBox(
-                            height: (height >= 840) ? 60 : 30,
+                            height: (height >= 840) ? Responsive.scaleHeight(context, 60) : Responsive.scaleHeight(context, 30),
                           ),
                           Text(
                             contents[i].title,
@@ -81,16 +81,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             style: TextStyle(
                               fontFamily: "Mulish",
                               fontWeight: FontWeight.w600,
-                              fontSize: (width <= 550) ? 30 : 35,
+                              fontSize: (width <= 550) ? Responsive.scaleText(context, 30) : Responsive.scaleText(context, 35),
                             ),
                           ),
-                          const SizedBox(height: 15),
+                          SizedBox(height: Responsive.scaleHeight(context, 15)),
                           Text(
                             contents[i].desc,
                             style: TextStyle(
                               fontFamily: "Mulish",
                               fontWeight: FontWeight.w300,
-                              fontSize: (width <= 550) ? 17 : 25,
+                              fontSize: (width <= 550) ? Responsive.scaleText(context, 17) : Responsive.scaleText(context, 25),
                             ),
                             textAlign: TextAlign.center,
                           )

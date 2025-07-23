@@ -6,46 +6,10 @@
 
 #import "GeneratedPluginRegistrant.h"
 
-#if __has_include(<appcheck/AppcheckPlugin.h>)
-#import <appcheck/AppcheckPlugin.h>
-#else
-@import appcheck;
-#endif
-
-#if __has_include(<coinbase_wallet_sdk/CoinbaseWalletSdkFlutterPlugin.h>)
-#import <coinbase_wallet_sdk/CoinbaseWalletSdkFlutterPlugin.h>
-#else
-@import coinbase_wallet_sdk;
-#endif
-
-#if __has_include(<connectivity_plus/ConnectivityPlusPlugin.h>)
-#import <connectivity_plus/ConnectivityPlusPlugin.h>
-#else
-@import connectivity_plus;
-#endif
-
 #if __has_include(<device_info_plus/FPPDeviceInfoPlusPlugin.h>)
 #import <device_info_plus/FPPDeviceInfoPlusPlugin.h>
 #else
 @import device_info_plus;
-#endif
-
-#if __has_include(<flutter_inappwebview_ios/InAppWebViewFlutterPlugin.h>)
-#import <flutter_inappwebview_ios/InAppWebViewFlutterPlugin.h>
-#else
-@import flutter_inappwebview_ios;
-#endif
-
-#if __has_include(<flutter_secure_storage/FlutterSecureStoragePlugin.h>)
-#import <flutter_secure_storage/FlutterSecureStoragePlugin.h>
-#else
-@import flutter_secure_storage;
-#endif
-
-#if __has_include(<flutter_tts/FlutterTtsPlugin.h>)
-#import <flutter_tts/FlutterTtsPlugin.h>
-#else
-@import flutter_tts;
 #endif
 
 #if __has_include(<fluttertoast/FluttertoastPlugin.h>)
@@ -120,12 +84,6 @@
 @import url_launcher_ios;
 #endif
 
-#if __has_include(<webview_flutter_wkwebview/WebViewFlutterPlugin.h>)
-#import <webview_flutter_wkwebview/WebViewFlutterPlugin.h>
-#else
-@import webview_flutter_wkwebview;
-#endif
-
 #if __has_include(<wireguard_flutter/WireguardFlutterPlugin.h>)
 #import <wireguard_flutter/WireguardFlutterPlugin.h>
 #else
@@ -135,13 +93,7 @@
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
-  [AppcheckPlugin registerWithRegistrar:[registry registrarForPlugin:@"AppcheckPlugin"]];
-  [CoinbaseWalletSdkFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"CoinbaseWalletSdkFlutterPlugin"]];
-  [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
   [FPPDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPDeviceInfoPlusPlugin"]];
-  [InAppWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppWebViewFlutterPlugin"]];
-  [FlutterSecureStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterSecureStoragePlugin"]];
-  [FlutterTtsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterTtsPlugin"]];
   [FluttertoastPlugin registerWithRegistrar:[registry registrarForPlugin:@"FluttertoastPlugin"]];
   [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
   [InAppPurchasePlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppPurchasePlugin"]];
@@ -154,7 +106,6 @@
   [SpeechToTextPlugin registerWithRegistrar:[registry registrarForPlugin:@"SpeechToTextPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [URLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"URLLauncherPlugin"]];
-  [WebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"WebViewFlutterPlugin"]];
   [WireguardFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"WireguardFlutterPlugin"]];
 }
 

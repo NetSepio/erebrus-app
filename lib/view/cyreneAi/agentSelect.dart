@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/config/responsive.dart';
 import 'package:erebrus_app/view/cyreneAi/agentModel.dart';
 import 'package:erebrus_app/view/cyreneAi/cyreneAi.dart';
 import 'package:erebrus_app/view/settings/SettingPage.dart';
@@ -73,18 +74,18 @@ class _AgentSelectState extends State<AgentSelect> {
       body: SafeArea(
         child: Column(
           children: [
-                 Padding(
-                   padding: const EdgeInsets.all(10),
-                   child: Row(
-                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                   children: [
-                        Image.asset(
-                          'assets/erebrus_mobile_app_icon.png',
-                          height: 28,
-                        ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+            Padding(
+              padding: EdgeInsets.all(Responsive.scaleWidth(context, 10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    'assets/erebrus_mobile_app_icon.png',
+                    height: Responsive.scaleHeight(context, 28),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
 
                         const SizedBox(width: 10),
                         Text(
@@ -92,7 +93,7 @@ class _AgentSelectState extends State<AgentSelect> {
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: Responsive.scaleText(context, 20),
                             letterSpacing: 1.2,
                           ),
                         ),
@@ -101,7 +102,7 @@ class _AgentSelectState extends State<AgentSelect> {
                           style: TextStyle(
                             color: Color(0xFF1E90FF),
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: Responsive.scaleText(context, 20),
                             letterSpacing: 1.2,
                           ),
                         ),
@@ -145,12 +146,12 @@ class _AgentSelectState extends State<AgentSelect> {
                                 CachedNetworkImage(
                                   imageUrl: "https://ipfs.io/ipfs/" +
                                       d.coverImg.toString(),
-                                  height: 220,
+                                  height: Responsive.scaleHeight(context, 220),
                                   fit: BoxFit.cover,
                                   errorWidget: (context, url, error) =>
                                       Image.asset(
                                     "assets/Erebrus_AI_Cyrene.png",
-                                    height: 220,
+                                    height: Responsive.scaleHeight(context, 220),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -160,14 +161,14 @@ class _AgentSelectState extends State<AgentSelect> {
                                     child: CachedNetworkImage(
                                       imageUrl: "https://ipfs.io/ipfs/" +
                                           d.avatarImg.toString(),
-                                      height: 40,
-                                      width: 40,
+                                      height: Responsive.scaleHeight(context, 40),
+                                      width: Responsive.scaleWidth(context, 40),
                                       fit: BoxFit.cover,
                                       errorWidget: (context, url, error) =>
                                           Image.asset(
                                         "assets/Erebrus_AI_Cyrene.png",
-                                        height: 40,
-                                        width: 40,
+                                        height: Responsive.scaleHeight(context, 40),
+                                        width: Responsive.scaleWidth(context, 40),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -175,7 +176,7 @@ class _AgentSelectState extends State<AgentSelect> {
                                   title: Text(
                                     d.name.toString().toTitleCase(),
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: Responsive.scaleText(context, 18),
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),

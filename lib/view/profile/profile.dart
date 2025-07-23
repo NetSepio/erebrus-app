@@ -1,7 +1,6 @@
-import 'package:erebrus_app/components/reownInit.dart';
 import 'package:erebrus_app/config/common.dart';
-import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/config/responsive.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
 import 'package:erebrus_app/main.dart';
 import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:reown_appkit/reown_appkit.dart';
 
 class Profile extends StatefulWidget {
   final String title;
@@ -30,26 +28,22 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   RxString solanaAddress = "".obs;
-  final storage = SecureStorage();
+  final storage = box;
   ProfileController profileController = Get.find();
-  ReownAppKitModal? appKitModal;
-  config() async {
-    appKitModal = await reownInit(context);
-    setState(() {});
-  }
+  config() async {}
 
   apiCall() async {
     try {
       config();
       await profileController.getProfile();
-      var mnemonics = await profileController.mnemonics.value;
-      await getSolanaAddress(mnemonics);
-      if (appEnvironmentFor != "saga") {
-        await suiWal(mnemonics);
-        await getEclipseAddress(mnemonics);
-        await getSoonAddress(mnemonics);
-        await evmAptos(mnemonics);
-      }
+      // var mnemonics = await profileController.mnemonics.value;
+      // await getSolanaAddress(mnemonics);
+      // if (appEnvironmentFor != "saga") {
+      //   await suiWal(mnemonics);
+      //   await getEclipseAddress(mnemonics);
+      //   await getSoonAddress(mnemonics);
+      //   await evmAptos(mnemonics);
+      // }
     } catch (e) {}
     setState(() {});
   }
@@ -67,7 +61,7 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Text(widget.title),
+          title: Text(widget.title, style: TextStyle(fontSize: Responsive.scaleText(context, 20))),
           centerTitle: true,
           actions: [
             if (widget.showSubscription)
@@ -79,9 +73,9 @@ class _ProfileState extends State<Profile> {
                     },
                   );
                 },
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.settings),
+                child: Padding(
+                  padding: EdgeInsets.all(Responsive.scaleWidth(context, 8.0)),
+                  child: Icon(Icons.settings, size: Responsive.scaleWidth(context, 24)),
                 ),
               )
           ],
@@ -262,49 +256,23 @@ class _ProfileState extends State<Profile> {
                           ),
                         )
                       : SizedBox()),
-
-                // if (widget.title != profileTxt)
-                //   if (box!.get("solanaAddress") == null &&
-                //       widget.showSubscription == false)
-                //     Expanded(
-                //         child: SubscriptionScreen(
-                //       showAppbar: false,
-                //     )),
-                // if (widget.title != profileTxt)
-                //   if (box!.get("solanaAddress") != null)
-                if (appEnvironmentFor != "saga")
-                  if (appKitModal != null && appKitModal!.isConnected)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Card(
-                        color: Colors.white,
-                        child: AppKitModalAccountButton(
-                          appKitModal: appKitModal!,
-                          context: context,
-                        ),
-                      ),
-                    )
-                  else
-                    Column(
-                      children: [
-                        SizedBox(height: 20),
-                        Text(
-                          "Your Web3 Wallet",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 20),
-                        WalletDropdown(
-                          onChanged: (p0) {
-                            setState(() {});
-                          },
-                          fromProfileScreen: widget.title == "Profile",
-                        ),
-                      ],
+                Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Text(
+                      "Your Web3 Wallet",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                // if (widget.title != profileTxt)
-                //   if (widget.showSubscription)
-                //     Expanded(child: SubscriptionScreen()),
+                    SizedBox(height: 20),
+                    WalletDropdown(
+                      onChanged: (p0) {
+                        setState(() {});
+                      },
+                      fromProfileScreen: widget.title == "Profile",
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:erebrus_app/config/responsive.dart';
 
 class PerksScreen extends StatefulWidget {
   const PerksScreen({super.key});
@@ -126,12 +127,12 @@ class _PerksScreenState extends State<PerksScreen> {
           style: Theme.of(context)
               .textTheme
               .titleMedium!
-              .copyWith(fontWeight: FontWeight.normal),
+              .copyWith(fontWeight: FontWeight.normal, fontSize: Responsive.scaleText(context, 20)),
         ),
         actions: [],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: EdgeInsets.all(Responsive.scaleWidth(context, 15.0)),
         child: Obx(
           () => isLoading.value
               ? const Center(
@@ -139,7 +140,7 @@ class _PerksScreenState extends State<PerksScreen> {
                   )
               : Column(
                   children: [
-                    SizedBox(width: Get.width),
+                    SizedBox(width: MediaQuery.of(context).size.width),
                     // if (checkSub == null ||
                     //     checkSub!.subscription == null &&
                     //         isLoading.value == false)

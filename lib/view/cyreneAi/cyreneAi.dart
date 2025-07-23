@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/config/strings.dart';
+import 'package:erebrus_app/config/responsive.dart';
 import 'package:erebrus_app/view/cyreneAi/agentModel.dart';
 import 'package:erebrus_app/view/settings/SettingPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+// import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -24,14 +25,14 @@ class CyreneAi extends StatefulWidget {
 class _CyreneAiState extends State<CyreneAi> {
   final List<Map<String, String>> messages = [];
   final stt.SpeechToText _speech = stt.SpeechToText();
-  final FlutterTts _flutterTts = FlutterTts();
+  // final FlutterTts _flutterTts = FlutterTts();
   final TextEditingController _textController = TextEditingController();
   bool _isListening = false;
 
   @override
   void dispose() {
     _speech.stop();
-    _flutterTts.stop();
+    // _flutterTts.stop();p
     _textController.dispose();
     super.dispose();
   }
@@ -195,7 +196,7 @@ class _CyreneAiState extends State<CyreneAi> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text("Your Assistant"),
+        title: Text("Your Assistant", style: TextStyle(fontSize: Responsive.scaleText(context, 20))),
         centerTitle: true,
         actions: [
           InkWell(
@@ -206,9 +207,9 @@ class _CyreneAiState extends State<CyreneAi> {
                 },
               );
             },
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.settings),
+            child: Padding(
+              padding: EdgeInsets.all(Responsive.scaleWidth(context, 8.0)),
+              child: Icon(Icons.settings, size: Responsive.scaleWidth(context, 24)),
             ),
           )
         ],
@@ -223,18 +224,17 @@ class _CyreneAiState extends State<CyreneAi> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(1000),
                     child: CachedNetworkImage(
-                      imageUrl: "https://ipfs.io/ipfs/" +
-                          widget.data.avatarImg.toString(),
-                      height: Get.height * .25,
+                      imageUrl: "https://ipfs.io/ipfs/" + widget.data.avatarImg.toString(),
+                      height: Responsive.scaleHeight(context, Get.height * .25),
                       errorWidget: (context, url, error) => Image.asset(
                           "assets/Erebrus_AI_Cyrene.png",
-                          height: Get.height * .25),
+                          height: Responsive.scaleHeight(context, Get.height * .25)),
                     ),
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: Responsive.scaleHeight(context, 15)),
                   Text(
                     widget.data.name!.toTitleCase(),
-                    style: TextStyle(color: Colors.grey, fontSize: 26),
+                    style: TextStyle(color: Colors.grey, fontSize: Responsive.scaleText(context, 26)),
                   ),
                 ],
               ),

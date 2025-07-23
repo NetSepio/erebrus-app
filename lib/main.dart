@@ -12,7 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:reown_appkit/reown_appkit.dart';
+
 import 'package:upgrader/upgrader.dart';
 
 ThemeMode themeMode = ThemeMode.system;

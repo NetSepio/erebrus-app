@@ -5,6 +5,7 @@
 // import 'package:google_sign_in/google_sign_in.dart';
 // import 'package:erebrus_app/api/api.dart';
 // import 'package:erebrus_app/components/widgets.dart';
+import 'package:erebrus_app/config/responsive.dart';
 
 // class SignInPage extends StatefulWidget {
 //   const SignInPage({super.key});

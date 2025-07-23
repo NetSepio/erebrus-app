@@ -1,7 +1,8 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/route_manager.dart';
-// import 'package:erebrus_app/components/widgets.dart';
-// import 'package:erebrus_app/view/Onboarding/signIn.dart';
+import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:erebrus_app/components/widgets.dart';
+import 'package:erebrus_app/view/Onboarding/signIn.dart';
+import 'package:erebrus_app/config/responsive.dart';
 
 // class SignUp extends StatefulWidget {
 //   const SignUp({super.key});

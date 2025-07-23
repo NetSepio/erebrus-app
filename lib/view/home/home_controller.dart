@@ -6,7 +6,6 @@ import 'dart:typed_data';
 
 import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/config/common.dart';
-import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
 import 'package:erebrus_app/model/DVPNNodesModel.dart';
 import 'package:erebrus_app/model/RegisterVPNClientModel.dart';
@@ -33,7 +32,7 @@ class HomeController extends GetxController {
   String sNodeid = '';
   int vpnConnectAttempt = 0;
 
-  final storage = SecureStorage();
+  final storage = box;
   Rx<AllNPayload> selectedPayload = AllNPayload().obs;
   Map<String, String> countryCodes = {
     "AF": "Afghanistan",

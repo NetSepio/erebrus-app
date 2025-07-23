@@ -1,6 +1,5 @@
-import 'package:erebrus_app/components/reownInit.dart';
+
 import 'package:erebrus_app/config/common.dart';
-import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/strings.dart';
 import 'package:erebrus_app/main.dart';
 import 'package:erebrus_app/view/Onboarding/login_register.dart';
@@ -39,10 +38,10 @@ class _SettingPageState extends State<SettingPage> {
 
   apiCall() async {
     EasyLoading.show();
-    final storage = SecureStorage();
+    final storage = box;
     try {
       EasyLoading.show();
-      var mnemonics = await storage.getStoredValue("mnemonic") ?? "";
+      var mnemonics = await storage!.get("mnemonic") ?? "";
       await getSolanaAddress(mnemonics);
       if (appEnvironmentFor != "saga") {
         await suiWal(mnemonics);

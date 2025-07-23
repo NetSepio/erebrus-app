@@ -1,9 +1,9 @@
 import 'package:erebrus_app/view/browser/webbroweser.dart';
 import 'package:erebrus_app/view/cyreneAi/agentSelect.dart';
 import 'package:erebrus_app/view/home/home.dart';
+import 'package:erebrus_app/view/settings/SettingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:erebrus_app/config/colors.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -17,8 +17,8 @@ class _BottomBarState extends State<BottomBar> {
   final List<Widget> pages = [
    AgentSelect(),
     const HomeScreen(),
-    // SettingsScreen(), // Replace with your Settings screen
-   InAppWebViewScreen()
+    SettingPage(), // Replace with your Settings screen
+  //  InAppWebViewScreen()
   ];
 
   @override

@@ -3,7 +3,6 @@ import 'dart:developer';
 // import 'package:aptos/aptos.dart';
 import 'package:aptos/aptos_account.dart';
 import 'package:erebrus_app/config/common.dart';
-import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
 import 'package:erebrus_app/controller/auth_controller.dart';
 import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
@@ -134,7 +133,7 @@ class _NetworkSelectionScreenState extends State<NetworkSelectionScreen> {
   ];
   String? selectedNetwork;
 
-  final storage = SecureStorage();
+  final storage = box;
   HomeController homeController = Get.find();
 
   @override
@@ -183,9 +182,9 @@ class _NetworkSelectionScreenState extends State<NetworkSelectionScreen> {
                 : () async {
                     print("Selected Network: $selectedNetwork");
                     box!.put("selected_network", selectedNetwork);
-                    final storage = SecureStorage();
+                    final storage = box;
                     String mnemonics =
-                        await storage.getStoredValue("mnemonic") ?? "mp";
+                        await storage!.get("mnemonic") ?? "mp";
                     log(mnemonics);
                     if (selectedNetwork == "Solana" ||
                         selectedNetwork == "Eclipse") {
@@ -202,7 +201,7 @@ class _NetworkSelectionScreenState extends State<NetworkSelectionScreen> {
                         selectedNetwork == "Aptos" ||
                         selectedNetwork == "Monad") {
                       EasyLoading.show();
-                      var pvtKey = await storage.getStoredValue('pvtKey');
+                      var pvtKey = await storage!.get('pvtKey');
                       final sender = AptosAccount.generateAccount(mnemonics);
 
                       log("Wallet Address $pvtKey");

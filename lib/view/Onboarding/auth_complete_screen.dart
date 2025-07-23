@@ -1,5 +1,4 @@
 import 'package:erebrus_app/config/common.dart';
-import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/config/theme.dart';
 import 'package:erebrus_app/controller/auth_controller.dart';
 import 'package:erebrus_app/main.dart';
@@ -21,7 +20,7 @@ class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
   AuthController authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
-    final storage = SecureStorage();
+    final storage = box;
     HomeController homeController = Get.find();
     return Scaffold(
       appBar: AppBar(
@@ -119,7 +118,7 @@ class _AuthCompleteScreenState extends State<AuthCompleteScreen> {
                   child: ElevatedButton(
                       onPressed: () async {
                         String mnemonics =
-                            await storage.getStoredValue("mnemonic") ?? "";
+                            await storage!.get("mnemonic") ?? "";
                         if (appEnvironmentFor == "saga") {
                           box!.put("selected_network", 'Solana');
                           EasyLoading.show();
