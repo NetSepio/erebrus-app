@@ -3,6 +3,7 @@ import 'package:erebrus_app/controller/profileContrller.dart';
 import 'package:erebrus_app/view/Onboarding/OnboardingScreen.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:erebrus_app/view/inAppPurchase/ProFeaturesScreen.dart';
+import 'package:erebrus_app/view/privacy_consent/privacy_consent_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -59,8 +60,8 @@ class _MyAppState extends State<MyApp> {
         child: box!.containsKey("token")
             ? box!.get("token") != ""
                 ? ProFeaturesScreen(fromLogin: true)
-                : const OnboardingScreen()
-            : const OnboardingScreen(),
+                : PrivacyConsentScreen()
+            : PrivacyConsentScreen(),
       ),
       theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,

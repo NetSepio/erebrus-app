@@ -112,21 +112,81 @@ class _CyreneAiState extends State<CyreneAi> {
   }
 
   Widget _buildMessageBubble(String message, bool isUser) {
-    return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: isUser ? Colors.blue : Colors.grey[300],
-          borderRadius: BorderRadius.circular(10),
+    return Row(
+      children: [
+        Expanded(
+          child: Align(
+            alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: isUser ? Colors.blue : Colors.grey[300],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: LinkText(
+                message,
+                textStyle:
+                    TextStyle(color: isUser ? Colors.white : Colors.black),
+                linkStyle: TextStyle(color: Colors.blue),
+              ),
+            ),
+          ),
         ),
-        child: LinkText(
-          message,
-          textStyle: TextStyle(color: isUser ? Colors.white : Colors.black),
-          linkStyle: TextStyle(color: Colors.blue),
-        ),
-      ),
+        if (!isUser)
+          IconButton(
+            icon: Icon(
+              Icons.flag,
+              color: Colors.red,
+              size: 20,
+            ),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Report'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: Icon(Icons.report),
+                          title: Text('Spam'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            // Handle spam report
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.block),
+                          title: Text('Abuse'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            // Handle abuse report
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.info),
+                          title: Text('Other'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            // Handle other report
+                          },
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        child: Text("Cancel"),
+                        onPressed: () => Navigator.of(context).pop(),
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+          )
+      ],
     );
   }
 

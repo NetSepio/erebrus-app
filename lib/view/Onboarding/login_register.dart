@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:aptos/aptos_account.dart';
 import 'package:erebrus_app/api/api.dart';
 import 'package:erebrus_app/components/reownInit.dart';
 import 'package:erebrus_app/components/widgets.dart';
@@ -68,6 +69,29 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: InkWell(
+                      onTap: () async {
+                        final sender = AptosAccount.generateAccount(
+                            "crop soap van result kind laundry obey grass push opinion jelly climb");
+
+                        var res = await homeController.getPASETO(
+                            chain: "", walletAddress: sender.address);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black26,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Text(
+                          "Skip",
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      )),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -79,6 +103,7 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
                         height: 50,
                       ),
                     ),
+
                     // Image.asset(
                     //   solanaLogo,
                     //   height: 50,
