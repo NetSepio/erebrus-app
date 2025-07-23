@@ -13,12 +13,12 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  int currentIndex = 1; 
+  int currentIndex = 1;
   final List<Widget> pages = [
-   AgentSelect(),
+    AgentSelect(),
     const HomeScreen(),
     SettingPage(), // Replace with your Settings screen
-  //  InAppWebViewScreen()
+    //  InAppWebViewScreen()
   ];
 
   @override
@@ -57,7 +57,11 @@ class _BottomBarState extends State<BottomBar> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset("assets/Erebrus_AI_Cyrene.png",width: 30,height: 30,),
+                            Image.asset(
+                              "assets/Erebrus_AI_Cyrene.png",
+                              width: 30,
+                              height: 30,
+                            ),
                           ],
                         ),
                       ),
@@ -65,15 +69,19 @@ class _BottomBarState extends State<BottomBar> {
                     SizedBox(width: 80), // Space for floating home button
                     Expanded(
                       child: InkWell(
-                        onTap: () => setState(() => currentIndex = 2),
-                        borderRadius: BorderRadius.circular(32),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                           Image.asset("assets/web.png",color: Colors.grey.shade300,width: 30,)
-                          ],
-                        ),
-                      ),
+                          onTap: () => setState(() => currentIndex = 2),
+                          borderRadius: BorderRadius.circular(32),
+                          child: Icon(
+                            Icons.settings,
+                            size: 26,
+                          )
+                          // Column(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //    Image.asset("assets/web.png",color: Colors.grey.shade300,width: 30,)
+                          //   ],
+                          // ),
+                          ),
                     ),
                   ],
                 ),
@@ -93,7 +101,6 @@ class _BottomBarState extends State<BottomBar> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: blue,
-                     
                       boxShadow: [
                         BoxShadow(
                           color: appColor.withOpacity(0.3),

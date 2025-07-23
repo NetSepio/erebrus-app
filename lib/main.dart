@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
 import 'package:erebrus_app/view/Onboarding/OnboardingScreen.dart';
+import 'package:erebrus_app/view/bottombar/bottombar.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:erebrus_app/view/inAppPurchase/ProFeaturesScreen.dart';
 import 'package:erebrus_app/view/privacy_consent/privacy_consent_screen.dart';
@@ -12,8 +14,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
 import 'package:upgrader/upgrader.dart';
+import 'package:window_size/window_size.dart';
 
 ThemeMode themeMode = ThemeMode.system;
 const String appEnvironmentFor = "erebrus";
@@ -23,15 +25,21 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await dotenv.load();
-  box = await Hive.openBox('erebrus');
+  box = await Hive.openBox('erebrus_w');
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  // box!.clear();
   if (box!.get("appMode") == null) {
     box!.put("appMode", 'basic');
   }
   packageInfo = await PackageInfo.fromPlatform();
+
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    setWindowMinSize(Size(800, 1000));
+  }
+
   runApp(const MyApp());
 }
 
@@ -59,7 +67,7 @@ class _MyAppState extends State<MyApp> {
         ),
         child: box!.containsKey("token")
             ? box!.get("token") != ""
-                ? ProFeaturesScreen(fromLogin: true)
+                ? BottomBar() // ProFeaturesScreen(fromLogin: true)
                 : PrivacyConsentScreen()
             : PrivacyConsentScreen(),
       ),

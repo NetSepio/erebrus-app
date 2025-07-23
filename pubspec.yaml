@@ -81,6 +81,7 @@ dependencies:
   # flutter_inappwebview_windows: ^0.6.0
   # reown_appkit: ^1.4.3+1
   # solana_mobile_client: ^0.1.1+1
+  window_size: ^0.1.0
 
 dev_dependencies:
   flutter_test:
@@ -93,8 +94,12 @@ dev_dependencies:
   # flutter_lints: ^5.0.0
 
 flutter_launcher_icons:
-  ios: true
-  image_path: "assets/erebrus_512.png"
+ windows:
+    generate: true
+    image_path: "assets/erebrus_512.png"
+    icon_size: 48 #
+  # ios: true
+  # image_path: "assets/erebrus_512.png"
   # image_path: "assets/erebrus_mobile_app_icon.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

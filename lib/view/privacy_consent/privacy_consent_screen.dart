@@ -1,15 +1,15 @@
 import 'package:erebrus_app/config/colors.dart';
 import 'package:erebrus_app/config/common.dart';
 import 'package:erebrus_app/view/Onboarding/OnboardingScreen.dart';
+import 'package:erebrus_app/view/bottombar/bottombar.dart';
 import 'package:erebrus_app/view/inAppPurchase/ProFeaturesScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PrivacyConsentScreen extends StatelessWidget {
-   PrivacyConsentScreen({Key? key}) : super(key: key);
+  PrivacyConsentScreen({Key? key}) : super(key: key);
 
-  Future<void> _storeConsent(bool consentGiven) async {
-  }
+  Future<void> _storeConsent(bool consentGiven) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,8 @@ class PrivacyConsentScreen extends StatelessWidget {
 
                 box!.containsKey("token")
                     ? box!.get("token") != ""
-                        ? Get.offAll(() => ProFeaturesScreen(fromLogin: true))
+                        ? Get.offAll(() => BottomBar())
+                        // Get.offAll(() => ProFeaturesScreen(fromLogin: true))
                         : Get.offAll(() => const OnboardingScreen())
                     : Get.offAll(() => const OnboardingScreen());
               },

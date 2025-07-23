@@ -215,8 +215,11 @@ class _HomeScreenState extends State<HomeScreen> {
         } else {
           // Main screen UI (as before)
           final homeController = Get.find<HomeController>();
-          final ip = homeController.selectedPayload.value.ipinfoip ?? homeController.ipData['ip'] ?? '0.0.0.0';
-          final downloadSpeed = homeController.selectedPayload.value.downloadSpeed;
+          final ip = homeController.selectedPayload.value.ipinfoip ??
+              homeController.ipData['ip'] ??
+              '0.0.0.0';
+          final downloadSpeed =
+              homeController.selectedPayload.value.downloadSpeed;
           final uploadSpeed = homeController.selectedPayload.value.uploadSpeed;
           return VpnHomeContent(
             isConnected: false,
@@ -254,7 +257,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }),
     );
   }
-
 }
 
 class VpnHomeContent extends StatelessWidget {
@@ -323,14 +325,9 @@ class VpnHomeContent extends StatelessWidget {
                 ),
               ],
             ),
-            Spacer(),
-            Text(
-              isConnected ? 'Connected' : '',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: Responsive.scaleText(context, 18)),
-            ),
+            // Spacer(),
+            SizedBox(height: 30),
+
             SizedBox(height: Responsive.scaleHeight(context, 10)),
             Text(
               timerString,
@@ -340,7 +337,7 @@ class VpnHomeContent extends StatelessWidget {
                   fontSize: Responsive.scaleText(context, 32),
                   letterSpacing: 2),
             ),
-            SizedBox(height: Responsive.scaleHeight(context, 50)),
+            SizedBox(height: Responsive.scaleHeight(context, 30)),
             Center(
               child: InkWell(
                 onTap: onPowerTap,
@@ -351,23 +348,35 @@ class VpnHomeContent extends StatelessWidget {
                       : const Color.fromRGBO(37, 112, 252, 1),
                   duration: const Duration(milliseconds: 2000),
                   repeat: isConnected,
-                  animate:isConnected,
+                  animate: isConnected,
                   glowShape: BoxShape.circle,
                   child: Material(
                     elevation: 0,
                     shape: const CircleBorder(),
                     color: isConnected ? Colors.green : const Color(0xff0162FF),
                     child: SizedBox(
-                      height: Responsive.scaleWidth(context, 160),
-                      width: Responsive.scaleWidth(context, 160),
+                      height: Get.width > 1200
+                          ? 160
+                          : Get.width > 600
+                              ? 100
+                              : 60, // Responsive.scaleWidth(context, 160),
+                      width: Get.width > 1200
+                          ? 160
+                          : Get.width > 600
+                              ? 100
+                              : 60, //Responsive.scaleWidth(context, 160),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.power_settings_new,
                             color: Colors.white,
-                            size: 60, // You can also scale this if needed
+                            size: Get.width > 1200
+                                ? 25
+                                : Get.width > 600
+                                    ? 24
+                                    : 14, // Responsive.scaleHeight(context, 25)
                           ),
                           SizedBox(height: Responsive.scaleHeight(context, 10)),
                           Text(
@@ -375,7 +384,12 @@ class VpnHomeContent extends StatelessWidget {
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: Responsive.scaleText(context, 20),
+                              fontSize: Get.width > 1200
+                                  ? 25
+                                  : Get.width > 600
+                                      ? 15
+                                      : 12,
+                              //  Responsive.scaleText(context, 25),
                             ),
                           ),
                         ],
@@ -386,22 +400,29 @@ class VpnHomeContent extends StatelessWidget {
               ),
             ),
             SizedBox(height: Responsive.scaleHeight(context, 50)),
-            Obx(()=> 
-            (vpnActivate.value)?
-            Text('Your IP: $ip',
-                style: TextStyle(color: Colors.white, fontSize: Responsive.scaleText(context, 16))):SizedBox(),),
+            Obx(
+              () => (vpnActivate.value)
+                  ? Text('Your IP: $ip',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: Responsive.scaleText(context, 16)))
+                  : SizedBox(),
+            ),
             SizedBox(height: Responsive.scaleHeight(context, 16)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   width: Responsive.scaleWidth(context, 160),
-                  padding: EdgeInsets.symmetric(vertical: Responsive.scaleHeight(context, 12)),
+                  padding: EdgeInsets.symmetric(
+                      vertical: Responsive.scaleHeight(context, 12)),
                   decoration: BoxDecoration(
                     color: Color(0xFF181A20),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(Responsive.scaleWidth(context, 16)),
-                      bottomLeft: Radius.circular(Responsive.scaleWidth(context, 16)),
+                      topLeft:
+                          Radius.circular(Responsive.scaleWidth(context, 16)),
+                      bottomLeft:
+                          Radius.circular(Responsive.scaleWidth(context, 16)),
                     ),
                   ),
                   child: Column(
@@ -410,7 +431,8 @@ class VpnHomeContent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.arrow_downward,
-                              color: Colors.white, size: Responsive.scaleWidth(context, 20)),
+                              color: Colors.white,
+                              size: Responsive.scaleWidth(context, 20)),
                           SizedBox(width: Responsive.scaleWidth(context, 6)),
                           Text(
                             downloadSpeed != null
@@ -426,7 +448,8 @@ class VpnHomeContent extends StatelessWidget {
                       SizedBox(height: Responsive.scaleHeight(context, 4)),
                       Text('Downloaded',
                           style: TextStyle(
-                              color: Colors.white70, fontSize: Responsive.scaleText(context, 13))),
+                              color: Colors.white70,
+                              fontSize: Responsive.scaleText(context, 13))),
                     ],
                   ),
                 ),
@@ -436,13 +459,16 @@ class VpnHomeContent extends StatelessWidget {
                   color: Colors.white24,
                 ),
                 Container(
-                width: Responsive.scaleWidth(context, 160),
-                  padding: EdgeInsets.symmetric(vertical: Responsive.scaleHeight(context, 12)),
+                  width: Responsive.scaleWidth(context, 160),
+                  padding: EdgeInsets.symmetric(
+                      vertical: Responsive.scaleHeight(context, 12)),
                   decoration: BoxDecoration(
                     color: Color(0xFF181A20),
                     borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(Responsive.scaleWidth(context, 16)),
-                      bottomRight: Radius.circular(Responsive.scaleWidth(context, 16)),
+                      topRight:
+                          Radius.circular(Responsive.scaleWidth(context, 16)),
+                      bottomRight:
+                          Radius.circular(Responsive.scaleWidth(context, 16)),
                     ),
                   ),
                   child: Column(
@@ -451,7 +477,8 @@ class VpnHomeContent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.arrow_upward,
-                              color: Colors.white, size: Responsive.scaleWidth(context, 20)),
+                              color: Colors.white,
+                              size: Responsive.scaleWidth(context, 20)),
                           SizedBox(width: Responsive.scaleWidth(context, 6)),
                           Text(
                             uploadSpeed != null
@@ -467,7 +494,8 @@ class VpnHomeContent extends StatelessWidget {
                       SizedBox(height: Responsive.scaleHeight(context, 4)),
                       Text('Uploaded',
                           style: TextStyle(
-                              color: Colors.white70, fontSize: Responsive.scaleText(context, 13))),
+                              color: Colors.white70,
+                              fontSize: Responsive.scaleText(context, 13))),
                     ],
                   ),
                 ),
@@ -475,7 +503,9 @@ class VpnHomeContent extends StatelessWidget {
             ),
             Spacer(),
             serverInfoCard,
-          const SizedBox(height: 40),
+            Spacer(),
+
+            // const SizedBox(height: 40),
           ],
         ),
       ),
@@ -520,7 +550,9 @@ class _ConnectedStateScreenState extends State<ConnectedStateScreen> {
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
-    final ip = homeController.selectedPayload.value.ipinfoip ?? homeController.ipData['ip'] ?? '0.0.0.0';
+    final ip = homeController.selectedPayload.value.ipinfoip ??
+        homeController.ipData['ip'] ??
+        '0.0.0.0';
     final downloadSpeed = homeController.selectedPayload.value.downloadSpeed;
     final uploadSpeed = homeController.selectedPayload.value.uploadSpeed;
     return VpnHomeContent(
@@ -537,7 +569,8 @@ class _ConnectedStateScreenState extends State<ConnectedStateScreen> {
   }
 }
 
-Widget _buildServerInfoCard(BuildContext context, HomeController homeController) {
+Widget _buildServerInfoCard(
+    BuildContext context, HomeController homeController) {
   final selected = homeController.selectedPayload.value;
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -560,7 +593,10 @@ Widget _buildServerInfoCard(BuildContext context, HomeController homeController)
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  homeController.countryCodes[selected.ipinfocountry?.toUpperCase() ?? ''] ?? selected.ipinfocountry?.toUpperCase() ?? '',
+                  homeController.countryCodes[
+                          selected.ipinfocountry?.toUpperCase() ?? ''] ??
+                      selected.ipinfocountry?.toUpperCase() ??
+                      '',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -599,7 +635,8 @@ Widget _buildServerInfoCard(BuildContext context, HomeController homeController)
             child: Row(
               children: [
                 Text('Change', style: TextStyle(color: Color(0xFF1E90FF))),
-                Icon(Icons.arrow_forward_ios, color: Color(0xFF1E90FF), size: 16),
+                Icon(Icons.arrow_forward_ios,
+                    color: Color(0xFF1E90FF), size: 16),
               ],
             ),
             style: TextButton.styleFrom(
