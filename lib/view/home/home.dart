@@ -12,6 +12,7 @@ import 'package:erebrus_app/config/secure_storage.dart';
 import 'package:erebrus_app/controller/profileContrller.dart';
 import 'package:erebrus_app/model/CheckSubscriptionModel.dart';
 import 'package:erebrus_app/model/DVPNNodesModel.dart';
+import 'package:erebrus_app/tors.dart';
 import 'package:erebrus_app/view/Onboarding/wallet_generator.dart';
 import 'package:erebrus_app/view/home/home_controller.dart';
 import 'package:erebrus_app/view/profile/profile.dart';
@@ -217,8 +218,11 @@ class _HomeScreenState extends State<HomeScreen> {
         } else {
           // Main screen UI (as before)
           final homeController = Get.find<HomeController>();
-          final ip = homeController.selectedPayload.value.ipinfoip ?? homeController.ipData['ip'] ?? '0.0.0.0';
-          final downloadSpeed = homeController.selectedPayload.value.downloadSpeed;
+          final ip = homeController.selectedPayload.value.ipinfoip ??
+              homeController.ipData['ip'] ??
+              '0.0.0.0';
+          final downloadSpeed =
+              homeController.selectedPayload.value.downloadSpeed;
           final uploadSpeed = homeController.selectedPayload.value.uploadSpeed;
           return VpnHomeContent(
             isConnected: false,
@@ -256,7 +260,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }),
     );
   }
-
 }
 
 class VpnHomeContent extends StatelessWidget {
@@ -287,13 +290,18 @@ class VpnHomeContent extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            ElevatedButton(
+                onPressed: () {
+                  Get.to(() => TorHome());
+                },
+                child: Text("data")),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                    Image.asset(
-                      'assets/erebrus_mobile_app_icon.png',
-                      height: 28,
-                    ),
+                Image.asset(
+                  'assets/erebrus_mobile_app_icon.png',
+                  height: 28,
+                ),
                 Row(
                   children: [
                     const SizedBox(width: 10),
@@ -353,7 +361,7 @@ class VpnHomeContent extends StatelessWidget {
                       : const Color.fromRGBO(37, 112, 252, 1),
                   duration: const Duration(milliseconds: 2000),
                   repeat: isConnected,
-                  animate:isConnected,
+                  animate: isConnected,
                   glowShape: BoxShape.circle,
                   child: Material(
                     elevation: 0,
@@ -388,10 +396,12 @@ class VpnHomeContent extends StatelessWidget {
               ),
             ),
             SizedBox(height: 50),
-            Obx(()=> 
-            (vpnActivate.value)?
-            Text('Your IP: $ip',
-                style: TextStyle(color: Colors.white, fontSize: 16)):SizedBox(),),
+            Obx(
+              () => (vpnActivate.value)
+                  ? Text('Your IP: $ip',
+                      style: TextStyle(color: Colors.white, fontSize: 16))
+                  : SizedBox(),
+            ),
             SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -427,8 +437,8 @@ class VpnHomeContent extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text('Downloaded',
-                          style: TextStyle(
-                              color: Colors.white70, fontSize: 13)),
+                          style:
+                              TextStyle(color: Colors.white70, fontSize: 13)),
                     ],
                   ),
                 ),
@@ -438,7 +448,7 @@ class VpnHomeContent extends StatelessWidget {
                   color: Colors.white24,
                 ),
                 Container(
-                width: 160,
+                  width: 160,
                   padding: EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
                     color: Color(0xFF181A20),
@@ -468,8 +478,8 @@ class VpnHomeContent extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text('Uploaded',
-                          style: TextStyle(
-                              color: Colors.white70, fontSize: 13)),
+                          style:
+                              TextStyle(color: Colors.white70, fontSize: 13)),
                     ],
                   ),
                 ),
@@ -477,7 +487,7 @@ class VpnHomeContent extends StatelessWidget {
             ),
             Spacer(),
             serverInfoCard,
-          const SizedBox(height: 40),
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -522,7 +532,9 @@ class _ConnectedStateScreenState extends State<ConnectedStateScreen> {
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
-    final ip = homeController.selectedPayload.value.ipinfoip ?? homeController.ipData['ip'] ?? '0.0.0.0';
+    final ip = homeController.selectedPayload.value.ipinfoip ??
+        homeController.ipData['ip'] ??
+        '0.0.0.0';
     final downloadSpeed = homeController.selectedPayload.value.downloadSpeed;
     final uploadSpeed = homeController.selectedPayload.value.uploadSpeed;
     return VpnHomeContent(
@@ -539,7 +551,8 @@ class _ConnectedStateScreenState extends State<ConnectedStateScreen> {
   }
 }
 
-Widget _buildServerInfoCard(BuildContext context, HomeController homeController) {
+Widget _buildServerInfoCard(
+    BuildContext context, HomeController homeController) {
   final selected = homeController.selectedPayload.value;
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -562,7 +575,10 @@ Widget _buildServerInfoCard(BuildContext context, HomeController homeController)
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  homeController.countryCodes[selected.ipinfocountry?.toUpperCase() ?? ''] ?? selected.ipinfocountry?.toUpperCase() ?? '',
+                  homeController.countryCodes[
+                          selected.ipinfocountry?.toUpperCase() ?? ''] ??
+                      selected.ipinfocountry?.toUpperCase() ??
+                      '',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -601,7 +617,8 @@ Widget _buildServerInfoCard(BuildContext context, HomeController homeController)
             child: Row(
               children: [
                 Text('Change', style: TextStyle(color: Color(0xFF1E90FF))),
-                Icon(Icons.arrow_forward_ios, color: Color(0xFF1E90FF), size: 16),
+                Icon(Icons.arrow_forward_ios,
+                    color: Color(0xFF1E90FF), size: 16),
               ],
             ),
             style: TextButton.styleFrom(

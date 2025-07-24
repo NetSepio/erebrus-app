@@ -1357,6 +1357,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  socks5_proxy:
+    dependency: "direct main"
+    description:
+      name: socks5_proxy
+      sha256: "05c889410e9519207dfcf720c2da7d06fcdea0b5a9b2916d88a4e05c065ac9a9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   solana:
     dependency: "direct main"
     description:
@@ -1517,6 +1525,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.4"
+  tor:
+    dependency: "direct main"
+    description:
+      name: tor
+      sha256: "0661ff34ca4354d1d2480a33086ccc8498ec6add426bfe2b38d392c9ad11c059"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.9"
   tuple:
     dependency: transitive
     description:
